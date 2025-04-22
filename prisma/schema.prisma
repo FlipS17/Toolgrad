@@ -1,0 +1,233 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Brand {
+  id          Int       @id @default(autoincrement())
+  name        String    @unique
+  slug        String    @unique
+  logo        String?
+  description String?
+  website     String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  products    Product[]
+
+  @@index([name], map: "brand_name_index")
+}
+
+model User {
+  id         Int        @id @default(autoincrement())
+  email      String     @unique
+  password   String
+  firstName  String
+  lastName   String
+  patronymic String?
+  phone      String?    @unique
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+  role       Role       @default(CUSTOMER)
+  addresses  Address[]
+  cart       Cart?
+  favorites  Favorite[]
+  orders     Order[]
+  reviews    Review[]
+}
+
+model Address {
+  id         Int     @id @default(autoincrement())
+  userId     Int
+  country    String
+  city       String
+  street     String
+  building   String
+  apartment  String
+  entrance   String?
+  postalCode String?
+  isDefault  Boolean @default(false)
+  user       User    @relation(fields: [userId], references: [id])
+  Order      Order[]
+}
+
+model Product {
+  id             Int                    @id @default(autoincrement())
+  name           String
+  description    String
+  price          Float
+  oldPrice       Float?
+  sku            String                 @unique
+  quantity       Int                    @default(0)
+  images         String[]
+  brandId        Int?
+  weight         Float?
+  dimensions     String?
+  warrantyMonths Int?
+  isFeatured     Boolean                @default(false)
+  isActive       Boolean                @default(true)
+  createdAt      DateTime               @default(now())
+  updatedAt      DateTime               @updatedAt
+  promotionId    Int?
+  cartItems      CartItem[]
+  favorites      Favorite[]
+  orderItems     OrderItem[]
+  brand          Brand?                 @relation(fields: [brandId], references: [id])
+  Promotion      Promotion?             @relation(fields: [promotionId], references: [id])
+  specifications ProductSpecification[]
+  reviews        Review[]
+  categories     Category[]             @relation("CategoryToProduct")
+  promotions     Promotion[]            @relation("PromotionToProduct")
+}
+
+model Category {
+  id          Int         @id @default(autoincrement())
+  name        String
+  slug        String      @unique
+  description String
+  image       String
+  parentId    Int?
+  promotionId Int?
+  parent      Category?   @relation("CategoryToCategory", fields: [parentId], references: [id])
+  children    Category[]  @relation("CategoryToCategory")
+  Promotion   Promotion?  @relation(fields: [promotionId], references: [id])
+  products    Product[]   @relation("CategoryToProduct")
+  promotions  Promotion[] @relation("PromotionToCategory")
+}
+
+model Review {
+  id        Int      @id @default(autoincrement())
+  productId Int
+  userId    Int
+  rating    Int
+  comment   String?
+  pros      String?
+  cons      String?
+  images    String[]
+  createdAt DateTime @default(now())
+  product   Product  @relation(fields: [productId], references: [id])
+  user      User     @relation(fields: [userId], references: [id])
+}
+
+model Order {
+  id          Int         @id @default(autoincrement())
+  userId      Int
+  orderNumber String      @unique
+  status      OrderStatus @default(PENDING)
+  total       Float
+  addressId   Int
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  address     Address     @relation(fields: [addressId], references: [id])
+  user        User        @relation(fields: [userId], references: [id])
+  items       OrderItem[]
+  payments    Payment[]
+}
+
+model OrderItem {
+  id        Int     @id @default(autoincrement())
+  orderId   Int
+  productId Int
+  quantity  Int
+  price     Float
+  order     Order   @relation(fields: [orderId], references: [id])
+  product   Product @relation(fields: [productId], references: [id])
+}
+
+model Payment {
+  id            Int           @id @default(autoincrement())
+  orderId       Int
+  amount        Float
+  method        PaymentMethod
+  status        PaymentStatus @default(PENDING)
+  transactionId String?
+  createdAt     DateTime      @default(now())
+  order         Order         @relation(fields: [orderId], references: [id])
+}
+
+model Cart {
+  id        Int        @id @default(autoincrement())
+  userId    Int        @unique
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  user      User       @relation(fields: [userId], references: [id])
+  items     CartItem[]
+}
+
+model CartItem {
+  id        Int     @id @default(autoincrement())
+  cartId    Int
+  productId Int
+  quantity  Int     @default(1)
+  cart      Cart    @relation(fields: [cartId], references: [id])
+  product   Product @relation(fields: [productId], references: [id])
+}
+
+model Favorite {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  productId Int
+  createdAt DateTime @default(now())
+  product   Product  @relation(fields: [productId], references: [id])
+  user      User     @relation(fields: [userId], references: [id])
+
+  @@unique([userId, productId])
+}
+
+model ProductSpecification {
+  id        Int     @id @default(autoincrement())
+  productId Int
+  name      String
+  value     String
+  product   Product @relation(fields: [productId], references: [id])
+
+  @@index([productId])
+}
+
+model Promotion {
+  id          Int        @id @default(autoincrement())
+  name        String
+  description String
+  discount    Float
+  code        String?    @unique
+  startDate   DateTime
+  endDate     DateTime
+  isActive    Boolean    @default(true)
+  createdAt   DateTime   @default(now())
+  Category    Category[]
+  Product     Product[]
+  categories  Category[] @relation("PromotionToCategory")
+  products    Product[]  @relation("PromotionToProduct")
+}
+
+enum Role {
+  ADMIN
+  MANAGER
+  CUSTOMER
+}
+
+enum OrderStatus {
+  PENDING
+  PROCESSING
+  SHIPPED
+  DELIVERED
+  CANCELLED
+  REFUNDED
+}
+
+enum PaymentMethod {
+  CARD
+  PAYPAL
+  CASH_ON_DELIVERY
+}
+
+enum PaymentStatus {
+  PENDING
+  COMPLETED
+  FAILED
+  REFUNDED
+}
