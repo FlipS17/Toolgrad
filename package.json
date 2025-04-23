@@ -7,7 +7,7 @@
 		"build": "next build",
 		"start": "next start",
 		"lint": "next lint",
-		"db:reset": "dotenv -e .env.development -- npx prisma migrate reset"
+		"db:reset": "dotenv -e .env.deveylopment -- npx prisma migrate reset"
 	},
 	"prisma": {
 		"seed": "tsx prisma/seed.ts"

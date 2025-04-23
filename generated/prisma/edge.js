@@ -306,7 +306,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "C:\\Users\\pe4en\\Desktop\\toolgrad\\generated\\prisma",
+      "value": "C:\\Users\\pe4en\\Desktop\\Toolgrad\\generated\\prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -320,7 +320,7 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "C:\\Users\\pe4en\\Desktop\\toolgrad\\prisma\\schema.prisma",
+    "sourceFilePath": "C:\\Users\\pe4en\\Desktop\\Toolgrad\\prisma\\schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
