@@ -1,98 +1,365 @@
+'use client'
+
 import Link from 'next/link'
+import { useEffect, useState } from 'react'
 
 export default function Header() {
-	return (
-		<header className='sticky top-0 z-50 bg-white shadow-sm'>
-			{/* Верхний блок с контактами */}
-			<div className='bg-gray-50 py-2 px-4'>
-				<div className='container mx-auto flex justify-between items-center text-sm'>
-					<div className='flex items-center space-x-2'>
-						<LocationIcon />
-						<span>Москва, ул. Примерная 123</span>
-					</div>
-					<div className='flex items-center space-x-2'>
-						<PhoneIcon />
-						<span>+7 (925) 616-09-95</span>
-					</div>
-					<Link
-						href='/account'
-						className='flex items-center space-x-2 hover:text-gray-600 transition'
-					>
-						<AccountIcon />
-						<span>Личный кабинет</span>
-					</Link>
-				</div>
-			</div>
+	const [isMenuOpen, setIsMenuOpen] = useState(false)
+	const [isScrolled, setIsScrolled] = useState(false)
 
-			{/* Основной header */}
-			<div className='container mx-auto py-4 px-4'>
-				<div className='flex justify-between items-center'>
-					{/* Логотип */}
-					<Link href='/' className='text-2xl font-bold'>
-						<Logo />
-					</Link>
+	useEffect(() => {
+		const handleScroll = () => {
+			setIsScrolled(window.scrollY > 10)
+		}
+		window.addEventListener('scroll', handleScroll)
+		return () => window.removeEventListener('scroll', handleScroll)
+	}, [])
+
+	const toggleMenu = () => {
+		setIsMenuOpen(!isMenuOpen)
+		document.body.style.overflow = isMenuOpen ? 'auto' : 'hidden'
+	}
+
+	return (
+		<>
+			<header
+				className={`sticky top-0 z-50 bg-white shadow-sm transition-all ${
+					isScrolled ? 'shadow-md' : ''
+				}`}
+			>
+				{/* Верхний блок с контактами - скрывается на мобильных */}
+				<div className='hidden md:block bg-gray-50 py-2 px-4'>
+					<div className='container mx-auto flex justify-between items-center text-sm'>
+						<div className='flex items-center space-x-2'>
+							<LocationIcon />
+							<span>Москва, ул. Примерная 123</span>
+						</div>
+						<div className='flex items-center space-x-2'>
+							<PhoneIcon />
+							<span>+7 (925) 616-09-95</span>
+						</div>
+						<Link
+							href='/account'
+							className='flex items-center space-x-2 hover:text-gray-600 transition'
+						>
+							<AccountIcon />
+							<span>Личный кабинет</span>
+						</Link>
+					</div>
+				</div>
+
+				{/* Основной header */}
+				<div className='container mx-auto py-4 px-4'>
+					<div className='flex justify-between items-center'>
+						{/* Логотип */}
+						<Link href='/' className='text-2xl font-bold'>
+							<Logo />
+						</Link>
+
+						{/* Навигация для десктопа */}
+						<nav className='hidden md:flex space-x-8'>
+							<NavLink href='/'>Главная</NavLink>
+							<NavLink href='/catalog'>Каталог</NavLink>
+							<NavLink href='/sales'>Акции</NavLink>
+							<NavLink href='/delivery'>Доставка</NavLink>
+							<NavLink href='/contacts'>Контакты</NavLink>
+						</nav>
+
+						{/* Иконки корзины и избранного */}
+						<div className='flex items-center space-x-6'>
+							<Link href='/wishlist' className='relative'>
+								<HeartIcon />
+								<span className='absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center'>
+									0
+								</span>
+							</Link>
+							<Link href='/cart' className='relative'>
+								<CartIcon />
+								<span className='absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center'>
+									0
+								</span>
+							</Link>
+
+							{/* Бургер-кнопка для мобильных */}
+							<button
+								className='md:hidden p-2 -mr-2'
+								onClick={toggleMenu}
+								aria-label='Меню'
+							>
+								<BurgerIcon isOpen={isMenuOpen} />
+							</button>
+						</div>
+					</div>
+				</div>
+			</header>
+
+			{/* Мобильное меню */}
+			<div
+				className={`fixed inset-0 z-40 bg-white transition-all duration-300 ease-in-out transform ${
+					isMenuOpen ? 'translate-x-0' : 'translate-x-full'
+				}`}
+			>
+				<div className='container mx-auto px-4 py-6 h-full flex flex-col'>
+					{/* Шапка мобильного меню */}
+					<div className='flex justify-between items-center mb-8'>
+						<Link href='/' className='text-2xl font-bold' onClick={toggleMenu}>
+							<Logo />
+						</Link>
+						<button
+							className='p-2'
+							onClick={toggleMenu}
+							aria-label='Закрыть меню'
+						>
+							<CloseIcon />
+						</button>
+					</div>
 
 					{/* Навигация */}
-					<nav className='hidden md:flex space-x-8'>
-						<Link
-							href='/'
-							className='hover:text-[#F89514] transition-colors duration-300'
-						>
+					<nav className='flex-1 flex flex-col space-y-6'>
+						<MobileNavLink href='/' onClick={toggleMenu}>
 							Главная
-						</Link>
-						<Link
-							href='/catalog'
-							className='hover:text-[#F89514] transition-colors duration-300'
-						>
+						</MobileNavLink>
+						<MobileNavLink href='/catalog' onClick={toggleMenu}>
 							Каталог
-						</Link>
-						<Link
-							href='/sales'
-							className='hover:text-[#F89514] transition-colors duration-300'
-						>
+						</MobileNavLink>
+						<MobileNavLink href='/sales' onClick={toggleMenu}>
 							Акции
-						</Link>
-						<Link
-							href='/delivery'
-							className='hover:text-[#F89514] transition-colors duration-300'
-						>
+						</MobileNavLink>
+						<MobileNavLink href='/delivery' onClick={toggleMenu}>
 							Доставка
-						</Link>
-						<Link
-							href='/contacts'
-							className='hover:text-[#F89514] transition-colors duration-300'
-						>
+						</MobileNavLink>
+						<MobileNavLink href='/contacts' onClick={toggleMenu}>
 							Контакты
-						</Link>
+						</MobileNavLink>
 					</nav>
 
-					{/* Иконки */}
-					<div className='flex space-x-6'>
-						<Link href='/wishlist' className='relative'>
-							<HeartIcon />
-							<span className='absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center'>
-								0
-							</span>
-						</Link>
-						<Link href='/cart' className='relative'>
-							<CartIcon />
-							<span className='absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center'>
-								0
-							</span>
-						</Link>
+					{/* Контакты в мобильном меню */}
+					<div className='mt-auto pb-8 pt-6 border-t border-gray-200'>
+						<div className='space-y-4'>
+							<div className='flex items-center'>
+								<LocationIcon className='text-gray-400 mr-3' />
+								<span className='text-gray-600'>Москва, ул. Примерная 123</span>
+							</div>
+							<div className='flex items-center'>
+								<PhoneIcon className='text-gray-400 mr-3' />
+								<span className='text-gray-600'>+7 (925) 616-09-95</span>
+							</div>
+							<div className='flex items-center'>
+								<AccountIcon className='text-gray-400 mr-3' />
+								<Link
+									href='/account'
+									className='text-gray-600 hover:text-[#F89514] transition'
+									onClick={toggleMenu}
+								>
+									Личный кабинет
+								</Link>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
-		</header>
+
+			{/* Мобильная нижняя панель навигации */}
+			<div className='fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-lg z-30 md:hidden'>
+				<div className='grid grid-cols-4'>
+					<MobileNavButton href='/' icon={<HomeIcon />} label='Главная' />
+					<MobileNavButton
+						href='/catalog'
+						icon={<CatalogIcon />}
+						label='Каталог'
+					/>
+					<MobileNavButton href='/sales' icon={<SaleIcon />} label='Акции' />
+					<MobileNavButton
+						href='/account'
+						icon={<AccountIcon />}
+						label='Профиль'
+					/>
+				</div>
+			</div>
+		</>
 	)
 }
 
+// Компоненты для навигации
+function NavLink({
+	href,
+	children,
+}: {
+	href: string
+	children: React.ReactNode
+}) {
+	return (
+		<Link
+			href={href}
+			className='relative pb-1 hover:text-[#F89514] transition-colors duration-300'
+		>
+			{children}
+			<span className='absolute left-0 bottom-0 w-0 h-0.5 bg-[#F89514] transition-all duration-300 hover:w-full'></span>
+		</Link>
+	)
+}
+
+function MobileNavLink({
+	href,
+	children,
+	onClick,
+}: {
+	href: string
+	children: React.ReactNode
+	onClick: () => void
+}) {
+	return (
+		<Link
+			href={href}
+			className='text-2xl font-medium py-2 hover:text-[#F89514] transition-colors'
+			onClick={onClick}
+		>
+			{children}
+		</Link>
+	)
+}
+
+function MobileNavButton({
+	href,
+	icon,
+	label,
+}: {
+	href: string
+	icon: React.ReactNode
+	label: string
+}) {
+	return (
+		<Link
+			href={href}
+			className='flex flex-col items-center justify-center py-3 text-xs text-gray-600 hover:text-[#F89514] transition-colors'
+		>
+			<div className='h-6 w-6 mb-1'>{icon}</div>
+			{label}
+		</Link>
+	)
+}
+
+// Иконки
+function BurgerIcon({ isOpen }: { isOpen: boolean }) {
+	return (
+		<div className='relative w-7 h-7 flex items-center justify-center'>
+			{/* Верхняя линия */}
+			<span
+				className={`absolute h-[3px] w-7 bg-[#F89514] rounded-full transition-all duration-300 ease-out
+            ${
+							isOpen
+								? 'rotate-45 top-1/2 -translate-y-1/2'
+								: 'top-1/4 -translate-y-1/2'
+						}`}
+				style={{
+					transformOrigin: 'center',
+				}}
+			></span>
+
+			{/* Центральная линия (исчезает) */}
+			<span
+				className={`absolute h-[3px] w-7 bg-[#F89514] rounded-full transition-all duration-200 ease-out
+            top-1/2 -translate-y-1/2 ${
+							isOpen ? 'opacity-0 scale-x-0' : 'opacity-100 scale-x-100'
+						}`}
+			></span>
+
+			{/* Нижняя линия */}
+			<span
+				className={`absolute h-[3px] w-7 bg-[#F89514] rounded-full transition-all duration-300 ease-out
+            ${
+							isOpen
+								? '-rotate-45 top-1/2 -translate-y-1/2'
+								: 'bottom-1/4 translate-y-1/2'
+						}`}
+				style={{
+					transformOrigin: 'center',
+				}}
+			></span>
+		</div>
+	)
+}
+
+function CloseIcon() {
+	return (
+		<svg
+			className='w-6 h-6'
+			fill='none'
+			stroke='currentColor'
+			viewBox='0 0 24 24'
+		>
+			<path
+				strokeLinecap='round'
+				strokeLinejoin='round'
+				strokeWidth='2'
+				d='M6 18L18 6M6 6l12 12'
+			/>
+		</svg>
+	)
+}
+
+function HomeIcon() {
+	return (
+		<svg
+			className='w-6 h-6'
+			fill='none'
+			stroke='currentColor'
+			viewBox='0 0 24 24'
+		>
+			<path
+				strokeLinecap='round'
+				strokeLinejoin='round'
+				strokeWidth='2'
+				d='M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6'
+			/>
+		</svg>
+	)
+}
+
+function CatalogIcon() {
+	return (
+		<svg
+			className='w-6 h-6'
+			fill='none'
+			stroke='currentColor'
+			viewBox='0 0 24 24'
+		>
+			<path
+				strokeLinecap='round'
+				strokeLinejoin='round'
+				strokeWidth='2'
+				d='M4 6h16M4 12h16M4 18h16'
+			/>
+		</svg>
+	)
+}
+
+function SaleIcon() {
+	return (
+		<svg
+			className='w-6 h-6'
+			fill='none'
+			stroke='currentColor'
+			viewBox='0 0 24 24'
+		>
+			<path
+				strokeLinecap='round'
+				strokeLinejoin='round'
+				strokeWidth='2'
+				d='M9 14l6-6m-5.5.5h.01m4.99 5h.01M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16l3.5-2 3.5 2 3.5-2 3.5 2z'
+			/>
+		</svg>
+	)
+}
+
+// Остальные иконки (LocationIcon, PhoneIcon, AccountIcon, HeartIcon, CartIcon, Logo) остаются без изменений
+// ...
 // Иконки (остаются без изменений)
-function LocationIcon() {
+function LocationIcon({ className }: { className?: string }) {
 	return (
 		<svg
 			xmlns='http://www.w3.org/2000/svg'
-			className='h-5 w-5'
+			className={`h-5 w-5 ${className || ''}`}
 			fill='none'
 			viewBox='0 0 24 24'
 			stroke='currentColor'
@@ -113,11 +380,11 @@ function LocationIcon() {
 	)
 }
 
-function PhoneIcon() {
+function PhoneIcon({ className }: { className?: string }) {
 	return (
 		<svg
 			xmlns='http://www.w3.org/2000/svg'
-			className='h-5 w-5'
+			className={`h-5 w-5 ${className || ''}`}
 			fill='none'
 			viewBox='0 0 24 24'
 			stroke='currentColor'
@@ -132,11 +399,11 @@ function PhoneIcon() {
 	)
 }
 
-function AccountIcon() {
+function AccountIcon({ className }: { className?: string }) {
 	return (
 		<svg
 			xmlns='http://www.w3.org/2000/svg'
-			className='h-5 w-5'
+			className={`h-5 w-5 ${className || ''}`}
 			fill='none'
 			viewBox='0 0 24 24'
 			stroke='currentColor'

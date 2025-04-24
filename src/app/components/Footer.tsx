@@ -45,6 +45,9 @@ export default function Footer() {
 							<li>
 								<FooterLink href='/contacts'>Контакты</FooterLink>
 							</li>
+							<li>
+								<FooterLink href='/markets'>Магазины</FooterLink>
+							</li>
 						</ul>
 					</div>
 
