@@ -1,7 +1,19 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
-  /* config options here */
-};
+	images: {
+		remotePatterns: [
+			{
+				protocol: 'https',
+				hostname: 'loremflickr.com',
+				pathname: '/**',
+			},
+			{
+				protocol: 'https',
+				hostname: '**.example.com', // Добавьте ваши реальные домены
+			},
+		],
+	},
+}
 
-export default nextConfig;
+export default nextConfig

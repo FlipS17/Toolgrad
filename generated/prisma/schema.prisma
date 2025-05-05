@@ -55,6 +55,21 @@ model Address {
   Order      Order[]
 }
 
+model Slider {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String?
+  image       String
+  link        String?
+  buttonText  String?  @default("Подробнее")
+  isActive    Boolean  @default(true)
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([order])
+}
+
 model Product {
   id             Int                    @id @default(autoincrement())
   name           String
@@ -97,6 +112,7 @@ model Category {
   Promotion   Promotion?  @relation(fields: [promotionId], references: [id])
   products    Product[]   @relation("CategoryToProduct")
   promotions  Promotion[] @relation("PromotionToCategory")
+  isActive    Boolean     @default(true)
 }
 
 model Review {

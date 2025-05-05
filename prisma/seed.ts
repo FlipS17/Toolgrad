@@ -9,74 +9,84 @@ import {
 
 const prisma = new PrismaClient()
 
+const categoryImages = [
+	'/categories/tools-1.jpg',
+	'/categories/tools-2.jpg',
+	'/categories/tools-3.jpg',
+	'/categories/tools-4.jpg',
+	'/categories/tools-5.jpg',
+]
+
+const productImages = [
+	'/products/hammer.jpg',
+	'/products/drill.jpg',
+	'/products/saw.jpg',
+	'/products/screwdriver.jpg',
+	'/products/wrench.jpg',
+]
+
+const brandLogos = Array.from(
+	{ length: 10 },
+	(_, i) => `/brands/logo-${i + 1}.png`
+)
+
 async function main() {
-	// Очистка существующих данных
 	await prisma.$transaction([
-		prisma.user.deleteMany(),
-		prisma.brand.deleteMany(),
-		prisma.product.deleteMany(),
-		prisma.payment.deleteMany(),
 		prisma.orderItem.deleteMany(),
+		prisma.payment.deleteMany(),
 		prisma.order.deleteMany(),
 		prisma.review.deleteMany(),
-		prisma.promotion.deleteMany(),
 		prisma.productSpecification.deleteMany(),
 		prisma.cartItem.deleteMany(),
 		prisma.cart.deleteMany(),
 		prisma.favorite.deleteMany(),
+		prisma.product.deleteMany(),
+		prisma.promotion.deleteMany(),
 		prisma.category.deleteMany(),
+		prisma.brand.deleteMany(),
 		prisma.address.deleteMany(),
+		prisma.user.deleteMany(),
 	])
 
-	// Создание брендов с уникальными slug
-	const brands = Array.from({ length: 10 }).map(() => {
-		const name = faker.company.name()
-		return {
-			name,
-			slug: `${faker.helpers.slugify(name)}-${faker.string.alphanumeric(
-				4
-			)}`.toLowerCase(),
-			logo: faker.image.urlLoremFlickr({ category: 'logo' }),
-			description: faker.lorem.paragraph(),
-			website: faker.internet.url(),
-		}
-	})
+	const brands = Array.from({ length: 10 }).map((_, i) => ({
+		name: faker.company.name(),
+		slug: `${faker.helpers.slugify(
+			faker.company.name()
+		)}-${faker.string.alphanumeric(4)}`.toLowerCase(),
+		logo: brandLogos[i],
+		description: faker.lorem.paragraph(),
+		website: faker.internet.url(),
+	}))
 	await prisma.brand.createMany({ data: brands })
 	const createdBrands = await prisma.brand.findMany()
 
-	// Создание категорий с уникальными slug
-	const parentCategories = Array.from({ length: 5 }).map(() => {
-		const name = faker.commerce.department()
-		return {
-			name,
-			slug: `${faker.helpers.slugify(name)}-${faker.string.alphanumeric(
-				4
-			)}`.toLowerCase(),
-			description: faker.lorem.sentence(),
-			image: faker.image.urlLoremFlickr({ category: 'technics' }),
-		}
-	})
+	const parentCategories = Array.from({ length: 5 }).map((_, i) => ({
+		name: faker.commerce.department(),
+		slug: `${faker.helpers.slugify(
+			faker.commerce.department()
+		)}-${faker.string.alphanumeric(4)}`.toLowerCase(),
+		description: faker.lorem.sentence(),
+		image: categoryImages[i],
+		isActive: true,
+	}))
 	await prisma.category.createMany({ data: parentCategories })
 	const createdParentCategories = await prisma.category.findMany()
 
 	const childCategories = createdParentCategories.flatMap(parent =>
-		Array.from({ length: 2 }).map(() => {
-			const name = faker.commerce.productAdjective()
-			return {
-				name,
-				slug: `${faker.helpers.slugify(name)}-${faker.string.alphanumeric(
-					4
-				)}`.toLowerCase(),
-				description: faker.lorem.sentence(),
-				image: faker.image.urlLoremFlickr({ category: 'technics' }),
-				parentId: parent.id,
-			}
-		})
+		Array.from({ length: 2 }).map(() => ({
+			name: faker.commerce.productAdjective(),
+			slug: `${faker.helpers.slugify(
+				faker.commerce.productAdjective()
+			)}-${faker.string.alphanumeric(4)}`.toLowerCase(),
+			description: faker.lorem.sentence(),
+			image: faker.helpers.arrayElement(categoryImages),
+			parentId: parent.id,
+			isActive: true,
+		}))
 	)
 	await prisma.category.createMany({ data: childCategories })
 	const allCategories = await prisma.category.findMany()
 
-	// Создание пользователей
 	const users = [
 		{
 			email: 'admin@example.com',
@@ -86,11 +96,11 @@ async function main() {
 			role: Role.ADMIN,
 		},
 		{
-			email: 'manager@example.com',
+			email: 'user@example.com',
 			password: 'password123',
-			firstName: 'Manager',
+			firstName: 'Regular',
 			lastName: 'User',
-			role: Role.MANAGER,
+			role: Role.CUSTOMER,
 		},
 		...Array.from({ length: 10 }).map(() => ({
 			email: faker.internet.email(),
@@ -105,7 +115,6 @@ async function main() {
 	await prisma.user.createMany({ data: users })
 	const createdUsers = await prisma.user.findMany()
 
-	// Создание адресов
 	const addresses = createdUsers.flatMap(user =>
 		Array.from({ length: faker.number.int({ min: 1, max: 3 }) }).map(
 			(_, i) => ({
@@ -123,9 +132,8 @@ async function main() {
 	)
 	await prisma.address.createMany({ data: addresses })
 
-	// Создание продуктов
 	const products = await Promise.all(
-		Array.from({ length: 50 }).map(async () => {
+		Array.from({ length: 30 }).map(async (_, i) => {
 			const brand = faker.helpers.arrayElement(createdBrands)
 			const categories = faker.helpers.arrayElements(allCategories, {
 				min: 1,
@@ -137,17 +145,23 @@ async function main() {
 					name: faker.commerce.productName(),
 					description: faker.commerce.productDescription(),
 					price: parseFloat(faker.commerce.price({ min: 10, max: 1000 })),
-					oldPrice: faker.datatype.boolean()
+					oldPrice: faker.datatype.boolean({ probability: 0.3 })
 						? parseFloat(faker.commerce.price({ min: 10, max: 1000 }))
 						: null,
-					sku: faker.string.uuid(),
+					sku: `SKU-${faker.string.alphanumeric(8).toUpperCase()}`,
 					quantity: faker.number.int({ min: 0, max: 100 }),
-					images: Array.from({ length: 3 }, () =>
-						faker.image.urlLoremFlickr({ category: 'technics' })
-					),
+					images: [
+						productImages[i % productImages.length],
+						productImages[(i + 1) % productImages.length],
+						productImages[(i + 2) % productImages.length],
+					],
 					brandId: brand.id,
 					categories: { connect: categories.map(c => ({ id: c.id })) },
-					weight: faker.number.float({ min: 0.1, max: 10 }),
+					weight: faker.number.float({
+						min: 0.1,
+						max: 10,
+						fractionDigits: 1, // Исправленный параметр
+					}),
 					dimensions: `${faker.number.int({
 						min: 5,
 						max: 50,
@@ -157,6 +171,7 @@ async function main() {
 					})}`,
 					warrantyMonths: faker.number.int({ min: 12, max: 36 }),
 					isFeatured: faker.datatype.boolean(),
+					isActive: true,
 					specifications: {
 						create: Array.from(
 							{ length: faker.number.int({ min: 1, max: 5 }) },
@@ -170,8 +185,6 @@ async function main() {
 			})
 		})
 	)
-
-	// Создание отзывов
 	await Promise.all(
 		products.flatMap(product =>
 			Array.from({ length: faker.number.int({ min: 0, max: 10 }) }).map(
@@ -187,10 +200,7 @@ async function main() {
 							comment: faker.lorem.paragraph(),
 							pros: faker.lorem.words(5),
 							cons: faker.lorem.words(3),
-							images: Array.from(
-								{ length: faker.number.int({ min: 0, max: 3 }) },
-								() => faker.image.urlLoremFlickr()
-							),
+							images: [],
 						},
 					})
 				}
@@ -198,7 +208,6 @@ async function main() {
 		)
 	)
 
-	// Создание корзин и избранного
 	await Promise.all(
 		createdUsers.map(async user => {
 			await prisma.cart.create({
@@ -228,7 +237,6 @@ async function main() {
 		})
 	)
 
-	// Создание заказов
 	const customers = createdUsers.filter(u => u.role === Role.CUSTOMER)
 	await Promise.all(
 		customers.flatMap(customer =>
@@ -290,7 +298,6 @@ async function main() {
 		)
 	)
 
-	// Создание промоакций
 	await Promise.all(
 		Array.from({ length: 5 }).map(async () => {
 			const productsToConnect = faker.helpers.arrayElements(products, {
@@ -317,11 +324,13 @@ async function main() {
 			})
 		})
 	)
+
+	console.log('Успех')
 }
 
 main()
 	.catch(e => {
-		console.error(e)
+		console.error('Ошибка ', e)
 		process.exit(1)
 	})
 	.finally(async () => {

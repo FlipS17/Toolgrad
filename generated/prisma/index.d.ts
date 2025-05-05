@@ -29,6 +29,11 @@ export type User = $Result.DefaultSelection<Prisma.$UserPayload>
  */
 export type Address = $Result.DefaultSelection<Prisma.$AddressPayload>
 /**
+ * Model Slider
+ * 
+ */
+export type Slider = $Result.DefaultSelection<Prisma.$SliderPayload>
+/**
  * Model Product
  * 
  */
@@ -299,6 +304,16 @@ export class PrismaClient<
     * ```
     */
   get address(): Prisma.AddressDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.slider`: Exposes CRUD operations for the **Slider** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Sliders
+    * const sliders = await prisma.slider.findMany()
+    * ```
+    */
+  get slider(): Prisma.SliderDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.product`: Exposes CRUD operations for the **Product** model.
@@ -852,6 +867,7 @@ export namespace Prisma {
     Brand: 'Brand',
     User: 'User',
     Address: 'Address',
+    Slider: 'Slider',
     Product: 'Product',
     Category: 'Category',
     Review: 'Review',
@@ -881,7 +897,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "brand" | "user" | "address" | "product" | "category" | "review" | "order" | "orderItem" | "payment" | "cart" | "cartItem" | "favorite" | "productSpecification" | "promotion"
+      modelProps: "brand" | "user" | "address" | "slider" | "product" | "category" | "review" | "order" | "orderItem" | "payment" | "cart" | "cartItem" | "favorite" | "productSpecification" | "promotion"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1104,6 +1120,80 @@ export namespace Prisma {
           count: {
             args: Prisma.AddressCountArgs<ExtArgs>
             result: $Utils.Optional<AddressCountAggregateOutputType> | number
+          }
+        }
+      }
+      Slider: {
+        payload: Prisma.$SliderPayload<ExtArgs>
+        fields: Prisma.SliderFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.SliderFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SliderPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.SliderFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SliderPayload>
+          }
+          findFirst: {
+            args: Prisma.SliderFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SliderPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.SliderFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SliderPayload>
+          }
+          findMany: {
+            args: Prisma.SliderFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SliderPayload>[]
+          }
+          create: {
+            args: Prisma.SliderCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SliderPayload>
+          }
+          createMany: {
+            args: Prisma.SliderCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.SliderCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SliderPayload>[]
+          }
+          delete: {
+            args: Prisma.SliderDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SliderPayload>
+          }
+          update: {
+            args: Prisma.SliderUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SliderPayload>
+          }
+          deleteMany: {
+            args: Prisma.SliderDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.SliderUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.SliderUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SliderPayload>[]
+          }
+          upsert: {
+            args: Prisma.SliderUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SliderPayload>
+          }
+          aggregate: {
+            args: Prisma.SliderAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateSlider>
+          }
+          groupBy: {
+            args: Prisma.SliderGroupByArgs<ExtArgs>
+            result: $Utils.Optional<SliderGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.SliderCountArgs<ExtArgs>
+            result: $Utils.Optional<SliderCountAggregateOutputType> | number
           }
         }
       }
@@ -2008,6 +2098,7 @@ export namespace Prisma {
     brand?: BrandOmit
     user?: UserOmit
     address?: AddressOmit
+    slider?: SliderOmit
     product?: ProductOmit
     category?: CategoryOmit
     review?: ReviewOmit
@@ -6106,6 +6197,1104 @@ export namespace Prisma {
 
 
   /**
+   * Model Slider
+   */
+
+  export type AggregateSlider = {
+    _count: SliderCountAggregateOutputType | null
+    _avg: SliderAvgAggregateOutputType | null
+    _sum: SliderSumAggregateOutputType | null
+    _min: SliderMinAggregateOutputType | null
+    _max: SliderMaxAggregateOutputType | null
+  }
+
+  export type SliderAvgAggregateOutputType = {
+    id: number | null
+    order: number | null
+  }
+
+  export type SliderSumAggregateOutputType = {
+    id: number | null
+    order: number | null
+  }
+
+  export type SliderMinAggregateOutputType = {
+    id: number | null
+    title: string | null
+    description: string | null
+    image: string | null
+    link: string | null
+    buttonText: string | null
+    isActive: boolean | null
+    order: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type SliderMaxAggregateOutputType = {
+    id: number | null
+    title: string | null
+    description: string | null
+    image: string | null
+    link: string | null
+    buttonText: string | null
+    isActive: boolean | null
+    order: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type SliderCountAggregateOutputType = {
+    id: number
+    title: number
+    description: number
+    image: number
+    link: number
+    buttonText: number
+    isActive: number
+    order: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type SliderAvgAggregateInputType = {
+    id?: true
+    order?: true
+  }
+
+  export type SliderSumAggregateInputType = {
+    id?: true
+    order?: true
+  }
+
+  export type SliderMinAggregateInputType = {
+    id?: true
+    title?: true
+    description?: true
+    image?: true
+    link?: true
+    buttonText?: true
+    isActive?: true
+    order?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type SliderMaxAggregateInputType = {
+    id?: true
+    title?: true
+    description?: true
+    image?: true
+    link?: true
+    buttonText?: true
+    isActive?: true
+    order?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type SliderCountAggregateInputType = {
+    id?: true
+    title?: true
+    description?: true
+    image?: true
+    link?: true
+    buttonText?: true
+    isActive?: true
+    order?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type SliderAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Slider to aggregate.
+     */
+    where?: SliderWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Sliders to fetch.
+     */
+    orderBy?: SliderOrderByWithRelationInput | SliderOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: SliderWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Sliders from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Sliders.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Sliders
+    **/
+    _count?: true | SliderCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: SliderAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: SliderSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: SliderMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: SliderMaxAggregateInputType
+  }
+
+  export type GetSliderAggregateType<T extends SliderAggregateArgs> = {
+        [P in keyof T & keyof AggregateSlider]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateSlider[P]>
+      : GetScalarType<T[P], AggregateSlider[P]>
+  }
+
+
+
+
+  export type SliderGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SliderWhereInput
+    orderBy?: SliderOrderByWithAggregationInput | SliderOrderByWithAggregationInput[]
+    by: SliderScalarFieldEnum[] | SliderScalarFieldEnum
+    having?: SliderScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: SliderCountAggregateInputType | true
+    _avg?: SliderAvgAggregateInputType
+    _sum?: SliderSumAggregateInputType
+    _min?: SliderMinAggregateInputType
+    _max?: SliderMaxAggregateInputType
+  }
+
+  export type SliderGroupByOutputType = {
+    id: number
+    title: string
+    description: string | null
+    image: string
+    link: string | null
+    buttonText: string | null
+    isActive: boolean
+    order: number
+    createdAt: Date
+    updatedAt: Date
+    _count: SliderCountAggregateOutputType | null
+    _avg: SliderAvgAggregateOutputType | null
+    _sum: SliderSumAggregateOutputType | null
+    _min: SliderMinAggregateOutputType | null
+    _max: SliderMaxAggregateOutputType | null
+  }
+
+  type GetSliderGroupByPayload<T extends SliderGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<SliderGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof SliderGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], SliderGroupByOutputType[P]>
+            : GetScalarType<T[P], SliderGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type SliderSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    description?: boolean
+    image?: boolean
+    link?: boolean
+    buttonText?: boolean
+    isActive?: boolean
+    order?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["slider"]>
+
+  export type SliderSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    description?: boolean
+    image?: boolean
+    link?: boolean
+    buttonText?: boolean
+    isActive?: boolean
+    order?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["slider"]>
+
+  export type SliderSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    description?: boolean
+    image?: boolean
+    link?: boolean
+    buttonText?: boolean
+    isActive?: boolean
+    order?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["slider"]>
+
+  export type SliderSelectScalar = {
+    id?: boolean
+    title?: boolean
+    description?: boolean
+    image?: boolean
+    link?: boolean
+    buttonText?: boolean
+    isActive?: boolean
+    order?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type SliderOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "image" | "link" | "buttonText" | "isActive" | "order" | "createdAt" | "updatedAt", ExtArgs["result"]["slider"]>
+
+  export type $SliderPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Slider"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      title: string
+      description: string | null
+      image: string
+      link: string | null
+      buttonText: string | null
+      isActive: boolean
+      order: number
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["slider"]>
+    composites: {}
+  }
+
+  type SliderGetPayload<S extends boolean | null | undefined | SliderDefaultArgs> = $Result.GetResult<Prisma.$SliderPayload, S>
+
+  type SliderCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<SliderFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: SliderCountAggregateInputType | true
+    }
+
+  export interface SliderDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Slider'], meta: { name: 'Slider' } }
+    /**
+     * Find zero or one Slider that matches the filter.
+     * @param {SliderFindUniqueArgs} args - Arguments to find a Slider
+     * @example
+     * // Get one Slider
+     * const slider = await prisma.slider.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends SliderFindUniqueArgs>(args: SelectSubset<T, SliderFindUniqueArgs<ExtArgs>>): Prisma__SliderClient<$Result.GetResult<Prisma.$SliderPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Slider that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {SliderFindUniqueOrThrowArgs} args - Arguments to find a Slider
+     * @example
+     * // Get one Slider
+     * const slider = await prisma.slider.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends SliderFindUniqueOrThrowArgs>(args: SelectSubset<T, SliderFindUniqueOrThrowArgs<ExtArgs>>): Prisma__SliderClient<$Result.GetResult<Prisma.$SliderPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Slider that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SliderFindFirstArgs} args - Arguments to find a Slider
+     * @example
+     * // Get one Slider
+     * const slider = await prisma.slider.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends SliderFindFirstArgs>(args?: SelectSubset<T, SliderFindFirstArgs<ExtArgs>>): Prisma__SliderClient<$Result.GetResult<Prisma.$SliderPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Slider that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SliderFindFirstOrThrowArgs} args - Arguments to find a Slider
+     * @example
+     * // Get one Slider
+     * const slider = await prisma.slider.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends SliderFindFirstOrThrowArgs>(args?: SelectSubset<T, SliderFindFirstOrThrowArgs<ExtArgs>>): Prisma__SliderClient<$Result.GetResult<Prisma.$SliderPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Sliders that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SliderFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Sliders
+     * const sliders = await prisma.slider.findMany()
+     * 
+     * // Get first 10 Sliders
+     * const sliders = await prisma.slider.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const sliderWithIdOnly = await prisma.slider.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends SliderFindManyArgs>(args?: SelectSubset<T, SliderFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SliderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Slider.
+     * @param {SliderCreateArgs} args - Arguments to create a Slider.
+     * @example
+     * // Create one Slider
+     * const Slider = await prisma.slider.create({
+     *   data: {
+     *     // ... data to create a Slider
+     *   }
+     * })
+     * 
+     */
+    create<T extends SliderCreateArgs>(args: SelectSubset<T, SliderCreateArgs<ExtArgs>>): Prisma__SliderClient<$Result.GetResult<Prisma.$SliderPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Sliders.
+     * @param {SliderCreateManyArgs} args - Arguments to create many Sliders.
+     * @example
+     * // Create many Sliders
+     * const slider = await prisma.slider.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends SliderCreateManyArgs>(args?: SelectSubset<T, SliderCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Sliders and returns the data saved in the database.
+     * @param {SliderCreateManyAndReturnArgs} args - Arguments to create many Sliders.
+     * @example
+     * // Create many Sliders
+     * const slider = await prisma.slider.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Sliders and only return the `id`
+     * const sliderWithIdOnly = await prisma.slider.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends SliderCreateManyAndReturnArgs>(args?: SelectSubset<T, SliderCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SliderPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Slider.
+     * @param {SliderDeleteArgs} args - Arguments to delete one Slider.
+     * @example
+     * // Delete one Slider
+     * const Slider = await prisma.slider.delete({
+     *   where: {
+     *     // ... filter to delete one Slider
+     *   }
+     * })
+     * 
+     */
+    delete<T extends SliderDeleteArgs>(args: SelectSubset<T, SliderDeleteArgs<ExtArgs>>): Prisma__SliderClient<$Result.GetResult<Prisma.$SliderPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Slider.
+     * @param {SliderUpdateArgs} args - Arguments to update one Slider.
+     * @example
+     * // Update one Slider
+     * const slider = await prisma.slider.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends SliderUpdateArgs>(args: SelectSubset<T, SliderUpdateArgs<ExtArgs>>): Prisma__SliderClient<$Result.GetResult<Prisma.$SliderPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Sliders.
+     * @param {SliderDeleteManyArgs} args - Arguments to filter Sliders to delete.
+     * @example
+     * // Delete a few Sliders
+     * const { count } = await prisma.slider.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends SliderDeleteManyArgs>(args?: SelectSubset<T, SliderDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Sliders.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SliderUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Sliders
+     * const slider = await prisma.slider.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends SliderUpdateManyArgs>(args: SelectSubset<T, SliderUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Sliders and returns the data updated in the database.
+     * @param {SliderUpdateManyAndReturnArgs} args - Arguments to update many Sliders.
+     * @example
+     * // Update many Sliders
+     * const slider = await prisma.slider.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Sliders and only return the `id`
+     * const sliderWithIdOnly = await prisma.slider.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends SliderUpdateManyAndReturnArgs>(args: SelectSubset<T, SliderUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SliderPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Slider.
+     * @param {SliderUpsertArgs} args - Arguments to update or create a Slider.
+     * @example
+     * // Update or create a Slider
+     * const slider = await prisma.slider.upsert({
+     *   create: {
+     *     // ... data to create a Slider
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Slider we want to update
+     *   }
+     * })
+     */
+    upsert<T extends SliderUpsertArgs>(args: SelectSubset<T, SliderUpsertArgs<ExtArgs>>): Prisma__SliderClient<$Result.GetResult<Prisma.$SliderPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Sliders.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SliderCountArgs} args - Arguments to filter Sliders to count.
+     * @example
+     * // Count the number of Sliders
+     * const count = await prisma.slider.count({
+     *   where: {
+     *     // ... the filter for the Sliders we want to count
+     *   }
+     * })
+    **/
+    count<T extends SliderCountArgs>(
+      args?: Subset<T, SliderCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], SliderCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Slider.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SliderAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends SliderAggregateArgs>(args: Subset<T, SliderAggregateArgs>): Prisma.PrismaPromise<GetSliderAggregateType<T>>
+
+    /**
+     * Group by Slider.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SliderGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends SliderGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: SliderGroupByArgs['orderBy'] }
+        : { orderBy?: SliderGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, SliderGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSliderGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Slider model
+   */
+  readonly fields: SliderFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Slider.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__SliderClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Slider model
+   */
+  interface SliderFieldRefs {
+    readonly id: FieldRef<"Slider", 'Int'>
+    readonly title: FieldRef<"Slider", 'String'>
+    readonly description: FieldRef<"Slider", 'String'>
+    readonly image: FieldRef<"Slider", 'String'>
+    readonly link: FieldRef<"Slider", 'String'>
+    readonly buttonText: FieldRef<"Slider", 'String'>
+    readonly isActive: FieldRef<"Slider", 'Boolean'>
+    readonly order: FieldRef<"Slider", 'Int'>
+    readonly createdAt: FieldRef<"Slider", 'DateTime'>
+    readonly updatedAt: FieldRef<"Slider", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Slider findUnique
+   */
+  export type SliderFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Slider
+     */
+    select?: SliderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Slider
+     */
+    omit?: SliderOmit<ExtArgs> | null
+    /**
+     * Filter, which Slider to fetch.
+     */
+    where: SliderWhereUniqueInput
+  }
+
+  /**
+   * Slider findUniqueOrThrow
+   */
+  export type SliderFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Slider
+     */
+    select?: SliderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Slider
+     */
+    omit?: SliderOmit<ExtArgs> | null
+    /**
+     * Filter, which Slider to fetch.
+     */
+    where: SliderWhereUniqueInput
+  }
+
+  /**
+   * Slider findFirst
+   */
+  export type SliderFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Slider
+     */
+    select?: SliderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Slider
+     */
+    omit?: SliderOmit<ExtArgs> | null
+    /**
+     * Filter, which Slider to fetch.
+     */
+    where?: SliderWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Sliders to fetch.
+     */
+    orderBy?: SliderOrderByWithRelationInput | SliderOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Sliders.
+     */
+    cursor?: SliderWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Sliders from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Sliders.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Sliders.
+     */
+    distinct?: SliderScalarFieldEnum | SliderScalarFieldEnum[]
+  }
+
+  /**
+   * Slider findFirstOrThrow
+   */
+  export type SliderFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Slider
+     */
+    select?: SliderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Slider
+     */
+    omit?: SliderOmit<ExtArgs> | null
+    /**
+     * Filter, which Slider to fetch.
+     */
+    where?: SliderWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Sliders to fetch.
+     */
+    orderBy?: SliderOrderByWithRelationInput | SliderOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Sliders.
+     */
+    cursor?: SliderWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Sliders from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Sliders.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Sliders.
+     */
+    distinct?: SliderScalarFieldEnum | SliderScalarFieldEnum[]
+  }
+
+  /**
+   * Slider findMany
+   */
+  export type SliderFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Slider
+     */
+    select?: SliderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Slider
+     */
+    omit?: SliderOmit<ExtArgs> | null
+    /**
+     * Filter, which Sliders to fetch.
+     */
+    where?: SliderWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Sliders to fetch.
+     */
+    orderBy?: SliderOrderByWithRelationInput | SliderOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Sliders.
+     */
+    cursor?: SliderWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Sliders from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Sliders.
+     */
+    skip?: number
+    distinct?: SliderScalarFieldEnum | SliderScalarFieldEnum[]
+  }
+
+  /**
+   * Slider create
+   */
+  export type SliderCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Slider
+     */
+    select?: SliderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Slider
+     */
+    omit?: SliderOmit<ExtArgs> | null
+    /**
+     * The data needed to create a Slider.
+     */
+    data: XOR<SliderCreateInput, SliderUncheckedCreateInput>
+  }
+
+  /**
+   * Slider createMany
+   */
+  export type SliderCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Sliders.
+     */
+    data: SliderCreateManyInput | SliderCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Slider createManyAndReturn
+   */
+  export type SliderCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Slider
+     */
+    select?: SliderSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Slider
+     */
+    omit?: SliderOmit<ExtArgs> | null
+    /**
+     * The data used to create many Sliders.
+     */
+    data: SliderCreateManyInput | SliderCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Slider update
+   */
+  export type SliderUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Slider
+     */
+    select?: SliderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Slider
+     */
+    omit?: SliderOmit<ExtArgs> | null
+    /**
+     * The data needed to update a Slider.
+     */
+    data: XOR<SliderUpdateInput, SliderUncheckedUpdateInput>
+    /**
+     * Choose, which Slider to update.
+     */
+    where: SliderWhereUniqueInput
+  }
+
+  /**
+   * Slider updateMany
+   */
+  export type SliderUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Sliders.
+     */
+    data: XOR<SliderUpdateManyMutationInput, SliderUncheckedUpdateManyInput>
+    /**
+     * Filter which Sliders to update
+     */
+    where?: SliderWhereInput
+    /**
+     * Limit how many Sliders to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Slider updateManyAndReturn
+   */
+  export type SliderUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Slider
+     */
+    select?: SliderSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Slider
+     */
+    omit?: SliderOmit<ExtArgs> | null
+    /**
+     * The data used to update Sliders.
+     */
+    data: XOR<SliderUpdateManyMutationInput, SliderUncheckedUpdateManyInput>
+    /**
+     * Filter which Sliders to update
+     */
+    where?: SliderWhereInput
+    /**
+     * Limit how many Sliders to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Slider upsert
+   */
+  export type SliderUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Slider
+     */
+    select?: SliderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Slider
+     */
+    omit?: SliderOmit<ExtArgs> | null
+    /**
+     * The filter to search for the Slider to update in case it exists.
+     */
+    where: SliderWhereUniqueInput
+    /**
+     * In case the Slider found by the `where` argument doesn't exist, create a new Slider with this data.
+     */
+    create: XOR<SliderCreateInput, SliderUncheckedCreateInput>
+    /**
+     * In case the Slider was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<SliderUpdateInput, SliderUncheckedUpdateInput>
+  }
+
+  /**
+   * Slider delete
+   */
+  export type SliderDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Slider
+     */
+    select?: SliderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Slider
+     */
+    omit?: SliderOmit<ExtArgs> | null
+    /**
+     * Filter which Slider to delete.
+     */
+    where: SliderWhereUniqueInput
+  }
+
+  /**
+   * Slider deleteMany
+   */
+  export type SliderDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Sliders to delete
+     */
+    where?: SliderWhereInput
+    /**
+     * Limit how many Sliders to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Slider without action
+   */
+  export type SliderDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Slider
+     */
+    select?: SliderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Slider
+     */
+    omit?: SliderOmit<ExtArgs> | null
+  }
+
+
+  /**
    * Model Product
    */
 
@@ -7653,6 +8842,7 @@ export namespace Prisma {
     image: string | null
     parentId: number | null
     promotionId: number | null
+    isActive: boolean | null
   }
 
   export type CategoryMaxAggregateOutputType = {
@@ -7663,6 +8853,7 @@ export namespace Prisma {
     image: string | null
     parentId: number | null
     promotionId: number | null
+    isActive: boolean | null
   }
 
   export type CategoryCountAggregateOutputType = {
@@ -7673,6 +8864,7 @@ export namespace Prisma {
     image: number
     parentId: number
     promotionId: number
+    isActive: number
     _all: number
   }
 
@@ -7697,6 +8889,7 @@ export namespace Prisma {
     image?: true
     parentId?: true
     promotionId?: true
+    isActive?: true
   }
 
   export type CategoryMaxAggregateInputType = {
@@ -7707,6 +8900,7 @@ export namespace Prisma {
     image?: true
     parentId?: true
     promotionId?: true
+    isActive?: true
   }
 
   export type CategoryCountAggregateInputType = {
@@ -7717,6 +8911,7 @@ export namespace Prisma {
     image?: true
     parentId?: true
     promotionId?: true
+    isActive?: true
     _all?: true
   }
 
@@ -7814,6 +9009,7 @@ export namespace Prisma {
     image: string
     parentId: number | null
     promotionId: number | null
+    isActive: boolean
     _count: CategoryCountAggregateOutputType | null
     _avg: CategoryAvgAggregateOutputType | null
     _sum: CategorySumAggregateOutputType | null
@@ -7843,6 +9039,7 @@ export namespace Prisma {
     image?: boolean
     parentId?: boolean
     promotionId?: boolean
+    isActive?: boolean
     parent?: boolean | Category$parentArgs<ExtArgs>
     children?: boolean | Category$childrenArgs<ExtArgs>
     Promotion?: boolean | Category$PromotionArgs<ExtArgs>
@@ -7859,6 +9056,7 @@ export namespace Prisma {
     image?: boolean
     parentId?: boolean
     promotionId?: boolean
+    isActive?: boolean
     parent?: boolean | Category$parentArgs<ExtArgs>
     Promotion?: boolean | Category$PromotionArgs<ExtArgs>
   }, ExtArgs["result"]["category"]>
@@ -7871,6 +9069,7 @@ export namespace Prisma {
     image?: boolean
     parentId?: boolean
     promotionId?: boolean
+    isActive?: boolean
     parent?: boolean | Category$parentArgs<ExtArgs>
     Promotion?: boolean | Category$PromotionArgs<ExtArgs>
   }, ExtArgs["result"]["category"]>
@@ -7883,9 +9082,10 @@ export namespace Prisma {
     image?: boolean
     parentId?: boolean
     promotionId?: boolean
+    isActive?: boolean
   }
 
-  export type CategoryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "slug" | "description" | "image" | "parentId" | "promotionId", ExtArgs["result"]["category"]>
+  export type CategoryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "slug" | "description" | "image" | "parentId" | "promotionId" | "isActive", ExtArgs["result"]["category"]>
   export type CategoryInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     parent?: boolean | Category$parentArgs<ExtArgs>
     children?: boolean | Category$childrenArgs<ExtArgs>
@@ -7920,6 +9120,7 @@ export namespace Prisma {
       image: string
       parentId: number | null
       promotionId: number | null
+      isActive: boolean
     }, ExtArgs["result"]["category"]>
     composites: {}
   }
@@ -8355,6 +9556,7 @@ export namespace Prisma {
     readonly image: FieldRef<"Category", 'String'>
     readonly parentId: FieldRef<"Category", 'Int'>
     readonly promotionId: FieldRef<"Category", 'Int'>
+    readonly isActive: FieldRef<"Category", 'Boolean'>
   }
     
 
@@ -19184,6 +20386,22 @@ export namespace Prisma {
   export type AddressScalarFieldEnum = (typeof AddressScalarFieldEnum)[keyof typeof AddressScalarFieldEnum]
 
 
+  export const SliderScalarFieldEnum: {
+    id: 'id',
+    title: 'title',
+    description: 'description',
+    image: 'image',
+    link: 'link',
+    buttonText: 'buttonText',
+    isActive: 'isActive',
+    order: 'order',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type SliderScalarFieldEnum = (typeof SliderScalarFieldEnum)[keyof typeof SliderScalarFieldEnum]
+
+
   export const ProductScalarFieldEnum: {
     id: 'id',
     name: 'name',
@@ -19214,7 +20432,8 @@ export namespace Prisma {
     description: 'description',
     image: 'image',
     parentId: 'parentId',
-    promotionId: 'promotionId'
+    promotionId: 'promotionId',
+    isActive: 'isActive'
   };
 
   export type CategoryScalarFieldEnum = (typeof CategoryScalarFieldEnum)[keyof typeof CategoryScalarFieldEnum]
@@ -19730,6 +20949,85 @@ export namespace Prisma {
     isDefault?: BoolWithAggregatesFilter<"Address"> | boolean
   }
 
+  export type SliderWhereInput = {
+    AND?: SliderWhereInput | SliderWhereInput[]
+    OR?: SliderWhereInput[]
+    NOT?: SliderWhereInput | SliderWhereInput[]
+    id?: IntFilter<"Slider"> | number
+    title?: StringFilter<"Slider"> | string
+    description?: StringNullableFilter<"Slider"> | string | null
+    image?: StringFilter<"Slider"> | string
+    link?: StringNullableFilter<"Slider"> | string | null
+    buttonText?: StringNullableFilter<"Slider"> | string | null
+    isActive?: BoolFilter<"Slider"> | boolean
+    order?: IntFilter<"Slider"> | number
+    createdAt?: DateTimeFilter<"Slider"> | Date | string
+    updatedAt?: DateTimeFilter<"Slider"> | Date | string
+  }
+
+  export type SliderOrderByWithRelationInput = {
+    id?: SortOrder
+    title?: SortOrder
+    description?: SortOrderInput | SortOrder
+    image?: SortOrder
+    link?: SortOrderInput | SortOrder
+    buttonText?: SortOrderInput | SortOrder
+    isActive?: SortOrder
+    order?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SliderWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    AND?: SliderWhereInput | SliderWhereInput[]
+    OR?: SliderWhereInput[]
+    NOT?: SliderWhereInput | SliderWhereInput[]
+    title?: StringFilter<"Slider"> | string
+    description?: StringNullableFilter<"Slider"> | string | null
+    image?: StringFilter<"Slider"> | string
+    link?: StringNullableFilter<"Slider"> | string | null
+    buttonText?: StringNullableFilter<"Slider"> | string | null
+    isActive?: BoolFilter<"Slider"> | boolean
+    order?: IntFilter<"Slider"> | number
+    createdAt?: DateTimeFilter<"Slider"> | Date | string
+    updatedAt?: DateTimeFilter<"Slider"> | Date | string
+  }, "id">
+
+  export type SliderOrderByWithAggregationInput = {
+    id?: SortOrder
+    title?: SortOrder
+    description?: SortOrderInput | SortOrder
+    image?: SortOrder
+    link?: SortOrderInput | SortOrder
+    buttonText?: SortOrderInput | SortOrder
+    isActive?: SortOrder
+    order?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: SliderCountOrderByAggregateInput
+    _avg?: SliderAvgOrderByAggregateInput
+    _max?: SliderMaxOrderByAggregateInput
+    _min?: SliderMinOrderByAggregateInput
+    _sum?: SliderSumOrderByAggregateInput
+  }
+
+  export type SliderScalarWhereWithAggregatesInput = {
+    AND?: SliderScalarWhereWithAggregatesInput | SliderScalarWhereWithAggregatesInput[]
+    OR?: SliderScalarWhereWithAggregatesInput[]
+    NOT?: SliderScalarWhereWithAggregatesInput | SliderScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"Slider"> | number
+    title?: StringWithAggregatesFilter<"Slider"> | string
+    description?: StringNullableWithAggregatesFilter<"Slider"> | string | null
+    image?: StringWithAggregatesFilter<"Slider"> | string
+    link?: StringNullableWithAggregatesFilter<"Slider"> | string | null
+    buttonText?: StringNullableWithAggregatesFilter<"Slider"> | string | null
+    isActive?: BoolWithAggregatesFilter<"Slider"> | boolean
+    order?: IntWithAggregatesFilter<"Slider"> | number
+    createdAt?: DateTimeWithAggregatesFilter<"Slider"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Slider"> | Date | string
+  }
+
   export type ProductWhereInput = {
     AND?: ProductWhereInput | ProductWhereInput[]
     OR?: ProductWhereInput[]
@@ -19882,6 +21180,7 @@ export namespace Prisma {
     image?: StringFilter<"Category"> | string
     parentId?: IntNullableFilter<"Category"> | number | null
     promotionId?: IntNullableFilter<"Category"> | number | null
+    isActive?: BoolFilter<"Category"> | boolean
     parent?: XOR<CategoryNullableScalarRelationFilter, CategoryWhereInput> | null
     children?: CategoryListRelationFilter
     Promotion?: XOR<PromotionNullableScalarRelationFilter, PromotionWhereInput> | null
@@ -19897,6 +21196,7 @@ export namespace Prisma {
     image?: SortOrder
     parentId?: SortOrderInput | SortOrder
     promotionId?: SortOrderInput | SortOrder
+    isActive?: SortOrder
     parent?: CategoryOrderByWithRelationInput
     children?: CategoryOrderByRelationAggregateInput
     Promotion?: PromotionOrderByWithRelationInput
@@ -19915,6 +21215,7 @@ export namespace Prisma {
     image?: StringFilter<"Category"> | string
     parentId?: IntNullableFilter<"Category"> | number | null
     promotionId?: IntNullableFilter<"Category"> | number | null
+    isActive?: BoolFilter<"Category"> | boolean
     parent?: XOR<CategoryNullableScalarRelationFilter, CategoryWhereInput> | null
     children?: CategoryListRelationFilter
     Promotion?: XOR<PromotionNullableScalarRelationFilter, PromotionWhereInput> | null
@@ -19930,6 +21231,7 @@ export namespace Prisma {
     image?: SortOrder
     parentId?: SortOrderInput | SortOrder
     promotionId?: SortOrderInput | SortOrder
+    isActive?: SortOrder
     _count?: CategoryCountOrderByAggregateInput
     _avg?: CategoryAvgOrderByAggregateInput
     _max?: CategoryMaxOrderByAggregateInput
@@ -19948,6 +21250,7 @@ export namespace Prisma {
     image?: StringWithAggregatesFilter<"Category"> | string
     parentId?: IntNullableWithAggregatesFilter<"Category"> | number | null
     promotionId?: IntNullableWithAggregatesFilter<"Category"> | number | null
+    isActive?: BoolWithAggregatesFilter<"Category"> | boolean
   }
 
   export type ReviewWhereInput = {
@@ -20819,6 +22122,94 @@ export namespace Prisma {
     isDefault?: BoolFieldUpdateOperationsInput | boolean
   }
 
+  export type SliderCreateInput = {
+    title: string
+    description?: string | null
+    image: string
+    link?: string | null
+    buttonText?: string | null
+    isActive?: boolean
+    order?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type SliderUncheckedCreateInput = {
+    id?: number
+    title: string
+    description?: string | null
+    image: string
+    link?: string | null
+    buttonText?: string | null
+    isActive?: boolean
+    order?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type SliderUpdateInput = {
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: StringFieldUpdateOperationsInput | string
+    link?: NullableStringFieldUpdateOperationsInput | string | null
+    buttonText?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    order?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SliderUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: StringFieldUpdateOperationsInput | string
+    link?: NullableStringFieldUpdateOperationsInput | string | null
+    buttonText?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    order?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SliderCreateManyInput = {
+    id?: number
+    title: string
+    description?: string | null
+    image: string
+    link?: string | null
+    buttonText?: string | null
+    isActive?: boolean
+    order?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type SliderUpdateManyMutationInput = {
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: StringFieldUpdateOperationsInput | string
+    link?: NullableStringFieldUpdateOperationsInput | string | null
+    buttonText?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    order?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SliderUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: StringFieldUpdateOperationsInput | string
+    link?: NullableStringFieldUpdateOperationsInput | string | null
+    buttonText?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    order?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type ProductCreateInput = {
     name: string
     description: string
@@ -20987,6 +22378,7 @@ export namespace Prisma {
     slug: string
     description: string
     image: string
+    isActive?: boolean
     parent?: CategoryCreateNestedOneWithoutChildrenInput
     children?: CategoryCreateNestedManyWithoutParentInput
     Promotion?: PromotionCreateNestedOneWithoutCategoryInput
@@ -21002,6 +22394,7 @@ export namespace Prisma {
     image: string
     parentId?: number | null
     promotionId?: number | null
+    isActive?: boolean
     children?: CategoryUncheckedCreateNestedManyWithoutParentInput
     products?: ProductUncheckedCreateNestedManyWithoutCategoriesInput
     promotions?: PromotionUncheckedCreateNestedManyWithoutCategoriesInput
@@ -21012,6 +22405,7 @@ export namespace Prisma {
     slug?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     image?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
     parent?: CategoryUpdateOneWithoutChildrenNestedInput
     children?: CategoryUpdateManyWithoutParentNestedInput
     Promotion?: PromotionUpdateOneWithoutCategoryNestedInput
@@ -21027,6 +22421,7 @@ export namespace Prisma {
     image?: StringFieldUpdateOperationsInput | string
     parentId?: NullableIntFieldUpdateOperationsInput | number | null
     promotionId?: NullableIntFieldUpdateOperationsInput | number | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
     children?: CategoryUncheckedUpdateManyWithoutParentNestedInput
     products?: ProductUncheckedUpdateManyWithoutCategoriesNestedInput
     promotions?: PromotionUncheckedUpdateManyWithoutCategoriesNestedInput
@@ -21040,6 +22435,7 @@ export namespace Prisma {
     image: string
     parentId?: number | null
     promotionId?: number | null
+    isActive?: boolean
   }
 
   export type CategoryUpdateManyMutationInput = {
@@ -21047,6 +22443,7 @@ export namespace Prisma {
     slug?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     image?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type CategoryUncheckedUpdateManyInput = {
@@ -21057,6 +22454,7 @@ export namespace Prisma {
     image?: StringFieldUpdateOperationsInput | string
     parentId?: NullableIntFieldUpdateOperationsInput | number | null
     promotionId?: NullableIntFieldUpdateOperationsInput | number | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type ReviewCreateInput = {
@@ -21964,6 +23362,55 @@ export namespace Prisma {
     _max?: NestedBoolFilter<$PrismaModel>
   }
 
+  export type SliderCountOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    image?: SortOrder
+    link?: SortOrder
+    buttonText?: SortOrder
+    isActive?: SortOrder
+    order?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SliderAvgOrderByAggregateInput = {
+    id?: SortOrder
+    order?: SortOrder
+  }
+
+  export type SliderMaxOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    image?: SortOrder
+    link?: SortOrder
+    buttonText?: SortOrder
+    isActive?: SortOrder
+    order?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SliderMinOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    image?: SortOrder
+    link?: SortOrder
+    buttonText?: SortOrder
+    isActive?: SortOrder
+    order?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SliderSumOrderByAggregateInput = {
+    id?: SortOrder
+    order?: SortOrder
+  }
+
   export type FloatFilter<$PrismaModel = never> = {
     equals?: number | FloatFieldRefInput<$PrismaModel>
     in?: number[] | ListFloatFieldRefInput<$PrismaModel>
@@ -22206,6 +23653,7 @@ export namespace Prisma {
     image?: SortOrder
     parentId?: SortOrder
     promotionId?: SortOrder
+    isActive?: SortOrder
   }
 
   export type CategoryAvgOrderByAggregateInput = {
@@ -22222,6 +23670,7 @@ export namespace Prisma {
     image?: SortOrder
     parentId?: SortOrder
     promotionId?: SortOrder
+    isActive?: SortOrder
   }
 
   export type CategoryMinOrderByAggregateInput = {
@@ -22232,6 +23681,7 @@ export namespace Prisma {
     image?: SortOrder
     parentId?: SortOrder
     promotionId?: SortOrder
+    isActive?: SortOrder
   }
 
   export type CategorySumOrderByAggregateInput = {
@@ -24965,6 +26415,7 @@ export namespace Prisma {
     slug: string
     description: string
     image: string
+    isActive?: boolean
     parent?: CategoryCreateNestedOneWithoutChildrenInput
     children?: CategoryCreateNestedManyWithoutParentInput
     Promotion?: PromotionCreateNestedOneWithoutCategoryInput
@@ -24979,6 +26430,7 @@ export namespace Prisma {
     image: string
     parentId?: number | null
     promotionId?: number | null
+    isActive?: boolean
     children?: CategoryUncheckedCreateNestedManyWithoutParentInput
     promotions?: PromotionUncheckedCreateNestedManyWithoutCategoriesInput
   }
@@ -25232,6 +26684,7 @@ export namespace Prisma {
     image?: StringFilter<"Category"> | string
     parentId?: IntNullableFilter<"Category"> | number | null
     promotionId?: IntNullableFilter<"Category"> | number | null
+    isActive?: BoolFilter<"Category"> | boolean
   }
 
   export type PromotionUpsertWithWhereUniqueWithoutProductsInput = {
@@ -25270,6 +26723,7 @@ export namespace Prisma {
     slug: string
     description: string
     image: string
+    isActive?: boolean
     parent?: CategoryCreateNestedOneWithoutChildrenInput
     Promotion?: PromotionCreateNestedOneWithoutCategoryInput
     products?: ProductCreateNestedManyWithoutCategoriesInput
@@ -25284,6 +26738,7 @@ export namespace Prisma {
     image: string
     parentId?: number | null
     promotionId?: number | null
+    isActive?: boolean
     products?: ProductUncheckedCreateNestedManyWithoutCategoriesInput
     promotions?: PromotionUncheckedCreateNestedManyWithoutCategoriesInput
   }
@@ -25298,6 +26753,7 @@ export namespace Prisma {
     slug: string
     description: string
     image: string
+    isActive?: boolean
     children?: CategoryCreateNestedManyWithoutParentInput
     Promotion?: PromotionCreateNestedOneWithoutCategoryInput
     products?: ProductCreateNestedManyWithoutCategoriesInput
@@ -25311,6 +26767,7 @@ export namespace Prisma {
     description: string
     image: string
     promotionId?: number | null
+    isActive?: boolean
     children?: CategoryUncheckedCreateNestedManyWithoutParentInput
     products?: ProductUncheckedCreateNestedManyWithoutCategoriesInput
     promotions?: PromotionUncheckedCreateNestedManyWithoutCategoriesInput
@@ -25466,6 +26923,7 @@ export namespace Prisma {
     slug?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     image?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
     parent?: CategoryUpdateOneWithoutChildrenNestedInput
     Promotion?: PromotionUpdateOneWithoutCategoryNestedInput
     products?: ProductUpdateManyWithoutCategoriesNestedInput
@@ -25480,6 +26938,7 @@ export namespace Prisma {
     image?: StringFieldUpdateOperationsInput | string
     parentId?: NullableIntFieldUpdateOperationsInput | number | null
     promotionId?: NullableIntFieldUpdateOperationsInput | number | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
     products?: ProductUncheckedUpdateManyWithoutCategoriesNestedInput
     promotions?: PromotionUncheckedUpdateManyWithoutCategoriesNestedInput
   }
@@ -26859,6 +28318,7 @@ export namespace Prisma {
     slug: string
     description: string
     image: string
+    isActive?: boolean
     parent?: CategoryCreateNestedOneWithoutChildrenInput
     children?: CategoryCreateNestedManyWithoutParentInput
     products?: ProductCreateNestedManyWithoutCategoriesInput
@@ -26872,6 +28332,7 @@ export namespace Prisma {
     description: string
     image: string
     parentId?: number | null
+    isActive?: boolean
     children?: CategoryUncheckedCreateNestedManyWithoutParentInput
     products?: ProductUncheckedCreateNestedManyWithoutCategoriesInput
     promotions?: PromotionUncheckedCreateNestedManyWithoutCategoriesInput
@@ -26953,6 +28414,7 @@ export namespace Prisma {
     slug: string
     description: string
     image: string
+    isActive?: boolean
     parent?: CategoryCreateNestedOneWithoutChildrenInput
     children?: CategoryCreateNestedManyWithoutParentInput
     Promotion?: PromotionCreateNestedOneWithoutCategoryInput
@@ -26967,6 +28429,7 @@ export namespace Prisma {
     image: string
     parentId?: number | null
     promotionId?: number | null
+    isActive?: boolean
     children?: CategoryUncheckedCreateNestedManyWithoutParentInput
     products?: ProductUncheckedCreateNestedManyWithoutCategoriesInput
   }
@@ -27530,6 +28993,7 @@ export namespace Prisma {
     slug?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     image?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
     parent?: CategoryUpdateOneWithoutChildrenNestedInput
     children?: CategoryUpdateManyWithoutParentNestedInput
     Promotion?: PromotionUpdateOneWithoutCategoryNestedInput
@@ -27544,6 +29008,7 @@ export namespace Prisma {
     image?: StringFieldUpdateOperationsInput | string
     parentId?: NullableIntFieldUpdateOperationsInput | number | null
     promotionId?: NullableIntFieldUpdateOperationsInput | number | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
     children?: CategoryUncheckedUpdateManyWithoutParentNestedInput
     promotions?: PromotionUncheckedUpdateManyWithoutCategoriesNestedInput
   }
@@ -27556,6 +29021,7 @@ export namespace Prisma {
     image?: StringFieldUpdateOperationsInput | string
     parentId?: NullableIntFieldUpdateOperationsInput | number | null
     promotionId?: NullableIntFieldUpdateOperationsInput | number | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type PromotionUpdateWithoutProductsInput = {
@@ -27606,6 +29072,7 @@ export namespace Prisma {
     description: string
     image: string
     promotionId?: number | null
+    isActive?: boolean
   }
 
   export type CategoryUpdateWithoutParentInput = {
@@ -27613,6 +29080,7 @@ export namespace Prisma {
     slug?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     image?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
     children?: CategoryUpdateManyWithoutParentNestedInput
     Promotion?: PromotionUpdateOneWithoutCategoryNestedInput
     products?: ProductUpdateManyWithoutCategoriesNestedInput
@@ -27626,6 +29094,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     image?: StringFieldUpdateOperationsInput | string
     promotionId?: NullableIntFieldUpdateOperationsInput | number | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
     children?: CategoryUncheckedUpdateManyWithoutParentNestedInput
     products?: ProductUncheckedUpdateManyWithoutCategoriesNestedInput
     promotions?: PromotionUncheckedUpdateManyWithoutCategoriesNestedInput
@@ -27638,6 +29107,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     image?: StringFieldUpdateOperationsInput | string
     promotionId?: NullableIntFieldUpdateOperationsInput | number | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type ProductUpdateWithoutCategoriesInput = {
@@ -27844,6 +29314,7 @@ export namespace Prisma {
     description: string
     image: string
     parentId?: number | null
+    isActive?: boolean
   }
 
   export type ProductCreateManyPromotionInput = {
@@ -27870,6 +29341,7 @@ export namespace Prisma {
     slug?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     image?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
     parent?: CategoryUpdateOneWithoutChildrenNestedInput
     children?: CategoryUpdateManyWithoutParentNestedInput
     products?: ProductUpdateManyWithoutCategoriesNestedInput
@@ -27883,6 +29355,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     image?: StringFieldUpdateOperationsInput | string
     parentId?: NullableIntFieldUpdateOperationsInput | number | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
     children?: CategoryUncheckedUpdateManyWithoutParentNestedInput
     products?: ProductUncheckedUpdateManyWithoutCategoriesNestedInput
     promotions?: PromotionUncheckedUpdateManyWithoutCategoriesNestedInput
@@ -27895,6 +29368,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     image?: StringFieldUpdateOperationsInput | string
     parentId?: NullableIntFieldUpdateOperationsInput | number | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type ProductUpdateWithoutPromotionInput = {
@@ -27972,6 +29446,7 @@ export namespace Prisma {
     slug?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     image?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
     parent?: CategoryUpdateOneWithoutChildrenNestedInput
     children?: CategoryUpdateManyWithoutParentNestedInput
     Promotion?: PromotionUpdateOneWithoutCategoryNestedInput
@@ -27986,6 +29461,7 @@ export namespace Prisma {
     image?: StringFieldUpdateOperationsInput | string
     parentId?: NullableIntFieldUpdateOperationsInput | number | null
     promotionId?: NullableIntFieldUpdateOperationsInput | number | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
     children?: CategoryUncheckedUpdateManyWithoutParentNestedInput
     products?: ProductUncheckedUpdateManyWithoutCategoriesNestedInput
   }
@@ -27998,6 +29474,7 @@ export namespace Prisma {
     image?: StringFieldUpdateOperationsInput | string
     parentId?: NullableIntFieldUpdateOperationsInput | number | null
     promotionId?: NullableIntFieldUpdateOperationsInput | number | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type ProductUpdateWithoutPromotionsInput = {

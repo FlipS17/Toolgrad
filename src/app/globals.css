@@ -4,3 +4,78 @@
 	--background: #ffffff;
 	--foreground: #171717;
 }
+/* Стили для пагинации */
+.swiper-bullet {
+	background: rgba(255, 255, 255, 0.5);
+	width: 10px;
+	height: 10px;
+	margin: 0 4px;
+	border-radius: 50%;
+	display: inline-block;
+	transition: all 0.3s ease;
+}
+
+.swiper-bullet-active {
+	background: #f97316; /* orange-500 */
+	transform: scale(1.2);
+	opacity: 1;
+}
+
+/* Позиция пагинации */
+.swiper-pagination {
+	bottom: 10px !important;
+}
+
+/* Адаптив для маленьких экранов */
+@media (max-width: 640px) {
+	.swiper-bullet {
+		width: 8px;
+		height: 8px;
+		margin: 0 3px;
+	}
+}
+
+/* Стили для поиска */
+.search-input {
+	transition: all 0.3s ease;
+}
+
+.search-input:focus {
+	box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.3);
+}
+
+.category-card {
+	transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.category-card:hover {
+	transform: translateY(-5px);
+}
+
+/* Стили для карточек товаров */
+.product-card {
+	transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.product-card:hover {
+	transform: translateY(-5px);
+	box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Анимация кнопок */
+.btn-orange {
+	transition: background-color 0.2s ease;
+}
+
+.btn-orange:hover {
+	background-color: #ea580c;
+}
+
+/* Адаптивные изображения */
+.product-image {
+	transition: transform 0.3s ease;
+}
+
+.product-card:hover .product-image {
+	transform: scale(1.05);
+}

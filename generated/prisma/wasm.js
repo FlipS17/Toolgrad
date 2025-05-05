@@ -154,6 +154,19 @@ exports.Prisma.AddressScalarFieldEnum = {
   isDefault: 'isDefault'
 };
 
+exports.Prisma.SliderScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  description: 'description',
+  image: 'image',
+  link: 'link',
+  buttonText: 'buttonText',
+  isActive: 'isActive',
+  order: 'order',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.ProductScalarFieldEnum = {
   id: 'id',
   name: 'name',
@@ -181,7 +194,8 @@ exports.Prisma.CategoryScalarFieldEnum = {
   description: 'description',
   image: 'image',
   parentId: 'parentId',
-  promotionId: 'promotionId'
+  promotionId: 'promotionId',
+  isActive: 'isActive'
 };
 
 exports.Prisma.ReviewScalarFieldEnum = {
@@ -311,6 +325,7 @@ exports.Prisma.ModelName = {
   Brand: 'Brand',
   User: 'User',
   Address: 'Address',
+  Slider: 'Slider',
   Product: 'Product',
   Category: 'Category',
   Review: 'Review',
