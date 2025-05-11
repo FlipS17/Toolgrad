@@ -1,7 +1,9 @@
+import AuthForm from '@/app/account/components/AuthForm'
+
 export default function AccountPage() {
 	return (
-		<div className='mx-auto container text-center mt-6 text-2xl font-bold'>
-			Личный кабинет
+		<div className='flex items-center justify-center min-h-screen bg-gray-50'>
+			<AuthForm />
 		</div>
 	)
 }

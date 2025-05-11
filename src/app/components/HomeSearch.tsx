@@ -60,23 +60,45 @@ export default function HomeSearch() {
 	return (
 		<div className='relative max-w-3xl mx-auto' ref={ref}>
 			<form onSubmit={handleSubmit}>
-				<input
-					type='text'
-					value={query}
-					onChange={e => setQuery(e.target.value)}
-					onFocus={() => {
-						if (results.length > 0) setShowDropdown(true)
-					}}
-					placeholder='Ищите инструменты...'
-					className='w-full px-6 py-4 rounded-full border border-gray-300 focus:ring-[#F89514] shadow-lg focus:outline-none'
-				/>
+				<div className='relative'>
+					<input
+						type='text'
+						value={query}
+						onChange={e => setQuery(e.target.value)}
+						onFocus={() => {
+							if (results.length > 0) setShowDropdown(true)
+						}}
+						placeholder='Поиск инструментов...'
+						className='w-full px-5 py-3 pl-10 pr-12 rounded-xl border border-gray-200 focus:ring-2 focus:ring-[#F89514] focus:border-transparent shadow-sm transition-all duration-200 hover:shadow-md focus:shadow-md outline-none'
+					/>
+					<div className='absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400'>
+						<svg
+							xmlns='http://www.w3.org/2000/svg'
+							width='18'
+							height='18'
+							viewBox='0 0 24 24'
+							fill='none'
+							stroke='currentColor'
+							strokeWidth='2'
+							strokeLinecap='round'
+							strokeLinejoin='round'
+						>
+							<circle cx='11' cy='11' r='8'></circle>
+							<line x1='21' y1='21' x2='16.65' y2='16.65'></line>
+						</svg>
+					</div>
+				</div>
 			</form>
 
 			{showDropdown && (
-				<div className='absolute bg-white shadow-lg w-full mt-2 rounded-xl z-50 max-h-[300px] overflow-y-auto'>
-					{loading && <p className='p-4 text-gray-500'>Загрузка...</p>}
+				<div className='absolute bg-white shadow-xl w-full mt-2 rounded-xl z-50 max-h-[400px] overflow-y-auto border border-gray-100'>
+					{loading && (
+						<div className='p-4 flex justify-center'>
+							<div className='animate-spin rounded-full h-6 w-6 border-b-2 border-[#F89514]'></div>
+						</div>
+					)}
 					{!loading && results.length === 0 && (
-						<p className='p-4 text-gray-500'>Ничего не найдено</p>
+						<p className='p-4 text-gray-500 text-center'>Ничего не найдено</p>
 					)}
 					{results.map(product => (
 						<SearchCard key={product.id} product={product} />

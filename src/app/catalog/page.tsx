@@ -89,7 +89,7 @@ export default function CatalogPage() {
 				</div>
 
 				<div className='flex flex-col lg:flex-row gap-8'>
-					<aside className='hidden lg:block w-72 sticky top-12 self-start'>
+					<aside className='hidden lg:block w-72 self-start'>
 						<div className='bg-white border border-gray-200 rounded-2xl p-5 shadow-sm'>
 							<h2 className='text-lg font-bold mb-5 text-gray-800'>Фильтры</h2>
 							<CatalogFilters brands={brands} />
@@ -140,12 +140,17 @@ export default function CatalogPage() {
 
 				{/* Мобильные фильтры */}
 				{mobileFiltersOpen && (
-					<div className='fixed inset-0 bg-black/50 z-40 flex justify-end'>
-						<div className='bg-white w-80 p-6 h-full overflow-y-auto'>
-							<div className='flex justify-between items-center mb-4'>
-								<h2 className='text-lg font-bold'>Фильтры</h2>
-								<button onClick={() => setMobileFiltersOpen(false)}>✕</button>
-							</div>
+					<div className='fixed inset-0 z-60 bg-white flex flex-col p-4'>
+						<div className='flex justify-between items-center mb-4'>
+							<h2 className='text-lg font-bold'>Фильтры</h2>
+							<button
+								onClick={() => setMobileFiltersOpen(false)}
+								className='text-2xl'
+							>
+								✕
+							</button>
+						</div>
+						<div className='flex-1 overflow-y-auto'>
 							<CatalogFilters
 								brands={brands}
 								isMobile

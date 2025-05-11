@@ -1,5 +1,7 @@
 import Footer from '@/app/components/Footer'
 import Header from '@/app/components/Header'
+import { NotificationProvider } from '@/app/components/NotificationProvider'
+import SessionProviderWrapper from '@/app/components/SessionProviderWrapper'
 import type { Metadata } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
 import './globals.css'
@@ -26,13 +28,17 @@ export default function RootLayout({
 	children: React.ReactNode
 }>) {
 	return (
-		<html lang='en' className='h-full'>
+		<html lang='ru' className='h-full'>
 			<body
 				className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-full bg-gray-50`}
 			>
-				<Header />
-				<main className='flex-grow'>{children}</main>
-				<Footer />
+				<SessionProviderWrapper>
+					<NotificationProvider>
+						<Header />
+						<main className='flex-grow'>{children}</main>
+						<Footer />
+					</NotificationProvider>
+				</SessionProviderWrapper>
 			</body>
 		</html>
 	)

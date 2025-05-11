@@ -1,11 +1,14 @@
 'use client'
 
+import { useSession } from 'next-auth/react'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 
 export default function Header() {
 	const [isMenuOpen, setIsMenuOpen] = useState(false)
 	const [isScrolled, setIsScrolled] = useState(false)
+	const { data: session } = useSession()
+	const userName = session?.user?.name
 
 	useEffect(() => {
 		const handleScroll = () => {
@@ -16,14 +19,31 @@ export default function Header() {
 	}, [])
 
 	const toggleMenu = () => {
-		setIsMenuOpen(!isMenuOpen)
-		document.body.style.overflow = isMenuOpen ? 'auto' : 'hidden'
+		setIsMenuOpen(prev => {
+			const newState = !prev
+
+			if (newState) {
+				document.body.style.overflow = 'hidden'
+				document.body.style.position = 'fixed'
+				document.body.style.top = `-${window.scrollY}px`
+				document.body.style.width = '100%'
+			} else {
+				const scrollY = document.body.style.top
+				document.body.style.overflow = ''
+				document.body.style.position = ''
+				document.body.style.top = ''
+				document.body.style.width = ''
+				window.scrollTo(0, parseInt(scrollY || '0') * -1)
+			}
+
+			return newState
+		})
 	}
 
 	return (
 		<>
 			<header
-				className={`sticky top-0 z-50 bg-white shadow-sm transition-all ${
+				className={`sticky top-0 z-40 bg-white shadow-sm transition-all ${
 					isScrolled ? 'shadow-md' : ''
 				}`}
 			>
@@ -39,11 +59,11 @@ export default function Header() {
 							<span>+7 (925) 616-09-95</span>
 						</div>
 						<Link
-							href='/account'
+							href={userName ? '/account/profile' : '/account'}
 							className='flex items-center space-x-2 hover:text-gray-600 transition'
 						>
 							<AccountIcon />
-							<span>Личный кабинет</span>
+							<span>{userName || 'Личный кабинет'}</span>
 						</Link>
 					</div>
 				</div>
@@ -52,8 +72,10 @@ export default function Header() {
 				<div className='container mx-auto py-4 px-4'>
 					<div className='flex justify-between items-center'>
 						{/* Логотип */}
-						<Link href='/' className='text-2xl font-bold'>
-							<Logo />
+						<Link href='/' className='block'>
+							<div className='w-24 md:w-24'>
+								<Logo />
+							</div>
 						</Link>
 
 						{/* Навигация для десктопа */}
@@ -458,7 +480,12 @@ function CartIcon() {
 
 function Logo() {
 	return (
-		<svg xmlns='http://www.w3.org/2000/svg' width='90' height='65' fill='none'>
+		<svg
+			xmlns='http://www.w3.org/2000/svg'
+			className='w-[90px] h-[65px]'
+			viewBox='0 0 90 65'
+			fill='none'
+		>
 			<g clipPath='url(#a)'>
 				<path
 					fill='#F89514'

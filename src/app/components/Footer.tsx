@@ -5,11 +5,10 @@ export default function Footer() {
 		// bg-gray-800 text-white
 		<footer className='bg-white border-t border-gray-200'>
 			<div className='container mx-auto px-4 py-12'>
-				<div className='grid grid-cols-1 md:grid-cols-5 gap-8'>
+				<div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8'>
 					{/* Лого и описание */}
-					<div className='md:col-span-2'>
+					<div className='lg:col-span-2'>
 						<div className='flex items-center mb-4'>
-							{/* Заглушка для логотипа */}
 							<Logo />
 						</div>
 						<p className='text-gray-500 mt-2 max-w-md'>
@@ -31,7 +30,7 @@ export default function Footer() {
 						</div>
 					</div>
 
-					{/* Навигация */}
+					{/* Компания */}
 					<div>
 						<h3 className='text-sm font-semibold text-gray-900 uppercase tracking-wider mb-4'>
 							Компания
@@ -74,11 +73,11 @@ export default function Footer() {
 					</div>
 
 					{/* Контакты */}
-					<div>
+					<div className='sm:col-span-2 lg:col-span-1'>
 						<h3 className='text-sm font-semibold text-gray-900 uppercase tracking-wider mb-4'>
 							Контакты
 						</h3>
-						<ul className='space-y-3'>
+						<ul className='space-y-3 break-words'>
 							<li>
 								<ContactItem icon={<LocationIcon />}>
 									Москва, ул. Примерная 123
@@ -97,11 +96,11 @@ export default function Footer() {
 				</div>
 
 				{/* Копирайт */}
-				<div className='mt-16 pt-8 border-t border-gray-200 flex flex-col md:flex-row justify-between items-center'>
-					<p className='text-gray-500 text-sm'>
+				<div className='mt-16 pt-8 border-t border-gray-200 flex flex-col md:flex-row justify-between items-center gap-4'>
+					<p className='text-gray-500 text-sm text-center md:text-left'>
 						© {new Date().getFullYear()} ToolGrad. Все права защищены.
 					</p>
-					<div className='flex space-x-6 mt-4 md:mt-0'>
+					<div className='flex flex-wrap justify-center gap-x-6 gap-y-2'>
 						<FooterLink href='/privacy' small>
 							Конфиденциальность
 						</FooterLink>

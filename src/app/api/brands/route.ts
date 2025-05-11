@@ -1,4 +1,3 @@
-// app/api/brands/route.ts
 import { PrismaClient } from '@/../generated/prisma'
 import { NextResponse } from 'next/server'
 

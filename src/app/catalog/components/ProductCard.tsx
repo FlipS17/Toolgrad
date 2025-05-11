@@ -27,56 +27,66 @@ export default function ProductCard({
 	onToggleFavorite,
 }: ProductCardProps) {
 	return (
-		<div className='relative bg-white rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-all duration-300 group'>
-			<Link href={`/product/${product.id}`} className='block'>
-				<div className='relative w-full aspect-[3/4] bg-gray-50 flex items-center justify-center p-4'>
-					<Image
-						src={product.images[0] || '/placeholder.png'}
-						alt={product.name}
-						fill
-						className='object-contain transition-transform duration-300 group-hover:scale-[1.03]'
-						sizes='(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw'
-					/>
+		<div className='relative bg-white rounded-lg border border-gray-100 overflow-hidden shadow-sm hover:shadow-md transition-all duration-200 group w-full h-full flex flex-col'>
+			{/* Изображение (фиксированная высота) */}
+			<Link href={`/product/${product.id}`} className='block flex-shrink-0'>
+				<div className='relative w-full pt-[100%] bg-gray-50'>
+					<div className='absolute inset-0 flex items-center justify-center p-4'>
+						<Image
+							src={product.images[0] || '/placeholder.png'}
+							alt={product.name}
+							fill
+							className='object-contain transition-transform duration-200 group-hover:scale-[1.03]'
+							sizes='(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw'
+							priority={false}
+						/>
+					</div>
 				</div>
 			</Link>
 
-			<div className='p-4'>
-				<Link href={`/product/${product.id}`}>
-					<h3 className='text-sm font-semibold text-gray-900 line-clamp-2 mb-1 hover:text-[#F89514] transition'>
-						{product.name}
-					</h3>
-				</Link>
+			{/* Текстовая часть (гибкий блок) */}
+			<div className='p-3 flex-grow flex flex-col'>
+				<div className='mb-1 flex-grow'>
+					<Link href={`/product/${product.id}`}>
+						<h3 className='text-sm font-medium text-gray-800 line-clamp-2 hover:text-[#F89514] transition-colors'>
+							{product.name}
+						</h3>
+					</Link>
+				</div>
 
 				{product.brand && (
-					<p className='text-xs text-gray-500 mb-2'>{product.brand.name}</p>
+					<p className='text-xs text-gray-500 mb-1'>{product.brand.name}</p>
 				)}
 
-				<div className='flex flex-col'>
-					<span className='text-base font-bold text-[#F89514]'>
-						{product.price.toLocaleString('ru-RU')} ₽
-					</span>
+				<div className='mt-auto'>
 					{product.oldPrice && (
-						<span className='text-xs text-gray-400 line-through'>
+						<span className='text-xs text-gray-400 line-through block'>
 							{product.oldPrice.toLocaleString('ru-RU')} ₽
 						</span>
 					)}
+					<span className='text-base font-bold text-[#F89514]'>
+						{product.price.toLocaleString('ru-RU')} ₽
+					</span>
 				</div>
 			</div>
 
+			{/* Кнопка избранного (увеличенное сердечко) */}
 			<button
 				onClick={e => {
 					e.preventDefault()
 					onToggleFavorite(product.id)
 				}}
-				className='absolute top-3 right-3 bg-white/80 backdrop-blur-sm p-1.5 rounded-full shadow hover:scale-110 transition-all duration-200'
+				className={`absolute top-2 right-2 p-2 rounded-full transition-all duration-200 ${
+					isFavorite
+						? 'text-red-500 opacity-100'
+						: 'text-gray-300 opacity-0 group-hover:opacity-100 hover:text-red-400'
+				}`}
 				aria-label={
 					isFavorite ? 'Удалить из избранного' : 'Добавить в избранное'
 				}
 			>
 				<Heart
-					className={`w-4 h-4 ${
-						isFavorite ? 'text-red-500' : 'text-gray-400'
-					} transition-colors`}
+					className='w-5 h-5'
 					fill={isFavorite ? 'currentColor' : 'none'}
 					strokeWidth={1.5}
 				/>
