@@ -218,6 +218,18 @@ export default function AuthForm() {
 								})}
 								error={(errors.password as any)?.message}
 							/>
+							{mode === 'login' && (
+								<div className='text-right'>
+									<button
+										type='button'
+										onClick={() => router.push('/account/reset-password')}
+										className='text-sm text-[#F89514] hover:underline transition'
+									>
+										Забыли пароль?
+									</button>
+								</div>
+							)}
+
 							{mode === 'register' && (
 								<Input
 									label='Повторите пароль'
@@ -232,13 +244,6 @@ export default function AuthForm() {
 								type='submit'
 								label={mode === 'login' ? 'Войти' : 'Зарегистрироваться'}
 							/>
-							<button
-								type='button'
-								onClick={() => signIn('google')}
-								className='w-full text-center border border-gray-300 text-gray-700 rounded-xl py-2 mt-2 hover:text-[#F89514] hover:border-[#F89514] transition'
-							>
-								Войти через Google
-							</button>
 						</form>
 					</>
 				)}

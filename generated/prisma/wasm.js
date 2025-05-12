@@ -146,6 +146,14 @@ exports.Prisma.UserScalarFieldEnum = {
   role: 'role'
 };
 
+exports.Prisma.PasswordResetTokenScalarFieldEnum = {
+  id: 'id',
+  email: 'email',
+  token: 'token',
+  expires: 'expires',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.VerificationCodeScalarFieldEnum = {
   id: 'id',
   email: 'email',
@@ -348,6 +356,7 @@ exports.PaymentStatus = exports.$Enums.PaymentStatus = {
 exports.Prisma.ModelName = {
   Brand: 'Brand',
   User: 'User',
+  PasswordResetToken: 'PasswordResetToken',
   VerificationCode: 'VerificationCode',
   Address: 'Address',
   Slider: 'Slider',
