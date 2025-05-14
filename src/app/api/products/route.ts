@@ -11,8 +11,21 @@ export async function GET(req: NextRequest) {
 		const quantityFilter = searchParams.get('quantity')
 		const brandSlug = searchParams.get('brand')
 		const query = searchParams.get('q')
+		const idsParam = searchParams.get('ids')
 
 		const where: any = {}
+
+		// ✅ Обработка параметра ids (например: ?ids=1,2,3)
+		if (idsParam) {
+			const ids = idsParam
+				.split(',')
+				.map(id => parseInt(id))
+				.filter(id => !isNaN(id))
+
+			if (ids.length > 0) {
+				where.id = { in: ids }
+			}
+		}
 
 		if (query) {
 			where.name = { contains: query, mode: 'insensitive' }

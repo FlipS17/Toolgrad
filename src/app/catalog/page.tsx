@@ -4,7 +4,9 @@ import { Brand, Product } from '@/../generated/prisma'
 import CatalogFilters from '@/app/catalog/components/CatalogFilters'
 import CatalogSort from '@/app/catalog/components/CatalogSort'
 import ProductCard from '@/app/catalog/components/ProductCard'
+import { useNotification } from '@/app/components/NotificationProvider' // ✅
 import axios from 'axios'
+import { useSession } from 'next-auth/react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { FiFilter } from 'react-icons/fi'
@@ -15,6 +17,11 @@ export default function CatalogPage() {
 	const [brands, setBrands] = useState<Brand[]>([])
 	const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
 	const [totalPages, setTotalPages] = useState<number>(1)
+	const [favoriteIds, setFavoriteIds] = useState<number[]>([])
+
+	const { data: session } = useSession()
+	const isAuth = !!session?.user
+	const { notify } = useNotification() // ✅
 
 	const searchParams = useSearchParams()
 	const router = useRouter()
@@ -37,9 +44,47 @@ export default function CatalogPage() {
 	}
 
 	const resetFilters = () => {
-		const params = new URLSearchParams()
 		router.push(`?`)
 	}
+
+	const toggleFavorite = async (productId: number): Promise<boolean> => {
+		if (!isAuth) {
+			notify('Войдите в аккаунт, чтобы добавить в избранное', 'error')
+			return false
+		}
+
+		const isFav = favoriteIds.includes(productId)
+
+		try {
+			await axios.post('/api/favorites/toggle', { productId })
+
+			const updated = isFav
+				? favoriteIds.filter(id => id !== productId)
+				: [...favoriteIds, productId]
+
+			setFavoriteIds(updated)
+
+			return !isFav
+		} catch (err) {
+			console.error('Ошибка добавления в избранное:', err)
+			notify('Не удалось обновить избранное', 'error')
+			return isFav
+		}
+	}
+
+	useEffect(() => {
+		const fetchFavorites = async () => {
+			if (!isAuth) return
+
+			try {
+				const res = await axios.get('/api/favorites')
+				setFavoriteIds(res.data)
+			} catch (err) {
+				console.error('Ошибка загрузки избранного:', err)
+			}
+		}
+		fetchFavorites()
+	}, [isAuth])
 
 	useEffect(() => {
 		const fetchProducts = async () => {
@@ -53,7 +98,11 @@ export default function CatalogPage() {
 					q: searchQuery || undefined,
 				},
 			})
-			setProducts(res.data.data)
+			const productsWithDates = res.data.data.map((product: Product) => ({
+				...product,
+				createdAt: new Date(product.createdAt),
+			}))
+			setProducts(productsWithDates)
 			setTotalPages(res.data.totalPages || 1)
 		}
 
@@ -103,8 +152,9 @@ export default function CatalogPage() {
 									<ProductCard
 										key={product.id}
 										product={product}
-										isFavorite={false}
-										onToggleFavorite={() => {}}
+										isFavorite={favoriteIds.includes(product.id)}
+										onToggleFavorite={toggleFavorite}
+										onAddToCart={() => {}}
 									/>
 								))}
 							</div>

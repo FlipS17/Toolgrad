@@ -1,5 +1,6 @@
 'use client'
 
+import { useNotification } from '@/app/components/NotificationProvider'
 import { Heart } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -13,84 +14,121 @@ type Product = {
 	brand?: {
 		name: string
 	}
+	createdAt: Date
 }
 
 type ProductCardProps = {
 	product: Product
 	isFavorite: boolean
-	onToggleFavorite: (id: number) => void
+	onToggleFavorite: (id: number) => Promise<boolean>
+	onAddToCart: (id: number) => void
 }
 
 export default function ProductCard({
 	product,
 	isFavorite,
 	onToggleFavorite,
+	onAddToCart,
 }: ProductCardProps) {
+	const isNew =
+		Date.now() - new Date(product.createdAt).getTime() <
+		1000 * 60 * 60 * 24 * 14
+
+	const discount =
+		product.oldPrice && product.oldPrice > product.price
+			? Math.round(100 - (product.price / product.oldPrice) * 100)
+			: null
+
+	const { notify } = useNotification()
+
+	const handleFavoriteClick = async (e: React.MouseEvent) => {
+		e.preventDefault()
+		e.stopPropagation()
+
+		const wasAdded = await onToggleFavorite(product.id)
+		if (wasAdded) {
+			notify('Товар добавлен в избранное', 'success')
+		} else {
+			notify('Товар удалён из избранного', 'info')
+		}
+	}
+
 	return (
-		<div className='relative bg-white rounded-lg border border-gray-100 overflow-hidden shadow-sm hover:shadow-md transition-all duration-200 group w-full h-full flex flex-col'>
-			{/* Изображение (фиксированная высота) */}
-			<Link href={`/product/${product.id}`} className='block flex-shrink-0'>
-				<div className='relative w-full pt-[100%] bg-gray-50'>
-					<div className='absolute inset-0 flex items-center justify-center p-4'>
-						<Image
-							src={product.images[0] || '/placeholder.png'}
-							alt={product.name}
-							fill
-							className='object-contain transition-transform duration-200 group-hover:scale-[1.03]'
-							sizes='(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw'
-							priority={false}
-						/>
-					</div>
-				</div>
-			</Link>
-
-			{/* Текстовая часть (гибкий блок) */}
-			<div className='p-3 flex-grow flex flex-col'>
-				<div className='mb-1 flex-grow'>
-					<Link href={`/product/${product.id}`}>
-						<h3 className='text-sm font-medium text-gray-800 line-clamp-2 hover:text-[#F89514] transition-colors'>
-							{product.name}
-						</h3>
-					</Link>
-				</div>
-
-				{product.brand && (
-					<p className='text-xs text-gray-500 mb-1'>{product.brand.name}</p>
-				)}
-
-				<div className='mt-auto'>
-					{product.oldPrice && (
-						<span className='text-xs text-gray-400 line-through block'>
-							{product.oldPrice.toLocaleString('ru-RU')} ₽
-						</span>
-					)}
-					<span className='text-base font-bold text-[#F89514]'>
-						{product.price.toLocaleString('ru-RU')} ₽
+		<div className='relative flex flex-col bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition overflow-hidden w-full max-w-sm mx-auto group'>
+			{/* Бейджи */}
+			<div className='absolute top-2 left-2 z-10 flex flex-col gap-1'>
+				{isNew && (
+					<span className='bg-green-500 text-white font-semibold px-2 py-[2px] rounded text-[11px] sm:text-xs text-center min-w-[52px]'>
+						Новинка
 					</span>
-				</div>
+				)}
+				{discount && (
+					<span className='bg-red-500 text-white font-semibold px-2 py-[2px] rounded text-[11px] sm:text-xs text-center min-w-[52px]'>
+						-{discount}%
+					</span>
+				)}
 			</div>
 
-			{/* Кнопка избранного (увеличенное сердечко) */}
+			{/* Сердце */}
 			<button
-				onClick={e => {
-					e.preventDefault()
-					onToggleFavorite(product.id)
-				}}
-				className={`absolute top-2 right-2 p-2 rounded-full transition-all duration-200 ${
-					isFavorite
-						? 'text-red-500 opacity-100'
-						: 'text-gray-300 opacity-0 group-hover:opacity-100 hover:text-red-400'
-				}`}
+				onClick={handleFavoriteClick}
 				aria-label={
 					isFavorite ? 'Удалить из избранного' : 'Добавить в избранное'
 				}
+				className='absolute top-2 right-2 p-2 z-10 rounded-full cursor-pointer'
 			>
 				<Heart
 					className='w-5 h-5'
-					fill={isFavorite ? 'currentColor' : 'none'}
-					strokeWidth={1.5}
+					strokeWidth={isFavorite ? 0 : 1.5}
+					fill={isFavorite ? '#ef4444' : 'none'}
+					color={isFavorite ? '#ef4444' : '#d1d5db'}
 				/>
 			</button>
+
+			{/* Картинка */}
+			<div className='relative w-full pt-[80%] bg-gray-50'>
+				<Link href={`/product/${product.id}`} className='absolute inset-0'>
+					<Image
+						src={product.images[0] || '/placeholder.png'}
+						alt={product.name}
+						fill
+						className='object-contain p-4 transition-transform duration-200 group-hover:scale-105'
+						sizes='(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw'
+					/>
+				</Link>
+			</div>
+
+			{/* Контент */}
+			<div className='flex flex-col p-3 gap-2 flex-1'>
+				<Link href={`/product/${product.id}`}>
+					<h3 className='text-sm font-medium text-gray-900 line-clamp-2 hover:text-[#F89514] transition-colors'>
+						{product.name}
+					</h3>
+				</Link>
+
+				{product.brand?.name && (
+					<span className='text-xs text-gray-500'>{product.brand.name}</span>
+				)}
+
+				{/* Цена рядом со старой ценой */}
+				<div className='flex items-baseline gap-2 flex-wrap'>
+					<span className='text-base font-bold text-[#F89514]'>
+						{product.price.toLocaleString('ru-RU')} ₽
+					</span>
+					{product.oldPrice && product.oldPrice > product.price && (
+						<span className='text-xs text-gray-400 line-through'>
+							{product.oldPrice.toLocaleString('ru-RU')} ₽
+						</span>
+					)}
+				</div>
+
+				<button
+					onClick={() => onAddToCart(product.id)}
+					className='w-full mt-1 bg-[#F89514] text-white text-sm font-medium py-2 rounded hover:bg-[#d97c0f] transition'
+				>
+					В корзину
+				</button>
+			</div>
 		</div>
 	)
 }

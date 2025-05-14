@@ -125,12 +125,16 @@ export default function AuthForm() {
 		localStorage.removeItem('pending-registration')
 		setVerifying(false)
 		setTempData(null)
+
 		const res = await signIn('credentials', {
 			email: tempData.email,
 			password: tempData.userData.password,
 			redirect: false,
 		})
-		if (!res?.error) router.push('/account/profile')
+
+		if (!res?.error) {
+			router.push('/account/profile')
+		}
 	}
 
 	const handleCancelVerification = () => {
