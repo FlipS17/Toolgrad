@@ -1,3 +1,4 @@
+import { FavoriteProvider } from '@/app/components/FavoriteProvider' // ✅ добавлено
 import Footer from '@/app/components/Footer'
 import Header from '@/app/components/Header'
 import { NotificationProvider } from '@/app/components/NotificationProvider'
@@ -34,9 +35,11 @@ export default function RootLayout({
 			>
 				<SessionProviderWrapper>
 					<NotificationProvider>
-						<Header />
-						<main className='flex-grow'>{children}</main>
-						<Footer />
+						<FavoriteProvider>
+							<Header />
+							<main className='flex-grow'>{children}</main>
+							<Footer />
+						</FavoriteProvider>
 					</NotificationProvider>
 				</SessionProviderWrapper>
 			</body>

@@ -1,5 +1,6 @@
 'use client'
 
+import { useFavorites } from '@/app/components/FavoriteProvider'
 import { useSession } from 'next-auth/react'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
@@ -7,8 +8,26 @@ import { useEffect, useState } from 'react'
 export default function Header() {
 	const [isMenuOpen, setIsMenuOpen] = useState(false)
 	const [isScrolled, setIsScrolled] = useState(false)
+	const [favoriteCount, setFavoriteCount] = useState<number>(0)
 	const { data: session } = useSession()
+	const { favoriteIds } = useFavorites()
+
 	const userName = session?.user?.name
+
+	useEffect(() => {
+		const fetchFavorites = async () => {
+			if (!session?.user) return
+			try {
+				const res = await fetch('/api/favorites')
+				if (!res.ok) throw new Error('Ошибка запроса избранного')
+				const data = await res.json()
+				setFavoriteCount(data.length)
+			} catch (err) {
+				console.error('Не удалось загрузить избранное:', err)
+			}
+		}
+		fetchFavorites()
+	}, [session])
 
 	useEffect(() => {
 		const handleScroll = () => {
@@ -91,9 +110,11 @@ export default function Header() {
 						<div className='flex items-center space-x-6'>
 							<Link href='/favorite' className='relative'>
 								<HeartIcon />
-								<span className='absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center'>
-									0
-								</span>
+								{favoriteIds.length > 0 && (
+									<span className='absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center'>
+										{favoriteIds.length}
+									</span>
+								)}
 							</Link>
 							<Link href='/cart' className='relative'>
 								<CartIcon />

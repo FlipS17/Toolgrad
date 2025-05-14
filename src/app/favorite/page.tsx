@@ -1,26 +1,14 @@
 'use client'
 
 import { Product } from '@/../generated/prisma'
+import { useFavorites } from '@/app/components/FavoriteProvider'
 import axios from 'axios'
-import { useSession } from 'next-auth/react'
 import { useEffect, useState } from 'react'
 import ProductCard from '../catalog/components/ProductCard'
 
 export default function FavouritePage() {
-	const { data: session } = useSession()
-	const isAuth = !!session?.user
-
 	const [products, setProducts] = useState<Product[]>([])
-	const [favoriteIds, setFavoriteIds] = useState<number[]>([])
-
-	useEffect(() => {
-		const fetchFavorites = async () => {
-			if (!isAuth) return
-			const res = await axios.get('/api/favorites')
-			setFavoriteIds(res.data)
-		}
-		fetchFavorites()
-	}, [isAuth])
+	const { favoriteIds, toggleFavorite } = useFavorites()
 
 	useEffect(() => {
 		if (favoriteIds.length === 0) {
@@ -40,23 +28,6 @@ export default function FavouritePage() {
 		}
 		fetchProducts()
 	}, [favoriteIds])
-
-	const toggleFavorite = async (productId: number): Promise<boolean> => {
-		if (!isAuth) {
-			alert('Войдите в аккаунт, чтобы добавлять в избранное')
-			return false
-		}
-
-		const isFav = favoriteIds.includes(productId)
-		await axios.post('/api/favorites/toggle', { productId })
-
-		const updated = isFav
-			? favoriteIds.filter(id => id !== productId)
-			: [...favoriteIds, productId]
-
-		setFavoriteIds(updated)
-		return !isFav
-	}
 
 	return (
 		<div className='max-w-7xl mx-auto px-4 py-10'>
