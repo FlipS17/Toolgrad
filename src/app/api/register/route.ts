@@ -23,12 +23,15 @@ export async function POST(req: Request) {
 
 	const hashedPassword = await hash(password, 10)
 
+	const randomAvatarColorIndex = Math.floor(Math.random() * 4)
+
 	const user = await prisma.user.create({
 		data: {
 			email,
 			password: hashedPassword,
 			firstName,
 			lastName,
+			avatar: randomAvatarColorIndex,
 		},
 	})
 

@@ -10,7 +10,7 @@ interface User {
 	lastName: string
 	email: string
 	birthDate?: string
-	avatar?: string
+	avatar: number
 }
 
 export default function ProfilePage() {
@@ -38,6 +38,7 @@ export default function ProfilePage() {
 				birthDate={
 					user.birthDate ? new Date(user.birthDate).toLocaleDateString() : null
 				}
+				avatar={user.avatar}
 			/>
 		</div>
 	)

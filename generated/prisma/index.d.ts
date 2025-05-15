@@ -3925,10 +3925,12 @@ export namespace Prisma {
 
   export type UserAvgAggregateOutputType = {
     id: number | null
+    avatar: number | null
   }
 
   export type UserSumAggregateOutputType = {
     id: number | null
+    avatar: number | null
   }
 
   export type UserMinAggregateOutputType = {
@@ -3939,7 +3941,7 @@ export namespace Prisma {
     lastName: string | null
     patronymic: string | null
     phone: string | null
-    avatar: string | null
+    avatar: number | null
     birthDate: Date | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -3954,7 +3956,7 @@ export namespace Prisma {
     lastName: string | null
     patronymic: string | null
     phone: string | null
-    avatar: string | null
+    avatar: number | null
     birthDate: Date | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -3980,10 +3982,12 @@ export namespace Prisma {
 
   export type UserAvgAggregateInputType = {
     id?: true
+    avatar?: true
   }
 
   export type UserSumAggregateInputType = {
     id?: true
+    avatar?: true
   }
 
   export type UserMinAggregateInputType = {
@@ -4126,7 +4130,7 @@ export namespace Prisma {
     lastName: string
     patronymic: string | null
     phone: string | null
-    avatar: string | null
+    avatar: number
     birthDate: Date | null
     createdAt: Date
     updatedAt: Date
@@ -4247,7 +4251,7 @@ export namespace Prisma {
       lastName: string
       patronymic: string | null
       phone: string | null
-      avatar: string | null
+      avatar: number
       birthDate: Date | null
       createdAt: Date
       updatedAt: Date
@@ -4687,7 +4691,7 @@ export namespace Prisma {
     readonly lastName: FieldRef<"User", 'String'>
     readonly patronymic: FieldRef<"User", 'String'>
     readonly phone: FieldRef<"User", 'String'>
-    readonly avatar: FieldRef<"User", 'String'>
+    readonly avatar: FieldRef<"User", 'Int'>
     readonly birthDate: FieldRef<"User", 'DateTime'>
     readonly createdAt: FieldRef<"User", 'DateTime'>
     readonly updatedAt: FieldRef<"User", 'DateTime'>
@@ -23111,7 +23115,7 @@ export namespace Prisma {
     lastName?: StringFilter<"User"> | string
     patronymic?: StringNullableFilter<"User"> | string | null
     phone?: StringNullableFilter<"User"> | string | null
-    avatar?: StringNullableFilter<"User"> | string | null
+    avatar?: IntFilter<"User"> | number
     birthDate?: DateTimeNullableFilter<"User"> | Date | string | null
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
@@ -23131,7 +23135,7 @@ export namespace Prisma {
     lastName?: SortOrder
     patronymic?: SortOrderInput | SortOrder
     phone?: SortOrderInput | SortOrder
-    avatar?: SortOrderInput | SortOrder
+    avatar?: SortOrder
     birthDate?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -23154,7 +23158,7 @@ export namespace Prisma {
     firstName?: StringFilter<"User"> | string
     lastName?: StringFilter<"User"> | string
     patronymic?: StringNullableFilter<"User"> | string | null
-    avatar?: StringNullableFilter<"User"> | string | null
+    avatar?: IntFilter<"User"> | number
     birthDate?: DateTimeNullableFilter<"User"> | Date | string | null
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
@@ -23174,7 +23178,7 @@ export namespace Prisma {
     lastName?: SortOrder
     patronymic?: SortOrderInput | SortOrder
     phone?: SortOrderInput | SortOrder
-    avatar?: SortOrderInput | SortOrder
+    avatar?: SortOrder
     birthDate?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -23197,7 +23201,7 @@ export namespace Prisma {
     lastName?: StringWithAggregatesFilter<"User"> | string
     patronymic?: StringNullableWithAggregatesFilter<"User"> | string | null
     phone?: StringNullableWithAggregatesFilter<"User"> | string | null
-    avatar?: StringNullableWithAggregatesFilter<"User"> | string | null
+    avatar?: IntWithAggregatesFilter<"User"> | number
     birthDate?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
@@ -24383,7 +24387,7 @@ export namespace Prisma {
     lastName: string
     patronymic?: string | null
     phone?: string | null
-    avatar?: string | null
+    avatar: number
     birthDate?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -24403,7 +24407,7 @@ export namespace Prisma {
     lastName: string
     patronymic?: string | null
     phone?: string | null
-    avatar?: string | null
+    avatar: number
     birthDate?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -24422,7 +24426,7 @@ export namespace Prisma {
     lastName?: StringFieldUpdateOperationsInput | string
     patronymic?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
-    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    avatar?: IntFieldUpdateOperationsInput | number
     birthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -24442,7 +24446,7 @@ export namespace Prisma {
     lastName?: StringFieldUpdateOperationsInput | string
     patronymic?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
-    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    avatar?: IntFieldUpdateOperationsInput | number
     birthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -24462,7 +24466,7 @@ export namespace Prisma {
     lastName: string
     patronymic?: string | null
     phone?: string | null
-    avatar?: string | null
+    avatar: number
     birthDate?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -24476,7 +24480,7 @@ export namespace Prisma {
     lastName?: StringFieldUpdateOperationsInput | string
     patronymic?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
-    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    avatar?: IntFieldUpdateOperationsInput | number
     birthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -24491,7 +24495,7 @@ export namespace Prisma {
     lastName?: StringFieldUpdateOperationsInput | string
     patronymic?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
-    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    avatar?: IntFieldUpdateOperationsInput | number
     birthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -25846,6 +25850,7 @@ export namespace Prisma {
 
   export type UserAvgOrderByAggregateInput = {
     id?: SortOrder
+    avatar?: SortOrder
   }
 
   export type UserMaxOrderByAggregateInput = {
@@ -25880,6 +25885,7 @@ export namespace Prisma {
 
   export type UserSumOrderByAggregateInput = {
     id?: SortOrder
+    avatar?: SortOrder
   }
 
   export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -28886,7 +28892,7 @@ export namespace Prisma {
     lastName: string
     patronymic?: string | null
     phone?: string | null
-    avatar?: string | null
+    avatar: number
     birthDate?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -28905,7 +28911,7 @@ export namespace Prisma {
     lastName: string
     patronymic?: string | null
     phone?: string | null
-    avatar?: string | null
+    avatar: number
     birthDate?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -28972,7 +28978,7 @@ export namespace Prisma {
     lastName?: StringFieldUpdateOperationsInput | string
     patronymic?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
-    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    avatar?: IntFieldUpdateOperationsInput | number
     birthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -28991,7 +28997,7 @@ export namespace Prisma {
     lastName?: StringFieldUpdateOperationsInput | string
     patronymic?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
-    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    avatar?: IntFieldUpdateOperationsInput | number
     birthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -29879,7 +29885,7 @@ export namespace Prisma {
     lastName: string
     patronymic?: string | null
     phone?: string | null
-    avatar?: string | null
+    avatar: number
     birthDate?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -29898,7 +29904,7 @@ export namespace Prisma {
     lastName: string
     patronymic?: string | null
     phone?: string | null
-    avatar?: string | null
+    avatar: number
     birthDate?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -29994,7 +30000,7 @@ export namespace Prisma {
     lastName?: StringFieldUpdateOperationsInput | string
     patronymic?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
-    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    avatar?: IntFieldUpdateOperationsInput | number
     birthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -30013,7 +30019,7 @@ export namespace Prisma {
     lastName?: StringFieldUpdateOperationsInput | string
     patronymic?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
-    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    avatar?: IntFieldUpdateOperationsInput | number
     birthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -30061,7 +30067,7 @@ export namespace Prisma {
     lastName: string
     patronymic?: string | null
     phone?: string | null
-    avatar?: string | null
+    avatar: number
     birthDate?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -30080,7 +30086,7 @@ export namespace Prisma {
     lastName: string
     patronymic?: string | null
     phone?: string | null
-    avatar?: string | null
+    avatar: number
     birthDate?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -30200,7 +30206,7 @@ export namespace Prisma {
     lastName?: StringFieldUpdateOperationsInput | string
     patronymic?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
-    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    avatar?: IntFieldUpdateOperationsInput | number
     birthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -30219,7 +30225,7 @@ export namespace Prisma {
     lastName?: StringFieldUpdateOperationsInput | string
     patronymic?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
-    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    avatar?: IntFieldUpdateOperationsInput | number
     birthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -30524,7 +30530,7 @@ export namespace Prisma {
     lastName: string
     patronymic?: string | null
     phone?: string | null
-    avatar?: string | null
+    avatar: number
     birthDate?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -30543,7 +30549,7 @@ export namespace Prisma {
     lastName: string
     patronymic?: string | null
     phone?: string | null
-    avatar?: string | null
+    avatar: number
     birthDate?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -30598,7 +30604,7 @@ export namespace Prisma {
     lastName?: StringFieldUpdateOperationsInput | string
     patronymic?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
-    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    avatar?: IntFieldUpdateOperationsInput | number
     birthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -30617,7 +30623,7 @@ export namespace Prisma {
     lastName?: StringFieldUpdateOperationsInput | string
     patronymic?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
-    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    avatar?: IntFieldUpdateOperationsInput | number
     birthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -30867,7 +30873,7 @@ export namespace Prisma {
     lastName: string
     patronymic?: string | null
     phone?: string | null
-    avatar?: string | null
+    avatar: number
     birthDate?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -30886,7 +30892,7 @@ export namespace Prisma {
     lastName: string
     patronymic?: string | null
     phone?: string | null
-    avatar?: string | null
+    avatar: number
     birthDate?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -30982,7 +30988,7 @@ export namespace Prisma {
     lastName?: StringFieldUpdateOperationsInput | string
     patronymic?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
-    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    avatar?: IntFieldUpdateOperationsInput | number
     birthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -31001,7 +31007,7 @@ export namespace Prisma {
     lastName?: StringFieldUpdateOperationsInput | string
     patronymic?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
-    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    avatar?: IntFieldUpdateOperationsInput | number
     birthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string

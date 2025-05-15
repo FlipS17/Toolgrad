@@ -69,9 +69,12 @@ export default function AuthForm() {
 				return
 			}
 
+			const avatarColorIndex = Math.floor(Math.random() * 4)
+
 			const payload = {
 				...data,
 				birthDate: birthDate.toISOString(),
+				avatarColorIndex,
 			}
 
 			try {

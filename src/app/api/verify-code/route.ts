@@ -37,6 +37,7 @@ export async function POST(req: Request) {
 				firstName: userData.firstName,
 				lastName: userData.lastName,
 				birthDate: userData.birthDate ? new Date(userData.birthDate) : null,
+				avatar: userData.avatar ?? Math.floor(Math.random() * 4),
 			},
 		})
 
