@@ -1,8 +1,8 @@
-import { FavoriteProvider } from '@/app/components/FavoriteProvider' // ✅ добавлено
 import Footer from '@/app/components/Footer'
 import Header from '@/app/components/Header'
 import { NotificationProvider } from '@/app/components/NotificationProvider'
 import SessionProviderWrapper from '@/app/components/SessionProviderWrapper'
+import { FavoriteProvider } from '@/app/favorite/components/FavoriteProvider' // ✅ добавлено
 import type { Metadata } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
 import './globals.css'

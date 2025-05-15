@@ -1,7 +1,7 @@
 'use client'
 
 import { Product } from '@/../generated/prisma'
-import { useFavorites } from '@/app/components/FavoriteProvider'
+import { useFavorites } from '@/app/favorite/components/FavoriteProvider'
 import axios from 'axios'
 import { useEffect, useState } from 'react'
 import ProductCard from '../catalog/components/ProductCard'

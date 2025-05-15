@@ -1,5 +1,6 @@
 'use client'
 
+import { useNotification } from '@/app/components/NotificationProvider'
 import axios from 'axios'
 import { useSession } from 'next-auth/react'
 import { createContext, useContext, useEffect, useState } from 'react'
@@ -22,6 +23,7 @@ export function FavoriteProvider({ children }: { children: React.ReactNode }) {
 	const [favoriteIds, setFavoriteIds] = useState<number[]>([])
 	const { data: session } = useSession()
 	const isAuth = !!session?.user
+	const { notify } = useNotification()
 
 	useEffect(() => {
 		if (!isAuth) {
@@ -42,7 +44,10 @@ export function FavoriteProvider({ children }: { children: React.ReactNode }) {
 	}, [isAuth])
 
 	const toggleFavorite = async (productId: number): Promise<boolean> => {
-		if (!isAuth) return false
+		if (!session?.user) {
+			notify('Войдите в аккаунт, чтобы добавить в избранное', 'error')
+			return false
+		}
 
 		const isFav = favoriteIds.includes(productId)
 
@@ -56,9 +61,10 @@ export function FavoriteProvider({ children }: { children: React.ReactNode }) {
 			setFavoriteIds(updated)
 
 			return !isFav
-		} catch (error) {
-			console.error('Ошибка при обновлении избранного', error)
-			return isFav
+		} catch (err) {
+			console.error('Ошибка избранного:', err)
+			notify('Не удалось обновить избранное', 'error')
+			return false
 		}
 	}
 

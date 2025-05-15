@@ -45,10 +45,11 @@ export default function ProductCard({
 		e.preventDefault()
 		e.stopPropagation()
 
-		const wasAdded = await onToggleFavorite(product.id)
-		if (wasAdded) {
+		const result = await onToggleFavorite(product.id)
+
+		if (result === true) {
 			notify('Товар добавлен в избранное', 'success')
-		} else {
+		} else if (result === false && isFavorite) {
 			notify('Товар удалён из избранного', 'info')
 		}
 	}

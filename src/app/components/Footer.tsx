@@ -80,7 +80,7 @@ export default function Footer() {
 						<ul className='space-y-3 break-words'>
 							<li>
 								<ContactItem icon={<LocationIcon />}>
-									Москва, ул. Примерная 123
+									Красногорск, ул. Вилора Трифонова, д. 3
 								</ContactItem>
 							</li>
 							<li>

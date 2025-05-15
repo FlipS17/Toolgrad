@@ -4,8 +4,8 @@ import { Brand, Product } from '@/../generated/prisma'
 import CatalogFilters from '@/app/catalog/components/CatalogFilters'
 import CatalogSort from '@/app/catalog/components/CatalogSort'
 import ProductCard from '@/app/catalog/components/ProductCard'
-import { useFavorites } from '@/app/components/FavoriteProvider'
 import { useNotification } from '@/app/components/NotificationProvider'
+import { useFavorites } from '@/app/favorite/components/FavoriteProvider'
 import axios from 'axios'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
@@ -29,7 +29,7 @@ export default function CatalogPage() {
 	const searchQuery = searchParams.get('q') || ''
 
 	const { notify } = useNotification()
-	const { favoriteIds, toggleFavorite } = useFavorites() // ✅
+	const { favoriteIds, toggleFavorite } = useFavorites()
 
 	const updateParam = (key: string, value: string | null) => {
 		const params = new URLSearchParams(searchParams.toString())

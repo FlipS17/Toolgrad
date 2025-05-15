@@ -1,6 +1,6 @@
 'use client'
 
-import { useFavorites } from '@/app/components/FavoriteProvider'
+import { useFavorites } from '@/app/favorite/components/FavoriteProvider'
 import { useSession } from 'next-auth/react'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
@@ -71,7 +71,7 @@ export default function Header() {
 					<div className='container mx-auto flex justify-between items-center text-sm'>
 						<div className='flex items-center space-x-2'>
 							<LocationIcon />
-							<span>Москва, ул. Примерная 123</span>
+							<span>Красногорск, ул. Вилора Трифонова, д. 3</span>
 						</div>
 						<div className='flex items-center space-x-2'>
 							<PhoneIcon />

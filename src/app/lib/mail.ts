@@ -13,7 +13,7 @@ export const transporter = nodemailer.createTransport({
 export async function sendVerificationEmail(email: string, code: string) {
 	const html = `
     <div style="font-family:Arial,sans-serif;max-width:500px;margin:auto;padding:20px;border:1px solid #eee;border-radius:8px;">
-      <img src="https://toolgrad.ru/logo.png" alt="ToolGrad" style="height:40px;margin-bottom:20px;" />
+      <img src="https://imgur.com/Qxymuum" alt="ToolGrad" style="height:40px;margin-bottom:20px;" />
       <h2>Подтверждение регистрации</h2>
       <p>Вы зарегистрировались на сайте <strong>ToolGrad</strong>. Чтобы подтвердить регистрацию, введите следующий код:</p>
       <div style="font-size:24px;font-weight:bold;margin:20px 0;color:#F89514;">${code}</div>
@@ -35,7 +35,7 @@ export async function sendPasswordResetEmail(email: string, token: string) {
 	)}`
 	const html = `
     <div style="font-family:Arial,sans-serif;max-width:500px;margin:auto;padding:20px;border:1px solid #eee;border-radius:8px;">
-      <img src="https://toolgrad.ru/logo.png" alt="ToolGrad" style="height:40px;margin-bottom:20px;" />
+      <img src="https://imgur.com/Qxymuum" alt="ToolGrad" style="height:40px;margin-bottom:20px;" />
       <h2>Сброс пароля</h2>
       <p>Вы запросили сброс пароля на сайте <strong>ToolGrad</strong>.</p>
       <p>Перейдите по ссылке ниже, чтобы установить новый пароль:</p>
