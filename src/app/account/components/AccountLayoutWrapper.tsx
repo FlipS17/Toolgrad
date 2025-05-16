@@ -47,7 +47,7 @@ export default function AccountLayoutWrapper({
 
 					<button
 						onClick={() => signOut({ callbackUrl: '/' })}
-						className='mt-6 flex items-center gap-2 w-full px-3 py-2 rounded-xl bg-red-500 text-white hover:bg-red-600 transition-colors'
+						className='mt-6 flex cursor-pointer items-center gap-2 w-full px-3 py-2 rounded-xl bg-red-500 text-white hover:bg-red-600 transition-colors'
 					>
 						<FaSignOutAlt />
 						<span>Выйти</span>

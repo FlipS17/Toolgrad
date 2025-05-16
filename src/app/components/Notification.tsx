@@ -30,7 +30,7 @@ export default function Notification({
 	onClose,
 }: NotificationProps) {
 	useEffect(() => {
-		const timer = setTimeout(() => onClose(id), 4000)
+		const timer = setTimeout(() => onClose(id), 3000)
 		return () => clearTimeout(timer)
 	}, [id, onClose])
 

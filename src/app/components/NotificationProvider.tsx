@@ -29,12 +29,21 @@ export const useNotification = () => {
 export function NotificationProvider({ children }: { children: ReactNode }) {
 	const [notifications, setNotifications] = useState<NotificationItem[]>([])
 
+	const MAX_NOTIFICATIONS = 3
+
 	const notify = (
 		message: string,
 		type: 'success' | 'error' | 'info' = 'info'
 	) => {
 		const id = uuidv4()
-		setNotifications(prev => [...prev.slice(-2), { id, message, type }])
+		const newNotification = { id, message, type }
+
+		setNotifications(prev => {
+			if (prev.length >= MAX_NOTIFICATIONS) {
+				return [...prev.slice(1), newNotification]
+			}
+			return [...prev, newNotification]
+		})
 	}
 
 	const handleClose = (id: string) => {
@@ -44,10 +53,16 @@ export function NotificationProvider({ children }: { children: ReactNode }) {
 	return (
 		<NotificationContext.Provider value={{ notify }}>
 			{children}
-			<div className='fixed top-4 inset-x-0 flex flex-col items-center space-y-2 z-50 pointer-events-none'>
-				<AnimatePresence>
-					{notifications.map(n => (
-						<Notification key={n.id} {...n} onClose={handleClose} />
+			<div className='fixed top-4 left-1/2 transform -translate-x-1/2 z-50 pointer-events-none w-full max-w-md h-[220px]'>
+				<AnimatePresence initial={false}>
+					{notifications.map((n, index) => (
+						<div
+							key={n.id}
+							style={{ top: `${index * 50}px` }}
+							className='absolute w-full'
+						>
+							<Notification {...n} onClose={handleClose} />
+						</div>
 					))}
 				</AnimatePresence>
 			</div>
