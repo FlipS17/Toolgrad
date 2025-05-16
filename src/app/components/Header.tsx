@@ -190,11 +190,11 @@ export default function Header() {
 							<div className='flex items-center'>
 								<AccountIcon className='text-gray-400 mr-3' />
 								<Link
-									href='/account'
-									className='text-gray-600 hover:text-[#F89514] transition'
+									href={userName ? '/account/profile' : '/account'}
 									onClick={toggleMenu}
+									className='text-gray-600 hover:text-[#F89514] transition'
 								>
-									Личный кабинет
+									{userName || 'Личный кабинет'}
 								</Link>
 							</div>
 						</div>
@@ -213,7 +213,7 @@ export default function Header() {
 					/>
 					<MobileNavButton href='/sales' icon={<SaleIcon />} label='Акции' />
 					<MobileNavButton
-						href='/account'
+						href={userName ? '/account/profile' : '/account'}
 						icon={<AccountIcon />}
 						label='Профиль'
 					/>
@@ -395,9 +395,6 @@ function SaleIcon() {
 	)
 }
 
-// Остальные иконки (LocationIcon, PhoneIcon, AccountIcon, HeartIcon, CartIcon, Logo) остаются без изменений
-// ...
-// Иконки (остаются без изменений)
 function LocationIcon({ className }: { className?: string }) {
 	return (
 		<svg
