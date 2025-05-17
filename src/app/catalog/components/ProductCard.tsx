@@ -1,5 +1,6 @@
 'use client'
 
+import { useCart } from '@/app/cart/components/CartProvider'
 import { useNotification } from '@/app/components/NotificationProvider'
 import { Heart } from 'lucide-react'
 import Image from 'next/image'
@@ -40,6 +41,14 @@ export default function ProductCard({
 			: null
 
 	const { notify } = useNotification()
+	const { addToCart, isInCart, refreshCart } = useCart()
+
+	const handleCartClick = async () => {
+		if (!isInCart(product.id)) {
+			await addToCart(product.id)
+			await refreshCart()
+		}
+	}
 
 	const handleFavoriteClick = async (e: React.MouseEvent) => {
 		e.preventDefault()
@@ -111,7 +120,6 @@ export default function ProductCard({
 					<span className='text-xs text-gray-500'>{product.brand.name}</span>
 				)}
 
-				{/* Цена рядом со старой ценой */}
 				<div className='flex items-baseline gap-2 flex-wrap'>
 					<span className='text-base font-bold text-[#F89514]'>
 						{product.price.toLocaleString('ru-RU')} ₽
@@ -124,10 +132,15 @@ export default function ProductCard({
 				</div>
 
 				<button
-					onClick={() => onAddToCart(product.id)}
-					className='w-full mt-1 bg-[#F89514] text-white text-sm font-medium py-2 rounded hover:bg-[#d97c0f] transition'
+					onClick={handleCartClick}
+					className={`w-full mt-1 ${
+						isInCart(product.id)
+							? 'bg-gray-300 cursor-not-allowed'
+							: 'bg-[#F89514] hover:bg-[#d97c0f]'
+					} text-white text-sm font-medium py-2 rounded transition`}
+					disabled={isInCart(product.id)}
 				>
-					В корзину
+					{isInCart(product.id) ? 'В корзине' : 'В корзину'}
 				</button>
 			</div>
 		</div>

@@ -5,6 +5,7 @@ import SessionProviderWrapper from '@/app/components/SessionProviderWrapper'
 import { FavoriteProvider } from '@/app/favorite/components/FavoriteProvider' // ✅ добавлено
 import type { Metadata } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
+import { CartProvider } from './cart/components/CartProvider'
 import './globals.css'
 
 const geistSans = Geist({
@@ -35,11 +36,13 @@ export default function RootLayout({
 			>
 				<SessionProviderWrapper>
 					<NotificationProvider>
-						<FavoriteProvider>
-							<Header />
-							<main className='flex-grow'>{children}</main>
-							<Footer />
-						</FavoriteProvider>
+						<CartProvider>
+							<FavoriteProvider>
+								<Header />
+								<main className='flex-grow'>{children}</main>
+								<Footer />
+							</FavoriteProvider>
+						</CartProvider>
 					</NotificationProvider>
 				</SessionProviderWrapper>
 			</body>

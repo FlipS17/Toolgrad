@@ -28,7 +28,7 @@ export default function DateInput({
 					showMonthDropdown
 					showYearDropdown
 					dropdownMode='select'
-					onKeyDown={e => e.preventDefault()} // ❗️Запретить ввод вручную, но оставить открытие
+					onKeyDown={e => e.preventDefault()}
 					className={`w-full rounded-xl border px-4 py-2 bg-white focus:outline-none focus:ring-2 transition ${
 						error
 							? 'border-red-500 focus:ring-red-400'
