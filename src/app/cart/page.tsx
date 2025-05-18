@@ -208,7 +208,7 @@ export default function CartPage() {
 									<span>{sumBeforeDiscount.toLocaleString('ru-RU')} ₽</span>
 								</div>
 
-								<div className='flex justify-between text-red-600'>
+								<div className='flex justify-between text-green-600'>
 									<span>Скидка:</span>
 									<span>-{productDiscount.toLocaleString('ru-RU')} ₽</span>
 								</div>

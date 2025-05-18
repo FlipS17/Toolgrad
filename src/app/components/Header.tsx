@@ -1,5 +1,6 @@
 'use client'
 
+import { useCart } from '@/app/cart/components/CartProvider'
 import { useFavorites } from '@/app/favorite/components/FavoriteProvider'
 import { useSession } from 'next-auth/react'
 import Link from 'next/link'
@@ -11,6 +12,7 @@ export default function Header() {
 	const [favoriteCount, setFavoriteCount] = useState<number>(0)
 	const { data: session } = useSession()
 	const { favoriteIds } = useFavorites()
+	const { cartIds } = useCart()
 
 	const userName = session?.user?.name
 
@@ -118,9 +120,11 @@ export default function Header() {
 							</Link>
 							<Link href='/cart' className='relative'>
 								<CartIcon />
-								<span className='absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center'>
-									0
-								</span>
+								{cartIds.length > 0 && (
+									<span className='absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center'>
+										{cartIds.length}
+									</span>
+								)}
 							</Link>
 
 							{/* Бургер-кнопка для мобильных */}
