@@ -3,9 +3,11 @@
 import Input from '@/app/account/components/Input'
 import CartItem from '@/app/cart/components/CartItem'
 import { useCart } from '@/app/cart/components/CartProvider'
+import { useFavorites } from '@/app/favorite/components/FavoriteProvider'
 import { calculateCartTotals, DELIVERY_FEE } from '@/utils/calculateCartTotals'
 import axios from 'axios'
 import Link from 'next/link'
+
 import { useEffect, useState } from 'react'
 
 export type CartItemType = {
@@ -70,6 +72,16 @@ export default function CartPage() {
 			await refreshCart()
 		} catch (err) {
 			console.error('Ошибка изменения количества', err)
+		}
+	}
+
+	const { favoriteIds, toggleFavorite } = useFavorites()
+
+	const handleToggleFavorite = async (productId: number) => {
+		try {
+			await toggleFavorite(productId)
+		} catch (err) {
+			console.error('Ошибка избранного', err)
 		}
 	}
 
@@ -179,7 +191,11 @@ export default function CartPage() {
 								onDecrement={() =>
 									handleQuantityChange(item.id, item.quantity - 1)
 								}
-								onRemove={handleRemove}
+								onRemove={() => handleRemove(item.id)}
+								checked={selectedItems.includes(item.id)}
+								onCheck={(id, checked) => handleSelect(id, checked)}
+								isFavorite={favoriteIds.includes(item.product.id)}
+								onToggleFavorite={() => handleToggleFavorite(item.product.id)}
 							/>
 						))}
 					</div>

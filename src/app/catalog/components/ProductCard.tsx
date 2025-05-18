@@ -1,8 +1,8 @@
 'use client'
 
 import { useCart } from '@/app/cart/components/CartProvider'
+import FavoriteToggleButton from '@/app/catalog/components/FavoriteToggleButton'
 import { useNotification } from '@/app/components/NotificationProvider'
-import { Heart } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 
@@ -50,12 +50,8 @@ export default function ProductCard({
 		}
 	}
 
-	const handleFavoriteClick = async (e: React.MouseEvent) => {
-		e.preventDefault()
-		e.stopPropagation()
-
+	const handleFavoriteClick = async () => {
 		const result = await onToggleFavorite(product.id)
-
 		if (result === true) {
 			notify('Товар добавлен в избранное', 'success')
 		} else if (result === false && isFavorite) {
@@ -80,20 +76,13 @@ export default function ProductCard({
 			</div>
 
 			{/* Сердце */}
-			<button
-				onClick={handleFavoriteClick}
-				aria-label={
-					isFavorite ? 'Удалить из избранного' : 'Добавить в избранное'
-				}
-				className='absolute top-2 right-2 p-2 z-10 rounded-full cursor-pointer'
-			>
-				<Heart
-					className='w-5 h-5'
-					strokeWidth={isFavorite ? 0 : 1.5}
-					fill={isFavorite ? '#ef4444' : 'none'}
-					color={isFavorite ? '#ef4444' : '#d1d5db'}
+			<div className='absolute top-2 right-2 z-10'>
+				<FavoriteToggleButton
+					isFavorite={isFavorite}
+					onToggle={handleFavoriteClick}
+					variant='icon-only'
 				/>
-			</button>
+			</div>
 
 			{/* Картинка */}
 			<div className='relative w-full pt-[80%] bg-gray-50'>
