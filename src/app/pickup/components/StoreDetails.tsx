@@ -1,7 +1,10 @@
+/* --- StoreDetails.tsx --- */
 'use client'
 
+import { useCart } from '@/app/cart/components/CartProvider'
 import { useNotification } from '@/app/components/NotificationProvider'
 import axios from 'axios'
+import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import PickupCartPreview from './PickupCartPreview'
 import { Store } from './PickupPage'
@@ -18,6 +21,8 @@ export default function StoreDetails({ store }: { store: Store }) {
 	const [selectedIds, setSelectedIds] = useState<number[]>([])
 	const [loading, setLoading] = useState(false)
 	const { notify } = useNotification()
+	const router = useRouter()
+	const { refreshCart } = useCart()
 
 	useEffect(() => {
 		const selectedIds = JSON.parse(
@@ -47,6 +52,8 @@ export default function StoreDetails({ store }: { store: Store }) {
 
 			notify(res.data.message || 'Бронь оформлена', 'success')
 			localStorage.removeItem('selectedItems')
+			await refreshCart()
+			router.push('/account/orders')
 		} catch (err: any) {
 			console.log('Ошибка оформления заказа:', err)
 			notify(
