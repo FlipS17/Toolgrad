@@ -115,7 +115,7 @@ export default function CartPage() {
 					<div className='bg-white rounded-xl shadow-sm p-4 mb-6 flex gap-4'>
 						<button
 							onClick={() => setDeliveryType('pickup')}
-							className={`w-full text-sm font-semibold px-6 py-4 rounded-xl border text-center ${
+							className={`w-full text-sm cursor-pointer font-semibold px-6 py-4 rounded-xl border text-center ${
 								deliveryType === 'pickup'
 									? 'border-[#F89514] text-[#F89514]'
 									: 'border-gray-300 text-gray-600'
@@ -126,7 +126,7 @@ export default function CartPage() {
 						</button>
 						<button
 							onClick={() => setDeliveryType('delivery')}
-							className={`w-full text-sm font-semibold px-6 py-4 rounded-xl border text-center ${
+							className={`w-full text-sm cursor-pointer font-semibold px-6 py-4 rounded-xl border text-center ${
 								deliveryType === 'delivery'
 									? 'border-[#F89514] text-[#F89514]'
 									: 'border-gray-300 text-gray-600'
@@ -247,7 +247,7 @@ export default function CartPage() {
 					</div>
 
 					<button
-						className={`w-full text-white py-3 text-base rounded-xl font-semibold ${
+						className={`w-full text-white cursor-pointer py-3 text-base rounded-xl font-semibold ${
 							isEmpty
 								? 'bg-gray-300 cursor-not-allowed'
 								: 'bg-[#F89514] hover:bg-[#d97c0f]'
