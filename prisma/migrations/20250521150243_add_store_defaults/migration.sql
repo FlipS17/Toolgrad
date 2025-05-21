@@ -1,0 +1,6 @@
+-- DropIndex
+DROP INDEX "Store_city_idx";
+
+-- AlterTable
+ALTER TABLE "Store" ADD COLUMN     "latitude" DOUBLE PRECISION NOT NULL DEFAULT 55.7558,
+ADD COLUMN     "longitude" DOUBLE PRECISION NOT NULL DEFAULT 37.6173;

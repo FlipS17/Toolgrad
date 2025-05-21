@@ -116,6 +116,7 @@ model Product {
   reviews        Review[]
   categories     Category[]             @relation("CategoryToProduct")
   promotions     Promotion[]            @relation("PromotionToProduct")
+  ProductStock   ProductStock[]
 }
 
 model Category {
@@ -237,6 +238,34 @@ model Promotion {
   Product     Product[]
   categories  Category[] @relation("PromotionToCategory")
   products    Product[]  @relation("PromotionToProduct")
+}
+
+model Store {
+  id        Int      @id @default(autoincrement())
+  name      String
+  city      String
+  address   String
+  phone     String?
+  schedule  String?
+  latitude  Float    @default(55.7558)
+  longitude Float    @default(37.6173)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  stocks ProductStock[]
+}
+
+model ProductStock {
+  id        Int      @id @default(autoincrement())
+  productId Int
+  storeId   Int
+  quantity  Int      @default(0)
+  updatedAt DateTime @updatedAt
+
+  product Product @relation(fields: [productId], references: [id])
+  store   Store   @relation(fields: [storeId], references: [id])
+
+  @@unique([productId, storeId])
 }
 
 enum Role {

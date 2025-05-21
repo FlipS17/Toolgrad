@@ -7,8 +7,8 @@ import { useFavorites } from '@/app/favorite/components/FavoriteProvider'
 import { calculateCartTotals, DELIVERY_FEE } from '@/utils/calculateCartTotals'
 import axios from 'axios'
 import Link from 'next/link'
-
 import { useEffect, useState } from 'react'
+import DeliveryTypeButton from './components/DeliveryTypeButton'
 
 export type CartItemType = {
 	id: number
@@ -30,7 +30,6 @@ export default function CartPage() {
 	const [deliveryType, setDeliveryType] = useState<'pickup' | 'delivery'>(
 		'pickup'
 	)
-
 	const { refreshCart } = useCart()
 
 	useEffect(() => {
@@ -38,10 +37,16 @@ export default function CartPage() {
 			.get('/api/cart')
 			.then(res => {
 				setItems(res.data)
-				setSelectedItems(res.data.map((item: CartItemType) => item.id))
+				const ids = res.data.map((item: CartItemType) => item.id)
+				setSelectedItems(ids)
+				localStorage.setItem('selectedItems', JSON.stringify(ids))
 			})
 			.catch(err => console.error('Ошибка загрузки корзины', err))
 	}, [])
+
+	useEffect(() => {
+		localStorage.setItem('selectedItems', JSON.stringify(selectedItems))
+	}, [selectedItems])
 
 	const handleSelect = (id: number, checked: boolean) => {
 		setSelectedItems(prev =>
@@ -113,28 +118,20 @@ export default function CartPage() {
 			<div className='flex flex-col md:flex-row gap-8'>
 				<div className='flex-1'>
 					<div className='bg-white rounded-xl shadow-sm p-4 mb-6 flex gap-4'>
-						<button
+						<DeliveryTypeButton
+							value='pickup'
+							active={deliveryType === 'pickup'}
 							onClick={() => setDeliveryType('pickup')}
-							className={`w-full text-sm cursor-pointer font-semibold px-6 py-4 rounded-xl border text-center ${
-								deliveryType === 'pickup'
-									? 'border-[#F89514] text-[#F89514]'
-									: 'border-gray-300 text-gray-600'
-							}`}
-						>
-							Самовывоз
-							<div className='text-xs font-normal mt-1'>Бесплатно</div>
-						</button>
-						<button
+							label='Самовывоз'
+							sublabel='Бесплатно'
+						/>
+						<DeliveryTypeButton
+							value='delivery'
+							active={deliveryType === 'delivery'}
 							onClick={() => setDeliveryType('delivery')}
-							className={`w-full text-sm cursor-pointer font-semibold px-6 py-4 rounded-xl border text-center ${
-								deliveryType === 'delivery'
-									? 'border-[#F89514] text-[#F89514]'
-									: 'border-gray-300 text-gray-600'
-							}`}
-						>
-							Курьером{' '}
-							<div className='text-xs font-normal mt-1'>+{DELIVERY_FEE}₽</div>
-						</button>
+							label='Курьером'
+							sublabel={`+${DELIVERY_FEE}₽`}
+						/>
 					</div>
 
 					<div className='flex items-center gap-3 mb-6 px-1'>
@@ -246,16 +243,16 @@ export default function CartPage() {
 						</div>
 					</div>
 
-					<button
-						className={`w-full text-white cursor-pointer py-3 text-base rounded-xl font-semibold ${
+					<Link
+						href='/pickup'
+						className={`w-full block text-center text-white py-3 text-base rounded-xl font-semibold transition ${
 							isEmpty
 								? 'bg-gray-300 cursor-not-allowed'
 								: 'bg-[#F89514] hover:bg-[#d97c0f]'
 						}`}
-						disabled={isEmpty}
 					>
 						Оформить заказ
-					</button>
+					</Link>
 				</div>
 			</div>
 		</div>

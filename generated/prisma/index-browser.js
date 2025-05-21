@@ -301,6 +301,27 @@ exports.Prisma.PromotionScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.StoreScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  city: 'city',
+  address: 'address',
+  phone: 'phone',
+  schedule: 'schedule',
+  latitude: 'latitude',
+  longitude: 'longitude',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.ProductStockScalarFieldEnum = {
+  id: 'id',
+  productId: 'productId',
+  storeId: 'storeId',
+  quantity: 'quantity',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -370,7 +391,9 @@ exports.Prisma.ModelName = {
   CartItem: 'CartItem',
   Favorite: 'Favorite',
   ProductSpecification: 'ProductSpecification',
-  Promotion: 'Promotion'
+  Promotion: 'Promotion',
+  Store: 'Store',
+  ProductStock: 'ProductStock'
 };
 
 /**
