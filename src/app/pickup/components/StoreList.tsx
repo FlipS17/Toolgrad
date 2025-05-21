@@ -47,7 +47,7 @@ export default function StoreList({
 					<button
 						key={store.id}
 						onClick={() => onSelect(store)}
-						className={`w-full text-left p-4 border rounded-xl transition text-sm shadow-sm hover:shadow-md ${
+						className={`w-full text-left p-4 cursor-pointer border rounded-xl transition text-sm shadow-sm hover:shadow-md ${
 							store.id === selectedStoreId
 								? 'border-[#F89514] text-[#F89514]'
 								: 'border-gray-200 text-gray-800'

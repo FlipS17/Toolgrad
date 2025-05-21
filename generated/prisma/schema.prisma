@@ -150,18 +150,22 @@ model Review {
 }
 
 model Order {
-  id          Int         @id @default(autoincrement())
-  userId      Int
-  orderNumber String      @unique
-  status      OrderStatus @default(PENDING)
-  total       Float
-  addressId   Int
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
-  address     Address     @relation(fields: [addressId], references: [id])
-  user        User        @relation(fields: [userId], references: [id])
-  items       OrderItem[]
-  payments    Payment[]
+  id           Int          @id @default(autoincrement())
+  userId       Int
+  orderNumber  String       @unique
+  status       OrderStatus  @default(PENDING)
+  total        Float
+  addressId    Int?
+  storeId      Int?
+  deliveryType DeliveryType
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+
+  address  Address?    @relation(fields: [addressId], references: [id])
+  store    Store?      @relation(fields: [storeId], references: [id])
+  user     User        @relation(fields: [userId], references: [id])
+  items    OrderItem[]
+  payments Payment[]
 }
 
 model OrderItem {
@@ -253,6 +257,12 @@ model Store {
   updatedAt DateTime @updatedAt
 
   stocks ProductStock[]
+  Order  Order[]
+}
+
+enum DeliveryType {
+  PICKUP
+  DELIVERY
 }
 
 model ProductStock {

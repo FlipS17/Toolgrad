@@ -15,6 +15,7 @@ interface CartProduct {
 
 export default function StoreDetails({ store }: { store: Store }) {
 	const [products, setProducts] = useState<CartProduct[]>([])
+	const [selectedIds, setSelectedIds] = useState<number[]>([])
 	const [loading, setLoading] = useState(false)
 	const { notify } = useNotification()
 
@@ -35,17 +36,21 @@ export default function StoreDetails({ store }: { store: Store }) {
 			.catch(err => console.error('Ошибка загрузки остатков', err))
 	}, [store.id])
 
-	const hasMissing = products.some(p => !p.inStock)
-
 	const handleReserve = async () => {
 		setLoading(true)
 		try {
-			const res = await axios.post('/api/pickup/reserve', { storeId: store.id })
+			const res = await axios.post('/api/pickup/reserve', {
+				storeId: store.id,
+				deliveryType: 'PICKUP',
+				selectedItems: selectedIds,
+			})
+
 			notify(res.data.message || 'Бронь оформлена', 'success')
 			localStorage.removeItem('selectedItems')
 		} catch (err: any) {
+			console.log('Ошибка оформления заказа:', err)
 			notify(
-				err.response?.data?.error || 'Ошибка при оформлении брони',
+				err.response?.data?.error || 'Ошибка при оформлении заказа',
 				'error'
 			)
 		} finally {
@@ -83,7 +88,8 @@ export default function StoreDetails({ store }: { store: Store }) {
 			<div className='pt-4 border-t'>
 				<PickupCartPreview
 					onReserve={handleReserve}
-					disabled={loading || products.length === 0 || hasMissing}
+					disabled={loading || products.length === 0}
+					onItemsLoaded={setSelectedIds}
 				/>
 			</div>
 		</div>

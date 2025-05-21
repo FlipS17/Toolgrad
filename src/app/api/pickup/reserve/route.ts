@@ -1,59 +1,107 @@
-// app/api/pickup/reserve/route.ts
 import { PrismaClient } from '@/../generated/prisma'
 import { authOptions } from '@/app/lib/authOptions'
 import { getServerSession } from 'next-auth'
-import { NextRequest, NextResponse } from 'next/server'
+import { NextRequest } from 'next/server'
 
 const prisma = new PrismaClient()
 
 export async function POST(req: NextRequest) {
 	const session = await getServerSession(authOptions)
-	if (!session || !session.user?.id) {
-		return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+	if (!session || !session.user?.email) {
+		return new Response(JSON.stringify({ error: 'Не авторизован' }), {
+			status: 401,
+		})
 	}
 
-	const userId = session.user.id
+	const user = await prisma.user.findUnique({
+		where: { email: session.user.email },
+		include: { addresses: true },
+	})
+	if (!user) {
+		return new Response(JSON.stringify({ error: 'Пользователь не найден' }), {
+			status: 404,
+		})
+	}
+
 	const body = await req.json()
-	const { storeId } = body
+	const { storeId, deliveryType, selectedItems } = body
 
-	if (!storeId) {
-		return NextResponse.json({ error: 'storeId is required' }, { status: 400 })
-	}
-
-	const cart = await prisma.cart.findUnique({
-		where: { userId },
-		include: {
-			items: true,
-		},
-	})
-
-	if (!cart || cart.items.length === 0) {
-		return NextResponse.json({ error: 'Cart is empty' }, { status: 400 })
-	}
-
-	// Проверим наличие на складе
-	const stock = await prisma.productStock.findMany({
-		where: {
-			storeId,
-			productId: { in: cart.items.map(i => i.productId) },
-		},
-	})
-
-	const insufficient = cart.items.filter(item => {
-		const found = stock.find(s => s.productId === item.productId)
-		return (found?.quantity ?? 0) < item.quantity
-	})
-
-	if (insufficient.length > 0) {
-		return NextResponse.json(
-			{
-				error: 'Некоторые товары недоступны для брони',
-				missing: insufficient.map(i => i.productId),
-			},
-			{ status: 409 }
+	if (
+		!deliveryType ||
+		!Array.isArray(selectedItems) ||
+		selectedItems.length === 0
+	) {
+		return new Response(
+			JSON.stringify({ error: 'Некорректные данные для оформления' }),
+			{ status: 400 }
 		)
 	}
 
-	// Здесь можно создать "черновой" заказ или просто сохранить факт бронирования
-	return NextResponse.json({ message: 'Бронь оформлена успешно' })
+	try {
+		const cart = await prisma.cart.findUnique({
+			where: { userId: user.id },
+			include: { items: { include: { product: true } } },
+		})
+		if (!cart)
+			return new Response(JSON.stringify({ error: 'Корзина не найдена' }), {
+				status: 404,
+			})
+
+		const selectedCartItems = cart.items.filter(item =>
+			selectedItems.includes(item.id)
+		)
+		if (selectedCartItems.length === 0) {
+			return new Response(JSON.stringify({ error: 'Нет выбранных товаров' }), {
+				status: 400,
+			})
+		}
+
+		const total = selectedCartItems.reduce(
+			(sum, item) => sum + item.quantity * item.product.price,
+			0
+		)
+
+		const order = await prisma.order.create({
+			data: {
+				userId: user.id,
+				orderNumber: `ORD-${Date.now()}`,
+				status: 'PENDING',
+				total,
+				deliveryType,
+				addressId:
+					deliveryType === 'DELIVERY' ? user.addresses[0]?.id ?? null : null,
+				storeId: deliveryType === 'PICKUP' ? storeId : null,
+				items: {
+					create: selectedCartItems.map(item => ({
+						productId: item.productId,
+						quantity: item.quantity,
+						price: item.product.price,
+					})),
+				},
+			},
+		})
+
+		await prisma.cartItem.deleteMany({
+			where: {
+				id: {
+					in: selectedCartItems.map(i => i.id),
+				},
+			},
+		})
+
+		return new Response(
+			JSON.stringify({ message: 'Заказ успешно оформлен', orderId: order.id }),
+			{
+				status: 200,
+			}
+		)
+	} catch (error) {
+		console.error('Ошибка при оформлении заказа:', error)
+		return new Response(
+			JSON.stringify({ error: 'Ошибка при оформлении заказа' }),
+			{
+				status: 500,
+			}
+		)
+	}
 }

@@ -1,4 +1,3 @@
-// app/api/pickup/stock/route.ts (обновлённая версия: работает с выбранными товарами)
 import { PrismaClient } from '@/../generated/prisma'
 import { authOptions } from '@/app/lib/authOptions'
 import { getServerSession } from 'next-auth'
@@ -8,11 +7,18 @@ const prisma = new PrismaClient()
 
 export async function GET(req: NextRequest) {
 	const session = await getServerSession(authOptions)
-	if (!session || !session.user?.id) {
+	if (!session || !session.user?.email) {
 		return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 	}
 
-	const userId = session.user.id
+	const user = await prisma.user.findUnique({
+		where: { email: session.user.email },
+	})
+
+	if (!user) {
+		return NextResponse.json({ error: 'User not found' }, { status: 404 })
+	}
+
 	const { searchParams } = new URL(req.url)
 	const storeId = Number(searchParams.get('storeId'))
 	const selected = searchParams.getAll('selected')?.map(Number)
@@ -22,7 +28,7 @@ export async function GET(req: NextRequest) {
 	}
 
 	const cart = await prisma.cart.findUnique({
-		where: { userId },
+		where: { userId: user.id },
 		include: {
 			items: {
 				where: {

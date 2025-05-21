@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react'
 interface Props {
 	onReserve?: () => void
 	disabled?: boolean
+	onItemsLoaded?: (ids: number[]) => void
 }
 
 interface CartItem {
@@ -22,7 +23,11 @@ interface CartItem {
 	}
 }
 
-export default function PickupCartPreview({ onReserve, disabled }: Props) {
+export default function PickupCartPreview({
+	onReserve,
+	disabled,
+	onItemsLoaded,
+}: Props) {
 	const [items, setItems] = useState<CartItem[]>([])
 
 	useEffect(() => {
@@ -33,6 +38,7 @@ export default function PickupCartPreview({ onReserve, disabled }: Props) {
 				selected.includes(item.id)
 			)
 			setItems(selectedItems)
+			onItemsLoaded?.(selected)
 		})
 	}, [])
 
@@ -100,7 +106,7 @@ export default function PickupCartPreview({ onReserve, disabled }: Props) {
 					<button
 						onClick={onReserve}
 						disabled={disabled}
-						className={`w-full md:w-auto text-white text-sm font-medium py-2 px-6 rounded-xl transition ${
+						className={`w-full cursor-pointer md:w-auto text-white text-sm font-medium py-2 px-6 rounded-xl transition ${
 							disabled
 								? 'bg-gray-300 cursor-not-allowed'
 								: 'bg-[#F89514] hover:bg-[#d97c0f]'

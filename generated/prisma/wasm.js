@@ -239,6 +239,8 @@ exports.Prisma.OrderScalarFieldEnum = {
   status: 'status',
   total: 'total',
   addressId: 'addressId',
+  storeId: 'storeId',
+  deliveryType: 'deliveryType',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -359,6 +361,11 @@ exports.OrderStatus = exports.$Enums.OrderStatus = {
   DELIVERED: 'DELIVERED',
   CANCELLED: 'CANCELLED',
   REFUNDED: 'REFUNDED'
+};
+
+exports.DeliveryType = exports.$Enums.DeliveryType = {
+  PICKUP: 'PICKUP',
+  DELIVERY: 'DELIVERY'
 };
 
 exports.PaymentMethod = exports.$Enums.PaymentMethod = {
