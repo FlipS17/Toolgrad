@@ -1,6 +1,10 @@
+// Полный обновлённый файл DeliveryPage с домом и квартирой через главный адрес,
+// и подъездом и этажом как отдельные поля
+
 'use client'
 
 import AuthButton from '@/app/account/components/AuthButton'
+import Input from '@/app/account/components/Input'
 import { useCart } from '@/app/cart/components/CartProvider'
 import DeliverySummaryBlock from '@/app/cart/components/CartSummary'
 import { useNotification } from '@/app/components/NotificationProvider'
@@ -51,6 +55,8 @@ export default function DeliveryPage() {
 	const [selectedAddress, setSelectedAddress] = useState<any | null>(null)
 	const [comment, setComment] = useState('')
 	const [phone, setPhone] = useState('')
+	const [entrance, setEntrance] = useState('')
+	const [floor, setFloor] = useState('')
 	const [deliveryPrice, setDeliveryPrice] = useState<number | null>(null)
 	const [selectedItemsData, setSelectedItemsData] = useState<CartItemType[]>([])
 	const [errors, setErrors] = useState<{
@@ -78,7 +84,6 @@ export default function DeliveryPage() {
 	useEffect(() => {
 		const fetchSuggestions = async () => {
 			if (!addressQuery || selectedAddress) return
-
 			const res = await fetch(
 				'https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/address',
 				{
@@ -94,27 +99,21 @@ export default function DeliveryPage() {
 					}),
 				}
 			)
-
 			const data = await res.json()
 			setSuggestions(data.suggestions || [])
 		}
-
 		const timeout = setTimeout(fetchSuggestions, 400)
 		return () => clearTimeout(timeout)
 	}, [addressQuery, selectedAddress])
 
 	useEffect(() => {
 		if (!selectedAddress) return
-
 		const userLat = parseFloat(selectedAddress.data.geo_lat)
 		const userLon = parseFloat(selectedAddress.data.geo_lon)
-
 		const STORE_LAT = 55.7558
 		const STORE_LON = 37.6173
-
 		const BASE_PRICE = 150
 		const PER_KM_PRICE = 20
-
 		const distance = getDistanceKm(STORE_LAT, STORE_LON, userLat, userLon)
 		const price = Math.max(BASE_PRICE, Math.round(distance * PER_KM_PRICE))
 		setDeliveryPrice(price)
@@ -143,11 +142,9 @@ export default function DeliveryPage() {
 	const handleSubmit = async () => {
 		const cleanedPhone = phone.replace(/\D/g, '')
 		const newErrors: typeof errors = {}
-
 		if (!selectedAddress) newErrors.address = 'Заполните адрес доставки'
 		if (cleanedPhone.length !== 11)
 			newErrors.phone = 'Введите корректный номер телефона'
-
 		if (Object.keys(newErrors).length > 0) {
 			setErrors(newErrors)
 			return
@@ -167,11 +164,11 @@ export default function DeliveryPage() {
 					comment,
 					deliveryPrice,
 					selectedItems: selectedItemsData.map(item => item.id),
+					addressExtra: { entrance, floor },
 				}),
 			})
 
 			const data = await res.json()
-
 			if (!res.ok) {
 				notify(data.error || 'Ошибка при оформлении доставки', 'error')
 				return
@@ -199,12 +196,11 @@ export default function DeliveryPage() {
 			<h2 className='text-2xl font-semibold text-center mb-6'>
 				Оформление доставки
 			</h2>
-
 			<div className='flex flex-col lg:flex-row gap-8'>
 				<div className='w-full lg:w-2/3 space-y-6'>
 					<div className='space-y-1'>
 						<label className='text-sm font-medium text-gray-700'>
-							Адрес доставки
+							Адрес доставки (укажите также дом и квартиру)
 						</label>
 						<input
 							value={addressQuery}
@@ -212,7 +208,7 @@ export default function DeliveryPage() {
 								setAddressQuery(e.target.value)
 								setSelectedAddress(null)
 							}}
-							placeholder='Введите адрес'
+							placeholder='Введите адрес доставки'
 							className='w-full rounded-xl border px-4 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-[#F89514] border-gray-300'
 						/>
 						{errors.address && (
@@ -233,6 +229,21 @@ export default function DeliveryPage() {
 						)}
 					</div>
 
+					<div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
+						<Input
+							label='Подъезд'
+							value={entrance}
+							onChange={e => setEntrance(e.target.value)}
+							placeholder='Введите номер подъезда'
+						/>
+						<Input
+							label='Этаж'
+							value={floor}
+							onChange={e => setFloor(e.target.value)}
+							placeholder='Введите этаж'
+						/>
+					</div>
+
 					<div>
 						<label className='text-sm font-medium text-gray-700 block mb-1'>
 							Комментарий к заказу
@@ -240,7 +251,7 @@ export default function DeliveryPage() {
 						<textarea
 							value={comment}
 							onChange={e => handleCommentChange(e.target.value)}
-							placeholder='Например: домофон не работает'
+							placeholder='Например, код от домофона'
 							className='w-full rounded-xl border px-4 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-[#F89514] border-gray-300 resize-none overflow-hidden'
 							rows={3}
 							onInput={e => {
@@ -281,7 +292,7 @@ export default function DeliveryPage() {
 					{selectedAddress && (
 						<YMaps>
 							<Map
-								state={{ center: userCoords, zoom: 11 }}
+								state={{ center: userCoords, zoom: 17 }}
 								width='100%'
 								height='300px'
 							>
@@ -319,6 +330,15 @@ export default function DeliveryPage() {
 							</div>
 						))}
 					</div>
+
+					{selectedAddress && (
+						<div className='bg-white p-4 rounded-xl border border-gray-200 text-sm text-gray-800'>
+							<h4 className='font-semibold mb-2'>Адрес доставки</h4>
+							{`${selectedAddress.value}`}
+							{entrance && <div>Подъезд: {entrance}</div>}
+							{floor && <div>Этаж: {floor}</div>}
+						</div>
+					)}
 
 					<DeliverySummaryBlock
 						items={selectedItemsData}

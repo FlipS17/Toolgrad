@@ -7558,6 +7558,8 @@ export namespace Prisma {
     building: string | null
     apartment: string | null
     entrance: string | null
+    floor: string | null
+    settlement: string | null
     postalCode: string | null
     isDefault: boolean | null
   }
@@ -7571,6 +7573,8 @@ export namespace Prisma {
     building: string | null
     apartment: string | null
     entrance: string | null
+    floor: string | null
+    settlement: string | null
     postalCode: string | null
     isDefault: boolean | null
   }
@@ -7584,6 +7588,8 @@ export namespace Prisma {
     building: number
     apartment: number
     entrance: number
+    floor: number
+    settlement: number
     postalCode: number
     isDefault: number
     _all: number
@@ -7609,6 +7615,8 @@ export namespace Prisma {
     building?: true
     apartment?: true
     entrance?: true
+    floor?: true
+    settlement?: true
     postalCode?: true
     isDefault?: true
   }
@@ -7622,6 +7630,8 @@ export namespace Prisma {
     building?: true
     apartment?: true
     entrance?: true
+    floor?: true
+    settlement?: true
     postalCode?: true
     isDefault?: true
   }
@@ -7635,6 +7645,8 @@ export namespace Prisma {
     building?: true
     apartment?: true
     entrance?: true
+    floor?: true
+    settlement?: true
     postalCode?: true
     isDefault?: true
     _all?: true
@@ -7735,6 +7747,8 @@ export namespace Prisma {
     building: string
     apartment: string
     entrance: string | null
+    floor: string | null
+    settlement: string | null
     postalCode: string | null
     isDefault: boolean
     _count: AddressCountAggregateOutputType | null
@@ -7767,6 +7781,8 @@ export namespace Prisma {
     building?: boolean
     apartment?: boolean
     entrance?: boolean
+    floor?: boolean
+    settlement?: boolean
     postalCode?: boolean
     isDefault?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -7783,6 +7799,8 @@ export namespace Prisma {
     building?: boolean
     apartment?: boolean
     entrance?: boolean
+    floor?: boolean
+    settlement?: boolean
     postalCode?: boolean
     isDefault?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -7797,6 +7815,8 @@ export namespace Prisma {
     building?: boolean
     apartment?: boolean
     entrance?: boolean
+    floor?: boolean
+    settlement?: boolean
     postalCode?: boolean
     isDefault?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -7811,11 +7831,13 @@ export namespace Prisma {
     building?: boolean
     apartment?: boolean
     entrance?: boolean
+    floor?: boolean
+    settlement?: boolean
     postalCode?: boolean
     isDefault?: boolean
   }
 
-  export type AddressOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "country" | "city" | "street" | "building" | "apartment" | "entrance" | "postalCode" | "isDefault", ExtArgs["result"]["address"]>
+  export type AddressOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "country" | "city" | "street" | "building" | "apartment" | "entrance" | "floor" | "settlement" | "postalCode" | "isDefault", ExtArgs["result"]["address"]>
   export type AddressInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     Order?: boolean | Address$OrderArgs<ExtArgs>
@@ -7843,6 +7865,8 @@ export namespace Prisma {
       building: string
       apartment: string
       entrance: string | null
+      floor: string | null
+      settlement: string | null
       postalCode: string | null
       isDefault: boolean
     }, ExtArgs["result"]["address"]>
@@ -8278,6 +8302,8 @@ export namespace Prisma {
     readonly building: FieldRef<"Address", 'String'>
     readonly apartment: FieldRef<"Address", 'String'>
     readonly entrance: FieldRef<"Address", 'String'>
+    readonly floor: FieldRef<"Address", 'String'>
+    readonly settlement: FieldRef<"Address", 'String'>
     readonly postalCode: FieldRef<"Address", 'String'>
     readonly isDefault: FieldRef<"Address", 'Boolean'>
   }
@@ -25347,6 +25373,8 @@ export namespace Prisma {
     building: 'building',
     apartment: 'apartment',
     entrance: 'entrance',
+    floor: 'floor',
+    settlement: 'settlement',
     postalCode: 'postalCode',
     isDefault: 'isDefault'
   };
@@ -26040,6 +26068,8 @@ export namespace Prisma {
     building?: StringFilter<"Address"> | string
     apartment?: StringFilter<"Address"> | string
     entrance?: StringNullableFilter<"Address"> | string | null
+    floor?: StringNullableFilter<"Address"> | string | null
+    settlement?: StringNullableFilter<"Address"> | string | null
     postalCode?: StringNullableFilter<"Address"> | string | null
     isDefault?: BoolFilter<"Address"> | boolean
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
@@ -26055,6 +26085,8 @@ export namespace Prisma {
     building?: SortOrder
     apartment?: SortOrder
     entrance?: SortOrderInput | SortOrder
+    floor?: SortOrderInput | SortOrder
+    settlement?: SortOrderInput | SortOrder
     postalCode?: SortOrderInput | SortOrder
     isDefault?: SortOrder
     user?: UserOrderByWithRelationInput
@@ -26073,6 +26105,8 @@ export namespace Prisma {
     building?: StringFilter<"Address"> | string
     apartment?: StringFilter<"Address"> | string
     entrance?: StringNullableFilter<"Address"> | string | null
+    floor?: StringNullableFilter<"Address"> | string | null
+    settlement?: StringNullableFilter<"Address"> | string | null
     postalCode?: StringNullableFilter<"Address"> | string | null
     isDefault?: BoolFilter<"Address"> | boolean
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
@@ -26088,6 +26122,8 @@ export namespace Prisma {
     building?: SortOrder
     apartment?: SortOrder
     entrance?: SortOrderInput | SortOrder
+    floor?: SortOrderInput | SortOrder
+    settlement?: SortOrderInput | SortOrder
     postalCode?: SortOrderInput | SortOrder
     isDefault?: SortOrder
     _count?: AddressCountOrderByAggregateInput
@@ -26109,6 +26145,8 @@ export namespace Prisma {
     building?: StringWithAggregatesFilter<"Address"> | string
     apartment?: StringWithAggregatesFilter<"Address"> | string
     entrance?: StringNullableWithAggregatesFilter<"Address"> | string | null
+    floor?: StringNullableWithAggregatesFilter<"Address"> | string | null
+    settlement?: StringNullableWithAggregatesFilter<"Address"> | string | null
     postalCode?: StringNullableWithAggregatesFilter<"Address"> | string | null
     isDefault?: BoolWithAggregatesFilter<"Address"> | boolean
   }
@@ -27491,6 +27529,8 @@ export namespace Prisma {
     building: string
     apartment: string
     entrance?: string | null
+    floor?: string | null
+    settlement?: string | null
     postalCode?: string | null
     isDefault?: boolean
     user: UserCreateNestedOneWithoutAddressesInput
@@ -27506,6 +27546,8 @@ export namespace Prisma {
     building: string
     apartment: string
     entrance?: string | null
+    floor?: string | null
+    settlement?: string | null
     postalCode?: string | null
     isDefault?: boolean
     Order?: OrderUncheckedCreateNestedManyWithoutAddressInput
@@ -27518,6 +27560,8 @@ export namespace Prisma {
     building?: StringFieldUpdateOperationsInput | string
     apartment?: StringFieldUpdateOperationsInput | string
     entrance?: NullableStringFieldUpdateOperationsInput | string | null
+    floor?: NullableStringFieldUpdateOperationsInput | string | null
+    settlement?: NullableStringFieldUpdateOperationsInput | string | null
     postalCode?: NullableStringFieldUpdateOperationsInput | string | null
     isDefault?: BoolFieldUpdateOperationsInput | boolean
     user?: UserUpdateOneRequiredWithoutAddressesNestedInput
@@ -27533,6 +27577,8 @@ export namespace Prisma {
     building?: StringFieldUpdateOperationsInput | string
     apartment?: StringFieldUpdateOperationsInput | string
     entrance?: NullableStringFieldUpdateOperationsInput | string | null
+    floor?: NullableStringFieldUpdateOperationsInput | string | null
+    settlement?: NullableStringFieldUpdateOperationsInput | string | null
     postalCode?: NullableStringFieldUpdateOperationsInput | string | null
     isDefault?: BoolFieldUpdateOperationsInput | boolean
     Order?: OrderUncheckedUpdateManyWithoutAddressNestedInput
@@ -27547,6 +27593,8 @@ export namespace Prisma {
     building: string
     apartment: string
     entrance?: string | null
+    floor?: string | null
+    settlement?: string | null
     postalCode?: string | null
     isDefault?: boolean
   }
@@ -27558,6 +27606,8 @@ export namespace Prisma {
     building?: StringFieldUpdateOperationsInput | string
     apartment?: StringFieldUpdateOperationsInput | string
     entrance?: NullableStringFieldUpdateOperationsInput | string | null
+    floor?: NullableStringFieldUpdateOperationsInput | string | null
+    settlement?: NullableStringFieldUpdateOperationsInput | string | null
     postalCode?: NullableStringFieldUpdateOperationsInput | string | null
     isDefault?: BoolFieldUpdateOperationsInput | boolean
   }
@@ -27571,6 +27621,8 @@ export namespace Prisma {
     building?: StringFieldUpdateOperationsInput | string
     apartment?: StringFieldUpdateOperationsInput | string
     entrance?: NullableStringFieldUpdateOperationsInput | string | null
+    floor?: NullableStringFieldUpdateOperationsInput | string | null
+    settlement?: NullableStringFieldUpdateOperationsInput | string | null
     postalCode?: NullableStringFieldUpdateOperationsInput | string | null
     isDefault?: BoolFieldUpdateOperationsInput | boolean
   }
@@ -29078,6 +29130,8 @@ export namespace Prisma {
     building?: SortOrder
     apartment?: SortOrder
     entrance?: SortOrder
+    floor?: SortOrder
+    settlement?: SortOrder
     postalCode?: SortOrder
     isDefault?: SortOrder
   }
@@ -29096,6 +29150,8 @@ export namespace Prisma {
     building?: SortOrder
     apartment?: SortOrder
     entrance?: SortOrder
+    floor?: SortOrder
+    settlement?: SortOrder
     postalCode?: SortOrder
     isDefault?: SortOrder
   }
@@ -29109,6 +29165,8 @@ export namespace Prisma {
     building?: SortOrder
     apartment?: SortOrder
     entrance?: SortOrder
+    floor?: SortOrder
+    settlement?: SortOrder
     postalCode?: SortOrder
     isDefault?: SortOrder
   }
@@ -31978,6 +32036,8 @@ export namespace Prisma {
     building: string
     apartment: string
     entrance?: string | null
+    floor?: string | null
+    settlement?: string | null
     postalCode?: string | null
     isDefault?: boolean
     Order?: OrderCreateNestedManyWithoutAddressInput
@@ -31991,6 +32051,8 @@ export namespace Prisma {
     building: string
     apartment: string
     entrance?: string | null
+    floor?: string | null
+    settlement?: string | null
     postalCode?: string | null
     isDefault?: boolean
     Order?: OrderUncheckedCreateNestedManyWithoutAddressInput
@@ -32141,6 +32203,8 @@ export namespace Prisma {
     building?: StringFilter<"Address"> | string
     apartment?: StringFilter<"Address"> | string
     entrance?: StringNullableFilter<"Address"> | string | null
+    floor?: StringNullableFilter<"Address"> | string | null
+    settlement?: StringNullableFilter<"Address"> | string | null
     postalCode?: StringNullableFilter<"Address"> | string | null
     isDefault?: BoolFilter<"Address"> | boolean
   }
@@ -33470,6 +33534,8 @@ export namespace Prisma {
     building: string
     apartment: string
     entrance?: string | null
+    floor?: string | null
+    settlement?: string | null
     postalCode?: string | null
     isDefault?: boolean
     user: UserCreateNestedOneWithoutAddressesInput
@@ -33484,6 +33550,8 @@ export namespace Prisma {
     building: string
     apartment: string
     entrance?: string | null
+    floor?: string | null
+    settlement?: string | null
     postalCode?: string | null
     isDefault?: boolean
   }
@@ -33635,6 +33703,8 @@ export namespace Prisma {
     building?: StringFieldUpdateOperationsInput | string
     apartment?: StringFieldUpdateOperationsInput | string
     entrance?: NullableStringFieldUpdateOperationsInput | string | null
+    floor?: NullableStringFieldUpdateOperationsInput | string | null
+    settlement?: NullableStringFieldUpdateOperationsInput | string | null
     postalCode?: NullableStringFieldUpdateOperationsInput | string | null
     isDefault?: BoolFieldUpdateOperationsInput | boolean
     user?: UserUpdateOneRequiredWithoutAddressesNestedInput
@@ -33649,6 +33719,8 @@ export namespace Prisma {
     building?: StringFieldUpdateOperationsInput | string
     apartment?: StringFieldUpdateOperationsInput | string
     entrance?: NullableStringFieldUpdateOperationsInput | string | null
+    floor?: NullableStringFieldUpdateOperationsInput | string | null
+    settlement?: NullableStringFieldUpdateOperationsInput | string | null
     postalCode?: NullableStringFieldUpdateOperationsInput | string | null
     isDefault?: BoolFieldUpdateOperationsInput | boolean
   }
@@ -35304,6 +35376,8 @@ export namespace Prisma {
     building: string
     apartment: string
     entrance?: string | null
+    floor?: string | null
+    settlement?: string | null
     postalCode?: string | null
     isDefault?: boolean
   }
@@ -35344,6 +35418,8 @@ export namespace Prisma {
     building?: StringFieldUpdateOperationsInput | string
     apartment?: StringFieldUpdateOperationsInput | string
     entrance?: NullableStringFieldUpdateOperationsInput | string | null
+    floor?: NullableStringFieldUpdateOperationsInput | string | null
+    settlement?: NullableStringFieldUpdateOperationsInput | string | null
     postalCode?: NullableStringFieldUpdateOperationsInput | string | null
     isDefault?: BoolFieldUpdateOperationsInput | boolean
     Order?: OrderUpdateManyWithoutAddressNestedInput
@@ -35357,6 +35433,8 @@ export namespace Prisma {
     building?: StringFieldUpdateOperationsInput | string
     apartment?: StringFieldUpdateOperationsInput | string
     entrance?: NullableStringFieldUpdateOperationsInput | string | null
+    floor?: NullableStringFieldUpdateOperationsInput | string | null
+    settlement?: NullableStringFieldUpdateOperationsInput | string | null
     postalCode?: NullableStringFieldUpdateOperationsInput | string | null
     isDefault?: BoolFieldUpdateOperationsInput | boolean
     Order?: OrderUncheckedUpdateManyWithoutAddressNestedInput
@@ -35370,6 +35448,8 @@ export namespace Prisma {
     building?: StringFieldUpdateOperationsInput | string
     apartment?: StringFieldUpdateOperationsInput | string
     entrance?: NullableStringFieldUpdateOperationsInput | string | null
+    floor?: NullableStringFieldUpdateOperationsInput | string | null
+    settlement?: NullableStringFieldUpdateOperationsInput | string | null
     postalCode?: NullableStringFieldUpdateOperationsInput | string | null
     isDefault?: BoolFieldUpdateOperationsInput | boolean
   }

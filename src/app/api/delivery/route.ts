@@ -16,6 +16,7 @@ export async function POST(req: NextRequest) {
 	const user = await prisma.user.findUnique({
 		where: { email: session.user.email },
 	})
+
 	if (!user) {
 		return new Response(JSON.stringify({ error: 'Пользователь не найден' }), {
 			status: 404,
@@ -23,8 +24,15 @@ export async function POST(req: NextRequest) {
 	}
 
 	const body = await req.json()
-	const { selectedItems, address, coordinates, phone, comment, deliveryPrice } =
-		body
+	const {
+		selectedItems,
+		address,
+		coordinates,
+		phone,
+		comment,
+		deliveryPrice,
+		addressExtra,
+	} = body
 
 	if (
 		!address ||
@@ -65,14 +73,16 @@ export async function POST(req: NextRequest) {
 		const createdAddress = await prisma.address.create({
 			data: {
 				userId: user.id,
+				country: 'Россия',
 				city: address.city || '',
+				settlement: address.settlement_with_type || '',
 				street: address.street || '',
 				building: address.house || '',
-				apartment: '',
-				entrance: '',
+				apartment: address.flat || '',
+				entrance: addressExtra?.entrance || '',
+				floor: addressExtra?.floor || '',
 				postalCode: address.postal_code || '',
 				isDefault: false,
-				country: 'Россия',
 			},
 		})
 
@@ -106,7 +116,9 @@ export async function POST(req: NextRequest) {
 		console.error('Ошибка при оформлении доставки:', error)
 		return new Response(
 			JSON.stringify({ error: 'Ошибка при создании заказа' }),
-			{ status: 500 }
+			{
+				status: 500,
+			}
 		)
 	}
 }

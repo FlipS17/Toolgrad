@@ -172,6 +172,8 @@ exports.Prisma.AddressScalarFieldEnum = {
   building: 'building',
   apartment: 'apartment',
   entrance: 'entrance',
+  floor: 'floor',
+  settlement: 'settlement',
   postalCode: 'postalCode',
   isDefault: 'isDefault'
 };
