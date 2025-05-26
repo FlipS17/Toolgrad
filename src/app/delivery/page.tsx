@@ -2,6 +2,7 @@
 
 import AuthButton from '@/app/account/components/AuthButton'
 import Input from '@/app/account/components/Input'
+import { useCart } from '@/app/cart/components/CartProvider'
 import { useNotification } from '@/app/components/NotificationProvider'
 import axios from 'axios'
 import 'cleave.js/dist/addons/cleave-phone.ru'
@@ -30,11 +31,17 @@ function getDistanceKm(
 	return R * c
 }
 
-interface Store {
+interface CartItemType {
 	id: number
-	name: string
-	lat: number
-	lon: number
+	quantity: number
+	product: {
+		id: number
+		name: string
+		price: number
+		oldPrice?: number
+		images: string[]
+		brand?: { name: string }
+	}
 }
 
 export default function DeliveryPage() {
@@ -43,20 +50,19 @@ export default function DeliveryPage() {
 	const [selectedAddress, setSelectedAddress] = useState<any | null>(null)
 	const [comment, setComment] = useState('')
 	const [phone, setPhone] = useState('')
-	const [stores, setStores] = useState<Store[]>([])
 	const [deliveryPrice, setDeliveryPrice] = useState<number | null>(null)
+	const [selectedItemsData, setSelectedItemsData] = useState<CartItemType[]>([])
 	const { notify } = useNotification()
+	const { refreshCart } = useCart()
 	const router = useRouter()
 
 	useEffect(() => {
-		axios.get('/api/stores').then(res => {
-			const formatted = res.data.map((store: any) => ({
-				id: store.id,
-				name: store.name,
-				lat: store.latitude,
-				lon: store.longitude,
-			}))
-			setStores(formatted)
+		const selected = JSON.parse(localStorage.getItem('selectedItems') || '[]')
+		axios.get('/api/cart').then(res => {
+			const filtered = res.data.filter((item: CartItemType) =>
+				selected.includes(item.id)
+			)
+			setSelectedItemsData(filtered)
 		})
 	}, [])
 
@@ -89,27 +95,21 @@ export default function DeliveryPage() {
 	}, [addressQuery, selectedAddress])
 
 	useEffect(() => {
-		if (!selectedAddress || !stores.length) return
+		if (!selectedAddress) return
 
 		const userLat = parseFloat(selectedAddress.data.geo_lat)
 		const userLon = parseFloat(selectedAddress.data.geo_lon)
 
-		let minDistance = Infinity
-		let nearestStore: Store | null = null
-
-		for (const store of stores) {
-			const distance = getDistanceKm(store.lat, store.lon, userLat, userLon)
-			if (distance < minDistance) {
-				minDistance = distance
-				nearestStore = store
-			}
-		}
+		const STORE_LAT = 55.7558
+		const STORE_LON = 37.6173
 
 		const BASE_PRICE = 150
 		const PER_KM_PRICE = 20
-		const price = Math.max(BASE_PRICE, Math.round(minDistance * PER_KM_PRICE))
+
+		const distance = getDistanceKm(STORE_LAT, STORE_LON, userLat, userLon)
+		const price = Math.max(BASE_PRICE, Math.round(distance * PER_KM_PRICE))
 		setDeliveryPrice(price)
-	}, [selectedAddress, stores])
+	}, [selectedAddress])
 
 	const handleSelectSuggestion = (suggestion: any) => {
 		setSelectedAddress(suggestion)
@@ -118,8 +118,9 @@ export default function DeliveryPage() {
 	}
 
 	const handleSubmit = async () => {
-		if (!selectedAddress || !phone.trim()) {
-			notify('Пожалуйста, выберите адрес и введите телефон', 'error')
+		const cleanedPhone = phone.replace(/\D/g, '')
+		if (!selectedAddress || cleanedPhone.length !== 11) {
+			notify('Введите корректный номер телефона и выберите адрес', 'error')
 			return
 		}
 
@@ -136,9 +137,7 @@ export default function DeliveryPage() {
 					phone,
 					comment,
 					deliveryPrice,
-					selectedItems: JSON.parse(
-						localStorage.getItem('selectedItems') || '[]'
-					),
+					selectedItems: selectedItemsData.map(item => item.id),
 				}),
 			})
 
@@ -151,12 +150,27 @@ export default function DeliveryPage() {
 
 			notify('Заказ успешно оформлен', 'success')
 			localStorage.removeItem('selectedItems')
+			await refreshCart()
 			router.push('http://localhost:3000/account/orders')
 		} catch (error) {
 			console.error('Ошибка при отправке заказа:', error)
 			notify('Не удалось отправить заказ', 'error')
 		}
 	}
+
+	const userCoords = selectedAddress
+		? [
+				parseFloat(selectedAddress.data.geo_lat),
+				parseFloat(selectedAddress.data.geo_lon),
+		  ]
+		: [55.751244, 37.618423]
+
+	const totalItemsSum = selectedItemsData.reduce(
+		(sum, item) => sum + item.quantity * item.product.price,
+		0
+	)
+	const totalWithDelivery =
+		deliveryPrice !== null ? totalItemsSum + deliveryPrice : totalItemsSum
 
 	return (
 		<div className='container mx-auto py-10 px-4'>
@@ -165,7 +179,6 @@ export default function DeliveryPage() {
 			</h2>
 
 			<div className='flex flex-col lg:flex-row gap-8'>
-				{/* Левая колонка */}
 				<div className='w-full lg:w-2/3 space-y-4'>
 					<div className='space-y-1'>
 						<label className='text-sm font-medium text-gray-700'>
@@ -197,7 +210,7 @@ export default function DeliveryPage() {
 
 					<Input
 						label='Комментарий к заказу'
-						placeholder='Например: Код от домофона, пожелания'
+						placeholder='Например: домофон не работает'
 						value={comment}
 						onChange={e => setComment(e.target.value)}
 					/>
@@ -207,7 +220,12 @@ export default function DeliveryPage() {
 							Телефон для связи
 						</label>
 						<Cleave
-							options={{ phone: true, phoneRegionCode: 'RU' }}
+							options={{
+								prefix: '+7',
+								delimiters: ['(', ')', '-', '-'],
+								blocks: [2, 3, 3, 2, 2],
+								numericOnly: true,
+							}}
 							value={phone}
 							onChange={e => setPhone(e.target.value)}
 							placeholder='+7 (___) ___-__-__'
@@ -215,26 +233,42 @@ export default function DeliveryPage() {
 						/>
 					</div>
 
-					{deliveryPrice !== null && (
-						<div className='text-sm font-medium text-gray-800'>
-							Стоимость доставки:{' '}
-							<span className='text-[#F89514]'>
-								{deliveryPrice.toLocaleString('ru-RU')} ₽
-							</span>
-						</div>
-					)}
-
 					<div className='pt-4'>
 						<AuthButton label='Оформить заказ' onClick={handleSubmit} />
 					</div>
 				</div>
 
-				{/* Правая колонка */}
 				<div className='w-full lg:w-1/3'>
-					{/* Можно заменить на кастомный итог заказа */}
-					<div className='bg-white p-4 rounded-xl shadow-sm'>
+					<div className='bg-white p-4 rounded-xl shadow-sm space-y-4'>
 						<h4 className='text-base font-bold mb-2'>Ваш заказ</h4>
-						<p>Итоговая стоимость + доставка появятся после выбора адреса.</p>
+						{selectedItemsData.map(item => (
+							<div key={item.id} className='flex gap-3 items-center text-sm'>
+								<img
+									src={item.product.images[0] || '/placeholder.png'}
+									alt={item.product.name}
+									className='w-12 h-12 object-contain rounded border'
+								/>
+								<div className='flex-1'>
+									<div className='font-medium'>{item.product.name}</div>
+									<div className='text-gray-500 text-xs'>× {item.quantity}</div>
+								</div>
+								<div className='font-semibold whitespace-nowrap'>
+									{(item.product.price * item.quantity).toLocaleString('ru-RU')}{' '}
+									₽
+								</div>
+							</div>
+						))}
+						{deliveryPrice !== null && (
+							<p className='text-sm text-gray-800 font-medium'>
+								Доставка:{' '}
+								<span className='text-[#F89514]'>
+									{deliveryPrice.toLocaleString('ru-RU')} ₽
+								</span>
+							</p>
+						)}
+						<div className='text-lg font-bold pt-2 border-t'>
+							<span>Итого: {totalWithDelivery.toLocaleString('ru-RU')} ₽</span>
+						</div>
 					</div>
 				</div>
 			</div>

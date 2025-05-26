@@ -1,4 +1,3 @@
-// StoreList.tsx (иконки для адреса и времени, фикс текста с иконкой в инпуте)
 import Input from '@/app/account/components/Input'
 import { ArrowLeft, Clock, MapPin } from 'lucide-react'
 import { useState } from 'react'

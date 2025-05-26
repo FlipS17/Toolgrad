@@ -1,4 +1,3 @@
-/* --- StoreDetails.tsx --- */
 'use client'
 
 import { useCart } from '@/app/cart/components/CartProvider'
