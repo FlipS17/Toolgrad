@@ -1,9 +1,10 @@
 'use client'
 
 import AuthButton from '@/app/account/components/AuthButton'
-import Input from '@/app/account/components/Input'
 import { useCart } from '@/app/cart/components/CartProvider'
+import DeliverySummaryBlock from '@/app/cart/components/CartSummary'
 import { useNotification } from '@/app/components/NotificationProvider'
+import { Map, Placemark, YMaps } from '@pbe/react-yandex-maps'
 import axios from 'axios'
 import 'cleave.js/dist/addons/cleave-phone.ru'
 import Cleave from 'cleave.js/react'
@@ -52,9 +53,17 @@ export default function DeliveryPage() {
 	const [phone, setPhone] = useState('')
 	const [deliveryPrice, setDeliveryPrice] = useState<number | null>(null)
 	const [selectedItemsData, setSelectedItemsData] = useState<CartItemType[]>([])
+	const [errors, setErrors] = useState<{
+		address?: string
+		phone?: string
+		comment?: string
+	}>({})
 	const { notify } = useNotification()
 	const { refreshCart } = useCart()
 	const router = useRouter()
+
+	const MAX_WORDS = 50
+	const MAX_CHARS = 300
 
 	useEffect(() => {
 		const selected = JSON.parse(localStorage.getItem('selectedItems') || '[]')
@@ -115,12 +124,32 @@ export default function DeliveryPage() {
 		setSelectedAddress(suggestion)
 		setAddressQuery(suggestion.value)
 		setSuggestions([])
+		setErrors(prev => ({ ...prev, address: undefined }))
+	}
+
+	const handleCommentChange = (value: string) => {
+		const wordCount = value.trim().split(/\s+/).length
+		if (wordCount > MAX_WORDS || value.length > MAX_CHARS) {
+			setErrors(prev => ({
+				...prev,
+				comment: `Комментарий до ${MAX_WORDS} слов и ${MAX_CHARS} символов`,
+			}))
+			return
+		}
+		setErrors(prev => ({ ...prev, comment: undefined }))
+		setComment(value)
 	}
 
 	const handleSubmit = async () => {
 		const cleanedPhone = phone.replace(/\D/g, '')
-		if (!selectedAddress || cleanedPhone.length !== 11) {
-			notify('Введите корректный номер телефона и выберите адрес', 'error')
+		const newErrors: typeof errors = {}
+
+		if (!selectedAddress) newErrors.address = 'Заполните адрес доставки'
+		if (cleanedPhone.length !== 11)
+			newErrors.phone = 'Введите корректный номер телефона'
+
+		if (Object.keys(newErrors).length > 0) {
+			setErrors(newErrors)
 			return
 		}
 
@@ -165,13 +194,6 @@ export default function DeliveryPage() {
 		  ]
 		: [55.751244, 37.618423]
 
-	const totalItemsSum = selectedItemsData.reduce(
-		(sum, item) => sum + item.quantity * item.product.price,
-		0
-	)
-	const totalWithDelivery =
-		deliveryPrice !== null ? totalItemsSum + deliveryPrice : totalItemsSum
-
 	return (
 		<div className='container mx-auto py-10 px-4'>
 			<h2 className='text-2xl font-semibold text-center mb-6'>
@@ -179,7 +201,7 @@ export default function DeliveryPage() {
 			</h2>
 
 			<div className='flex flex-col lg:flex-row gap-8'>
-				<div className='w-full lg:w-2/3 space-y-4'>
+				<div className='w-full lg:w-2/3 space-y-6'>
 					<div className='space-y-1'>
 						<label className='text-sm font-medium text-gray-700'>
 							Адрес доставки
@@ -193,6 +215,9 @@ export default function DeliveryPage() {
 							placeholder='Введите адрес'
 							className='w-full rounded-xl border px-4 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-[#F89514] border-gray-300'
 						/>
+						{errors.address && (
+							<p className='text-sm text-red-500'>{errors.address}</p>
+						)}
 						{suggestions.length > 0 && (
 							<ul className='bg-white border border-gray-200 rounded-xl shadow-sm mt-1 max-h-60 overflow-y-auto'>
 								{suggestions.map((s, i) => (
@@ -208,12 +233,26 @@ export default function DeliveryPage() {
 						)}
 					</div>
 
-					<Input
-						label='Комментарий к заказу'
-						placeholder='Например: домофон не работает'
-						value={comment}
-						onChange={e => setComment(e.target.value)}
-					/>
+					<div>
+						<label className='text-sm font-medium text-gray-700 block mb-1'>
+							Комментарий к заказу
+						</label>
+						<textarea
+							value={comment}
+							onChange={e => handleCommentChange(e.target.value)}
+							placeholder='Например: домофон не работает'
+							className='w-full rounded-xl border px-4 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-[#F89514] border-gray-300 resize-none overflow-hidden'
+							rows={3}
+							onInput={e => {
+								const el = e.currentTarget
+								el.style.height = 'auto'
+								el.style.height = el.scrollHeight + 'px'
+							}}
+						/>
+						{errors.comment && (
+							<p className='text-sm text-red-500'>{errors.comment}</p>
+						)}
+					</div>
 
 					<div className='space-y-1'>
 						<label className='text-sm font-medium text-gray-700'>
@@ -227,20 +266,34 @@ export default function DeliveryPage() {
 								numericOnly: true,
 							}}
 							value={phone}
-							onChange={e => setPhone(e.target.value)}
+							onChange={e => {
+								setPhone(e.target.value)
+								setErrors(prev => ({ ...prev, phone: undefined }))
+							}}
 							placeholder='+7 (___) ___-__-__'
 							className='w-full rounded-xl border px-4 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-[#F89514] border-gray-300'
 						/>
+						{errors.phone && (
+							<p className='text-sm text-red-500'>{errors.phone}</p>
+						)}
 					</div>
 
-					<div className='pt-4'>
-						<AuthButton label='Оформить заказ' onClick={handleSubmit} />
-					</div>
+					{selectedAddress && (
+						<YMaps>
+							<Map
+								state={{ center: userCoords, zoom: 11 }}
+								width='100%'
+								height='300px'
+							>
+								<Placemark geometry={userCoords} />
+							</Map>
+						</YMaps>
+					)}
 				</div>
 
-				<div className='w-full lg:w-1/3'>
+				<div className='w-full lg:w-1/3 space-y-4'>
 					<div className='bg-white p-4 rounded-xl shadow-sm space-y-4'>
-						<h4 className='text-base font-bold mb-2'>Ваш заказ</h4>
+						<h4 className='text-base font-bold mb-2'>Выбранные товары</h4>
 						{selectedItemsData.map(item => (
 							<div key={item.id} className='flex gap-3 items-center text-sm'>
 								<img
@@ -252,24 +305,27 @@ export default function DeliveryPage() {
 									<div className='font-medium'>{item.product.name}</div>
 									<div className='text-gray-500 text-xs'>× {item.quantity}</div>
 								</div>
-								<div className='font-semibold whitespace-nowrap'>
-									{(item.product.price * item.quantity).toLocaleString('ru-RU')}{' '}
-									₽
+								<div className='text-right whitespace-nowrap'>
+									<div className='font-semibold'>
+										{item.product.price.toLocaleString('ru-RU')} ₽
+									</div>
+									{item.product.oldPrice &&
+										item.product.oldPrice > item.product.price && (
+											<div className='text-xs text-gray-400 line-through'>
+												{item.product.oldPrice.toLocaleString('ru-RU')} ₽
+											</div>
+										)}
 								</div>
 							</div>
 						))}
-						{deliveryPrice !== null && (
-							<p className='text-sm text-gray-800 font-medium'>
-								Доставка:{' '}
-								<span className='text-[#F89514]'>
-									{deliveryPrice.toLocaleString('ru-RU')} ₽
-								</span>
-							</p>
-						)}
-						<div className='text-lg font-bold pt-2 border-t'>
-							<span>Итого: {totalWithDelivery.toLocaleString('ru-RU')} ₽</span>
-						</div>
 					</div>
+
+					<DeliverySummaryBlock
+						items={selectedItemsData}
+						deliveryPrice={deliveryPrice}
+					/>
+
+					<AuthButton label='Оформить заказ' onClick={handleSubmit} />
 				</div>
 			</div>
 		</div>

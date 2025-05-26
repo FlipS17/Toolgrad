@@ -1,8 +1,8 @@
 'use client'
 
-import Input from '@/app/account/components/Input'
 import CartItem from '@/app/cart/components/CartItem'
 import { useCart } from '@/app/cart/components/CartProvider'
+import CartSummaryBlock from '@/app/cart/components/CartSummary'
 import { useFavorites } from '@/app/favorite/components/FavoriteProvider'
 import axios from 'axios'
 import Link from 'next/link'
@@ -92,19 +92,6 @@ export default function CartPage() {
 	const selected = items.filter(item => selectedItems.includes(item.id))
 	const isEmpty = selected.length === 0
 
-	const totalQuantity = selected.reduce((a, b) => a + b.quantity, 0)
-	const sumBeforeDiscount = selected.reduce(
-		(sum, item) => sum + item.product.price * item.quantity,
-		0
-	)
-	const productDiscount = selected.reduce((sum, item) => {
-		if (item.product.oldPrice && item.product.oldPrice > item.product.price) {
-			return sum + (item.product.oldPrice - item.product.price) * item.quantity
-		}
-		return sum
-	}, 0)
-	const totalPrice = sumBeforeDiscount - productDiscount
-
 	return (
 		<div className='container mx-auto py-12 px-4'>
 			<h2 className='text-2xl font-semibold text-center mb-6'>Корзина</h2>
@@ -193,42 +180,11 @@ export default function CartPage() {
 				</div>
 
 				<div className='w-full md:w-[380px] shrink-0 space-y-4'>
-					<div className='bg-white rounded-xl shadow-sm p-6 space-y-6'>
-						<Input
-							label='Промокод'
-							placeholder='Введите промокод'
-							value={promoCode}
-							onChange={e => setPromoCode(e.target.value)}
-						/>
-
-						<div className='pt-2 border-t space-y-3'>
-							<h4 className='text-base font-bold text-gray-900 flex justify-between'>
-								<span>Ваш заказ</span>
-								<span className='text-sm font-normal text-gray-500'>
-									{totalQuantity} товаров
-								</span>
-							</h4>
-
-							<div className='text-sm text-gray-700 space-y-2'>
-								<div className='flex justify-between'>
-									<span>Сумма:</span>
-									<span>{sumBeforeDiscount.toLocaleString('ru-RU')} ₽</span>
-								</div>
-
-								<div className='flex justify-between text-green-600'>
-									<span>Скидка:</span>
-									<span>-{productDiscount.toLocaleString('ru-RU')} ₽</span>
-								</div>
-							</div>
-
-							<hr className='my-3' />
-
-							<div className='flex justify-between text-xl font-bold text-gray-900'>
-								<span>Итого:</span>
-								<span>{totalPrice.toLocaleString('ru-RU')} ₽</span>
-							</div>
-						</div>
-					</div>
+					<CartSummaryBlock
+						items={selected}
+						promoCode={promoCode}
+						setPromoCode={setPromoCode}
+					/>
 
 					<Link
 						href={deliveryType === 'pickup' ? '/pickup' : '/delivery'}
