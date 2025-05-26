@@ -4,7 +4,6 @@ import Input from '@/app/account/components/Input'
 import CartItem from '@/app/cart/components/CartItem'
 import { useCart } from '@/app/cart/components/CartProvider'
 import { useFavorites } from '@/app/favorite/components/FavoriteProvider'
-import { calculateCartTotals, DELIVERY_FEE } from '@/utils/calculateCartTotals'
 import axios from 'axios'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
@@ -93,23 +92,18 @@ export default function CartPage() {
 	const selected = items.filter(item => selectedItems.includes(item.id))
 	const isEmpty = selected.length === 0
 
-	const { sumBeforeDiscount, productDiscount, totalWithDelivery } =
-		calculateCartTotals(selected, deliveryType)
-
-	if (items.length === 0) {
-		return (
-			<div className='container mx-auto py-12 px-4 text-center'>
-				<h2 className='text-2xl font-semibold mb-4'>Корзина</h2>
-				<p className='text-gray-500 mb-6'>В вашей корзине пока нет товаров</p>
-				<Link
-					href='/catalog'
-					className='inline-block bg-[#F89514] text-white px-6 py-2 rounded-xl hover:bg-[#d97c0f] transition'
-				>
-					К покупкам
-				</Link>
-			</div>
-		)
-	}
+	const totalQuantity = selected.reduce((a, b) => a + b.quantity, 0)
+	const sumBeforeDiscount = selected.reduce(
+		(sum, item) => sum + item.product.price * item.quantity,
+		0
+	)
+	const productDiscount = selected.reduce((sum, item) => {
+		if (item.product.oldPrice && item.product.oldPrice > item.product.price) {
+			return sum + (item.product.oldPrice - item.product.price) * item.quantity
+		}
+		return sum
+	}, 0)
+	const totalPrice = sumBeforeDiscount - productDiscount
 
 	return (
 		<div className='container mx-auto py-12 px-4'>
@@ -130,7 +124,7 @@ export default function CartPage() {
 							active={deliveryType === 'delivery'}
 							onClick={() => setDeliveryType('delivery')}
 							label='Курьером'
-							sublabel={`+${DELIVERY_FEE}₽`}
+							sublabel='Стоимость рассчитывается на этапе оформления'
 						/>
 					</div>
 
@@ -211,7 +205,7 @@ export default function CartPage() {
 							<h4 className='text-base font-bold text-gray-900 flex justify-between'>
 								<span>Ваш заказ</span>
 								<span className='text-sm font-normal text-gray-500'>
-									{selected.reduce((a, b) => a + b.quantity, 0)} товаров
+									{totalQuantity} товаров
 								</span>
 							</h4>
 
@@ -225,20 +219,13 @@ export default function CartPage() {
 									<span>Скидка:</span>
 									<span>-{productDiscount.toLocaleString('ru-RU')} ₽</span>
 								</div>
-
-								{deliveryType === 'delivery' && (
-									<div className='flex justify-between'>
-										<span>Доставка:</span>
-										<span>{DELIVERY_FEE.toLocaleString('ru-RU')} ₽</span>
-									</div>
-								)}
 							</div>
 
 							<hr className='my-3' />
 
 							<div className='flex justify-between text-xl font-bold text-gray-900'>
 								<span>Итого:</span>
-								<span>{totalWithDelivery.toLocaleString('ru-RU')} ₽</span>
+								<span>{totalPrice.toLocaleString('ru-RU')} ₽</span>
 							</div>
 						</div>
 					</div>

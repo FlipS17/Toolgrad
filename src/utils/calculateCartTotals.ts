@@ -1,7 +1,5 @@
 import { CartItemType } from '@/app/cart/page'
 
-export const DELIVERY_FEE = 259
-
 type Totals = {
 	sumBeforeDiscount: number
 	productDiscount: number
@@ -11,7 +9,7 @@ type Totals = {
 
 export function calculateCartTotals(
 	items: CartItemType[],
-	deliveryType: 'pickup' | 'delivery'
+	options?: { deliveryFee?: number }
 ): Totals {
 	const sumBeforeDiscount = items.reduce((sum, item) => {
 		const hasValidOldPrice =
@@ -37,7 +35,7 @@ export function calculateCartTotals(
 	}, 0)
 
 	const totalPrice = sumBeforeDiscount - productDiscount
-	const deliveryFee = deliveryType === 'delivery' ? DELIVERY_FEE : 0
+	const deliveryFee = options?.deliveryFee ?? 0
 	const totalWithDelivery = totalPrice + deliveryFee
 
 	return {
