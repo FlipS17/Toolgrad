@@ -108,6 +108,11 @@ export type Store = $Result.DefaultSelection<Prisma.$StorePayload>
  * 
  */
 export type ProductStock = $Result.DefaultSelection<Prisma.$ProductStockPayload>
+/**
+ * Model PhoneVerificationCode
+ * 
+ */
+export type PhoneVerificationCode = $Result.DefaultSelection<Prisma.$PhoneVerificationCodePayload>
 
 /**
  * Enums
@@ -496,6 +501,16 @@ export class PrismaClient<
     * ```
     */
   get productStock(): Prisma.ProductStockDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.phoneVerificationCode`: Exposes CRUD operations for the **PhoneVerificationCode** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more PhoneVerificationCodes
+    * const phoneVerificationCodes = await prisma.phoneVerificationCode.findMany()
+    * ```
+    */
+  get phoneVerificationCode(): Prisma.PhoneVerificationCodeDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -954,7 +969,8 @@ export namespace Prisma {
     ProductSpecification: 'ProductSpecification',
     Promotion: 'Promotion',
     Store: 'Store',
-    ProductStock: 'ProductStock'
+    ProductStock: 'ProductStock',
+    PhoneVerificationCode: 'PhoneVerificationCode'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -973,7 +989,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "brand" | "user" | "passwordResetToken" | "verificationCode" | "address" | "slider" | "product" | "category" | "review" | "order" | "orderItem" | "payment" | "cart" | "cartItem" | "favorite" | "productSpecification" | "promotion" | "store" | "productStock"
+      modelProps: "brand" | "user" | "passwordResetToken" | "verificationCode" | "address" | "slider" | "product" | "category" | "review" | "order" | "orderItem" | "payment" | "cart" | "cartItem" | "favorite" | "productSpecification" | "promotion" | "store" | "productStock" | "phoneVerificationCode"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -2383,6 +2399,80 @@ export namespace Prisma {
           }
         }
       }
+      PhoneVerificationCode: {
+        payload: Prisma.$PhoneVerificationCodePayload<ExtArgs>
+        fields: Prisma.PhoneVerificationCodeFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.PhoneVerificationCodeFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PhoneVerificationCodePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.PhoneVerificationCodeFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PhoneVerificationCodePayload>
+          }
+          findFirst: {
+            args: Prisma.PhoneVerificationCodeFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PhoneVerificationCodePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.PhoneVerificationCodeFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PhoneVerificationCodePayload>
+          }
+          findMany: {
+            args: Prisma.PhoneVerificationCodeFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PhoneVerificationCodePayload>[]
+          }
+          create: {
+            args: Prisma.PhoneVerificationCodeCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PhoneVerificationCodePayload>
+          }
+          createMany: {
+            args: Prisma.PhoneVerificationCodeCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.PhoneVerificationCodeCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PhoneVerificationCodePayload>[]
+          }
+          delete: {
+            args: Prisma.PhoneVerificationCodeDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PhoneVerificationCodePayload>
+          }
+          update: {
+            args: Prisma.PhoneVerificationCodeUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PhoneVerificationCodePayload>
+          }
+          deleteMany: {
+            args: Prisma.PhoneVerificationCodeDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.PhoneVerificationCodeUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.PhoneVerificationCodeUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PhoneVerificationCodePayload>[]
+          }
+          upsert: {
+            args: Prisma.PhoneVerificationCodeUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PhoneVerificationCodePayload>
+          }
+          aggregate: {
+            args: Prisma.PhoneVerificationCodeAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregatePhoneVerificationCode>
+          }
+          groupBy: {
+            args: Prisma.PhoneVerificationCodeGroupByArgs<ExtArgs>
+            result: $Utils.Optional<PhoneVerificationCodeGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.PhoneVerificationCodeCountArgs<ExtArgs>
+            result: $Utils.Optional<PhoneVerificationCodeCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -2486,6 +2576,7 @@ export namespace Prisma {
     promotion?: PromotionOmit
     store?: StoreOmit
     productStock?: ProductStockOmit
+    phoneVerificationCode?: PhoneVerificationCodeOmit
   }
 
   /* Types for Logging */
@@ -4189,6 +4280,7 @@ export namespace Prisma {
     createdAt: Date | null
     updatedAt: Date | null
     role: $Enums.Role | null
+    phoneVerified: boolean | null
   }
 
   export type UserMaxAggregateOutputType = {
@@ -4204,6 +4296,7 @@ export namespace Prisma {
     createdAt: Date | null
     updatedAt: Date | null
     role: $Enums.Role | null
+    phoneVerified: boolean | null
   }
 
   export type UserCountAggregateOutputType = {
@@ -4219,6 +4312,7 @@ export namespace Prisma {
     createdAt: number
     updatedAt: number
     role: number
+    phoneVerified: number
     _all: number
   }
 
@@ -4246,6 +4340,7 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     role?: true
+    phoneVerified?: true
   }
 
   export type UserMaxAggregateInputType = {
@@ -4261,6 +4356,7 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     role?: true
+    phoneVerified?: true
   }
 
   export type UserCountAggregateInputType = {
@@ -4276,6 +4372,7 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     role?: true
+    phoneVerified?: true
     _all?: true
   }
 
@@ -4378,6 +4475,7 @@ export namespace Prisma {
     createdAt: Date
     updatedAt: Date
     role: $Enums.Role
+    phoneVerified: boolean
     _count: UserCountAggregateOutputType | null
     _avg: UserAvgAggregateOutputType | null
     _sum: UserSumAggregateOutputType | null
@@ -4412,6 +4510,7 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     role?: boolean
+    phoneVerified?: boolean
     addresses?: boolean | User$addressesArgs<ExtArgs>
     cart?: boolean | User$cartArgs<ExtArgs>
     favorites?: boolean | User$favoritesArgs<ExtArgs>
@@ -4433,6 +4532,7 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     role?: boolean
+    phoneVerified?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -4448,6 +4548,7 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     role?: boolean
+    phoneVerified?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectScalar = {
@@ -4463,9 +4564,10 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     role?: boolean
+    phoneVerified?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "password" | "firstName" | "lastName" | "patronymic" | "phone" | "avatar" | "birthDate" | "createdAt" | "updatedAt" | "role", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "password" | "firstName" | "lastName" | "patronymic" | "phone" | "avatar" | "birthDate" | "createdAt" | "updatedAt" | "role" | "phoneVerified", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     addresses?: boolean | User$addressesArgs<ExtArgs>
     cart?: boolean | User$cartArgs<ExtArgs>
@@ -4499,6 +4601,7 @@ export namespace Prisma {
       createdAt: Date
       updatedAt: Date
       role: $Enums.Role
+      phoneVerified: boolean
     }, ExtArgs["result"]["user"]>
     composites: {}
   }
@@ -4939,6 +5042,7 @@ export namespace Prisma {
     readonly createdAt: FieldRef<"User", 'DateTime'>
     readonly updatedAt: FieldRef<"User", 'DateTime'>
     readonly role: FieldRef<"User", 'Role'>
+    readonly phoneVerified: FieldRef<"User", 'Boolean'>
   }
     
 
@@ -7555,11 +7659,11 @@ export namespace Prisma {
     country: string | null
     city: string | null
     street: string | null
+    settlement: string | null
     building: string | null
     apartment: string | null
     entrance: string | null
     floor: string | null
-    settlement: string | null
     postalCode: string | null
     isDefault: boolean | null
   }
@@ -7570,11 +7674,11 @@ export namespace Prisma {
     country: string | null
     city: string | null
     street: string | null
+    settlement: string | null
     building: string | null
     apartment: string | null
     entrance: string | null
     floor: string | null
-    settlement: string | null
     postalCode: string | null
     isDefault: boolean | null
   }
@@ -7585,11 +7689,11 @@ export namespace Prisma {
     country: number
     city: number
     street: number
+    settlement: number
     building: number
     apartment: number
     entrance: number
     floor: number
-    settlement: number
     postalCode: number
     isDefault: number
     _all: number
@@ -7612,11 +7716,11 @@ export namespace Prisma {
     country?: true
     city?: true
     street?: true
+    settlement?: true
     building?: true
     apartment?: true
     entrance?: true
     floor?: true
-    settlement?: true
     postalCode?: true
     isDefault?: true
   }
@@ -7627,11 +7731,11 @@ export namespace Prisma {
     country?: true
     city?: true
     street?: true
+    settlement?: true
     building?: true
     apartment?: true
     entrance?: true
     floor?: true
-    settlement?: true
     postalCode?: true
     isDefault?: true
   }
@@ -7642,11 +7746,11 @@ export namespace Prisma {
     country?: true
     city?: true
     street?: true
+    settlement?: true
     building?: true
     apartment?: true
     entrance?: true
     floor?: true
-    settlement?: true
     postalCode?: true
     isDefault?: true
     _all?: true
@@ -7744,11 +7848,11 @@ export namespace Prisma {
     country: string
     city: string
     street: string
+    settlement: string | null
     building: string
     apartment: string
     entrance: string | null
     floor: string | null
-    settlement: string | null
     postalCode: string | null
     isDefault: boolean
     _count: AddressCountAggregateOutputType | null
@@ -7778,11 +7882,11 @@ export namespace Prisma {
     country?: boolean
     city?: boolean
     street?: boolean
+    settlement?: boolean
     building?: boolean
     apartment?: boolean
     entrance?: boolean
     floor?: boolean
-    settlement?: boolean
     postalCode?: boolean
     isDefault?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -7796,11 +7900,11 @@ export namespace Prisma {
     country?: boolean
     city?: boolean
     street?: boolean
+    settlement?: boolean
     building?: boolean
     apartment?: boolean
     entrance?: boolean
     floor?: boolean
-    settlement?: boolean
     postalCode?: boolean
     isDefault?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -7812,11 +7916,11 @@ export namespace Prisma {
     country?: boolean
     city?: boolean
     street?: boolean
+    settlement?: boolean
     building?: boolean
     apartment?: boolean
     entrance?: boolean
     floor?: boolean
-    settlement?: boolean
     postalCode?: boolean
     isDefault?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -7828,16 +7932,16 @@ export namespace Prisma {
     country?: boolean
     city?: boolean
     street?: boolean
+    settlement?: boolean
     building?: boolean
     apartment?: boolean
     entrance?: boolean
     floor?: boolean
-    settlement?: boolean
     postalCode?: boolean
     isDefault?: boolean
   }
 
-  export type AddressOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "country" | "city" | "street" | "building" | "apartment" | "entrance" | "floor" | "settlement" | "postalCode" | "isDefault", ExtArgs["result"]["address"]>
+  export type AddressOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "country" | "city" | "street" | "settlement" | "building" | "apartment" | "entrance" | "floor" | "postalCode" | "isDefault", ExtArgs["result"]["address"]>
   export type AddressInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     Order?: boolean | Address$OrderArgs<ExtArgs>
@@ -7862,11 +7966,11 @@ export namespace Prisma {
       country: string
       city: string
       street: string
+      settlement: string | null
       building: string
       apartment: string
       entrance: string | null
       floor: string | null
-      settlement: string | null
       postalCode: string | null
       isDefault: boolean
     }, ExtArgs["result"]["address"]>
@@ -8299,11 +8403,11 @@ export namespace Prisma {
     readonly country: FieldRef<"Address", 'String'>
     readonly city: FieldRef<"Address", 'String'>
     readonly street: FieldRef<"Address", 'String'>
+    readonly settlement: FieldRef<"Address", 'String'>
     readonly building: FieldRef<"Address", 'String'>
     readonly apartment: FieldRef<"Address", 'String'>
     readonly entrance: FieldRef<"Address", 'String'>
     readonly floor: FieldRef<"Address", 'String'>
-    readonly settlement: FieldRef<"Address", 'String'>
     readonly postalCode: FieldRef<"Address", 'String'>
     readonly isDefault: FieldRef<"Address", 'Boolean'>
   }
@@ -25296,6 +25400,1035 @@ export namespace Prisma {
 
 
   /**
+   * Model PhoneVerificationCode
+   */
+
+  export type AggregatePhoneVerificationCode = {
+    _count: PhoneVerificationCodeCountAggregateOutputType | null
+    _avg: PhoneVerificationCodeAvgAggregateOutputType | null
+    _sum: PhoneVerificationCodeSumAggregateOutputType | null
+    _min: PhoneVerificationCodeMinAggregateOutputType | null
+    _max: PhoneVerificationCodeMaxAggregateOutputType | null
+  }
+
+  export type PhoneVerificationCodeAvgAggregateOutputType = {
+    id: number | null
+  }
+
+  export type PhoneVerificationCodeSumAggregateOutputType = {
+    id: number | null
+  }
+
+  export type PhoneVerificationCodeMinAggregateOutputType = {
+    id: number | null
+    phone: string | null
+    code: string | null
+    expires: Date | null
+    createdAt: Date | null
+  }
+
+  export type PhoneVerificationCodeMaxAggregateOutputType = {
+    id: number | null
+    phone: string | null
+    code: string | null
+    expires: Date | null
+    createdAt: Date | null
+  }
+
+  export type PhoneVerificationCodeCountAggregateOutputType = {
+    id: number
+    phone: number
+    code: number
+    expires: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type PhoneVerificationCodeAvgAggregateInputType = {
+    id?: true
+  }
+
+  export type PhoneVerificationCodeSumAggregateInputType = {
+    id?: true
+  }
+
+  export type PhoneVerificationCodeMinAggregateInputType = {
+    id?: true
+    phone?: true
+    code?: true
+    expires?: true
+    createdAt?: true
+  }
+
+  export type PhoneVerificationCodeMaxAggregateInputType = {
+    id?: true
+    phone?: true
+    code?: true
+    expires?: true
+    createdAt?: true
+  }
+
+  export type PhoneVerificationCodeCountAggregateInputType = {
+    id?: true
+    phone?: true
+    code?: true
+    expires?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type PhoneVerificationCodeAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PhoneVerificationCode to aggregate.
+     */
+    where?: PhoneVerificationCodeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PhoneVerificationCodes to fetch.
+     */
+    orderBy?: PhoneVerificationCodeOrderByWithRelationInput | PhoneVerificationCodeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: PhoneVerificationCodeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PhoneVerificationCodes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PhoneVerificationCodes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned PhoneVerificationCodes
+    **/
+    _count?: true | PhoneVerificationCodeCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: PhoneVerificationCodeAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: PhoneVerificationCodeSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: PhoneVerificationCodeMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: PhoneVerificationCodeMaxAggregateInputType
+  }
+
+  export type GetPhoneVerificationCodeAggregateType<T extends PhoneVerificationCodeAggregateArgs> = {
+        [P in keyof T & keyof AggregatePhoneVerificationCode]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePhoneVerificationCode[P]>
+      : GetScalarType<T[P], AggregatePhoneVerificationCode[P]>
+  }
+
+
+
+
+  export type PhoneVerificationCodeGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PhoneVerificationCodeWhereInput
+    orderBy?: PhoneVerificationCodeOrderByWithAggregationInput | PhoneVerificationCodeOrderByWithAggregationInput[]
+    by: PhoneVerificationCodeScalarFieldEnum[] | PhoneVerificationCodeScalarFieldEnum
+    having?: PhoneVerificationCodeScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: PhoneVerificationCodeCountAggregateInputType | true
+    _avg?: PhoneVerificationCodeAvgAggregateInputType
+    _sum?: PhoneVerificationCodeSumAggregateInputType
+    _min?: PhoneVerificationCodeMinAggregateInputType
+    _max?: PhoneVerificationCodeMaxAggregateInputType
+  }
+
+  export type PhoneVerificationCodeGroupByOutputType = {
+    id: number
+    phone: string
+    code: string
+    expires: Date
+    createdAt: Date
+    _count: PhoneVerificationCodeCountAggregateOutputType | null
+    _avg: PhoneVerificationCodeAvgAggregateOutputType | null
+    _sum: PhoneVerificationCodeSumAggregateOutputType | null
+    _min: PhoneVerificationCodeMinAggregateOutputType | null
+    _max: PhoneVerificationCodeMaxAggregateOutputType | null
+  }
+
+  type GetPhoneVerificationCodeGroupByPayload<T extends PhoneVerificationCodeGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<PhoneVerificationCodeGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PhoneVerificationCodeGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PhoneVerificationCodeGroupByOutputType[P]>
+            : GetScalarType<T[P], PhoneVerificationCodeGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type PhoneVerificationCodeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    phone?: boolean
+    code?: boolean
+    expires?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["phoneVerificationCode"]>
+
+  export type PhoneVerificationCodeSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    phone?: boolean
+    code?: boolean
+    expires?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["phoneVerificationCode"]>
+
+  export type PhoneVerificationCodeSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    phone?: boolean
+    code?: boolean
+    expires?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["phoneVerificationCode"]>
+
+  export type PhoneVerificationCodeSelectScalar = {
+    id?: boolean
+    phone?: boolean
+    code?: boolean
+    expires?: boolean
+    createdAt?: boolean
+  }
+
+  export type PhoneVerificationCodeOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "phone" | "code" | "expires" | "createdAt", ExtArgs["result"]["phoneVerificationCode"]>
+
+  export type $PhoneVerificationCodePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "PhoneVerificationCode"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      phone: string
+      code: string
+      expires: Date
+      createdAt: Date
+    }, ExtArgs["result"]["phoneVerificationCode"]>
+    composites: {}
+  }
+
+  type PhoneVerificationCodeGetPayload<S extends boolean | null | undefined | PhoneVerificationCodeDefaultArgs> = $Result.GetResult<Prisma.$PhoneVerificationCodePayload, S>
+
+  type PhoneVerificationCodeCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<PhoneVerificationCodeFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: PhoneVerificationCodeCountAggregateInputType | true
+    }
+
+  export interface PhoneVerificationCodeDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['PhoneVerificationCode'], meta: { name: 'PhoneVerificationCode' } }
+    /**
+     * Find zero or one PhoneVerificationCode that matches the filter.
+     * @param {PhoneVerificationCodeFindUniqueArgs} args - Arguments to find a PhoneVerificationCode
+     * @example
+     * // Get one PhoneVerificationCode
+     * const phoneVerificationCode = await prisma.phoneVerificationCode.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends PhoneVerificationCodeFindUniqueArgs>(args: SelectSubset<T, PhoneVerificationCodeFindUniqueArgs<ExtArgs>>): Prisma__PhoneVerificationCodeClient<$Result.GetResult<Prisma.$PhoneVerificationCodePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one PhoneVerificationCode that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {PhoneVerificationCodeFindUniqueOrThrowArgs} args - Arguments to find a PhoneVerificationCode
+     * @example
+     * // Get one PhoneVerificationCode
+     * const phoneVerificationCode = await prisma.phoneVerificationCode.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends PhoneVerificationCodeFindUniqueOrThrowArgs>(args: SelectSubset<T, PhoneVerificationCodeFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PhoneVerificationCodeClient<$Result.GetResult<Prisma.$PhoneVerificationCodePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PhoneVerificationCode that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PhoneVerificationCodeFindFirstArgs} args - Arguments to find a PhoneVerificationCode
+     * @example
+     * // Get one PhoneVerificationCode
+     * const phoneVerificationCode = await prisma.phoneVerificationCode.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends PhoneVerificationCodeFindFirstArgs>(args?: SelectSubset<T, PhoneVerificationCodeFindFirstArgs<ExtArgs>>): Prisma__PhoneVerificationCodeClient<$Result.GetResult<Prisma.$PhoneVerificationCodePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PhoneVerificationCode that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PhoneVerificationCodeFindFirstOrThrowArgs} args - Arguments to find a PhoneVerificationCode
+     * @example
+     * // Get one PhoneVerificationCode
+     * const phoneVerificationCode = await prisma.phoneVerificationCode.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends PhoneVerificationCodeFindFirstOrThrowArgs>(args?: SelectSubset<T, PhoneVerificationCodeFindFirstOrThrowArgs<ExtArgs>>): Prisma__PhoneVerificationCodeClient<$Result.GetResult<Prisma.$PhoneVerificationCodePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more PhoneVerificationCodes that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PhoneVerificationCodeFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all PhoneVerificationCodes
+     * const phoneVerificationCodes = await prisma.phoneVerificationCode.findMany()
+     * 
+     * // Get first 10 PhoneVerificationCodes
+     * const phoneVerificationCodes = await prisma.phoneVerificationCode.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const phoneVerificationCodeWithIdOnly = await prisma.phoneVerificationCode.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends PhoneVerificationCodeFindManyArgs>(args?: SelectSubset<T, PhoneVerificationCodeFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PhoneVerificationCodePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a PhoneVerificationCode.
+     * @param {PhoneVerificationCodeCreateArgs} args - Arguments to create a PhoneVerificationCode.
+     * @example
+     * // Create one PhoneVerificationCode
+     * const PhoneVerificationCode = await prisma.phoneVerificationCode.create({
+     *   data: {
+     *     // ... data to create a PhoneVerificationCode
+     *   }
+     * })
+     * 
+     */
+    create<T extends PhoneVerificationCodeCreateArgs>(args: SelectSubset<T, PhoneVerificationCodeCreateArgs<ExtArgs>>): Prisma__PhoneVerificationCodeClient<$Result.GetResult<Prisma.$PhoneVerificationCodePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many PhoneVerificationCodes.
+     * @param {PhoneVerificationCodeCreateManyArgs} args - Arguments to create many PhoneVerificationCodes.
+     * @example
+     * // Create many PhoneVerificationCodes
+     * const phoneVerificationCode = await prisma.phoneVerificationCode.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends PhoneVerificationCodeCreateManyArgs>(args?: SelectSubset<T, PhoneVerificationCodeCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many PhoneVerificationCodes and returns the data saved in the database.
+     * @param {PhoneVerificationCodeCreateManyAndReturnArgs} args - Arguments to create many PhoneVerificationCodes.
+     * @example
+     * // Create many PhoneVerificationCodes
+     * const phoneVerificationCode = await prisma.phoneVerificationCode.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many PhoneVerificationCodes and only return the `id`
+     * const phoneVerificationCodeWithIdOnly = await prisma.phoneVerificationCode.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends PhoneVerificationCodeCreateManyAndReturnArgs>(args?: SelectSubset<T, PhoneVerificationCodeCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PhoneVerificationCodePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a PhoneVerificationCode.
+     * @param {PhoneVerificationCodeDeleteArgs} args - Arguments to delete one PhoneVerificationCode.
+     * @example
+     * // Delete one PhoneVerificationCode
+     * const PhoneVerificationCode = await prisma.phoneVerificationCode.delete({
+     *   where: {
+     *     // ... filter to delete one PhoneVerificationCode
+     *   }
+     * })
+     * 
+     */
+    delete<T extends PhoneVerificationCodeDeleteArgs>(args: SelectSubset<T, PhoneVerificationCodeDeleteArgs<ExtArgs>>): Prisma__PhoneVerificationCodeClient<$Result.GetResult<Prisma.$PhoneVerificationCodePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one PhoneVerificationCode.
+     * @param {PhoneVerificationCodeUpdateArgs} args - Arguments to update one PhoneVerificationCode.
+     * @example
+     * // Update one PhoneVerificationCode
+     * const phoneVerificationCode = await prisma.phoneVerificationCode.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends PhoneVerificationCodeUpdateArgs>(args: SelectSubset<T, PhoneVerificationCodeUpdateArgs<ExtArgs>>): Prisma__PhoneVerificationCodeClient<$Result.GetResult<Prisma.$PhoneVerificationCodePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more PhoneVerificationCodes.
+     * @param {PhoneVerificationCodeDeleteManyArgs} args - Arguments to filter PhoneVerificationCodes to delete.
+     * @example
+     * // Delete a few PhoneVerificationCodes
+     * const { count } = await prisma.phoneVerificationCode.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends PhoneVerificationCodeDeleteManyArgs>(args?: SelectSubset<T, PhoneVerificationCodeDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PhoneVerificationCodes.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PhoneVerificationCodeUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many PhoneVerificationCodes
+     * const phoneVerificationCode = await prisma.phoneVerificationCode.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends PhoneVerificationCodeUpdateManyArgs>(args: SelectSubset<T, PhoneVerificationCodeUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PhoneVerificationCodes and returns the data updated in the database.
+     * @param {PhoneVerificationCodeUpdateManyAndReturnArgs} args - Arguments to update many PhoneVerificationCodes.
+     * @example
+     * // Update many PhoneVerificationCodes
+     * const phoneVerificationCode = await prisma.phoneVerificationCode.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more PhoneVerificationCodes and only return the `id`
+     * const phoneVerificationCodeWithIdOnly = await prisma.phoneVerificationCode.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends PhoneVerificationCodeUpdateManyAndReturnArgs>(args: SelectSubset<T, PhoneVerificationCodeUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PhoneVerificationCodePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one PhoneVerificationCode.
+     * @param {PhoneVerificationCodeUpsertArgs} args - Arguments to update or create a PhoneVerificationCode.
+     * @example
+     * // Update or create a PhoneVerificationCode
+     * const phoneVerificationCode = await prisma.phoneVerificationCode.upsert({
+     *   create: {
+     *     // ... data to create a PhoneVerificationCode
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the PhoneVerificationCode we want to update
+     *   }
+     * })
+     */
+    upsert<T extends PhoneVerificationCodeUpsertArgs>(args: SelectSubset<T, PhoneVerificationCodeUpsertArgs<ExtArgs>>): Prisma__PhoneVerificationCodeClient<$Result.GetResult<Prisma.$PhoneVerificationCodePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of PhoneVerificationCodes.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PhoneVerificationCodeCountArgs} args - Arguments to filter PhoneVerificationCodes to count.
+     * @example
+     * // Count the number of PhoneVerificationCodes
+     * const count = await prisma.phoneVerificationCode.count({
+     *   where: {
+     *     // ... the filter for the PhoneVerificationCodes we want to count
+     *   }
+     * })
+    **/
+    count<T extends PhoneVerificationCodeCountArgs>(
+      args?: Subset<T, PhoneVerificationCodeCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], PhoneVerificationCodeCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a PhoneVerificationCode.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PhoneVerificationCodeAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends PhoneVerificationCodeAggregateArgs>(args: Subset<T, PhoneVerificationCodeAggregateArgs>): Prisma.PrismaPromise<GetPhoneVerificationCodeAggregateType<T>>
+
+    /**
+     * Group by PhoneVerificationCode.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PhoneVerificationCodeGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends PhoneVerificationCodeGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: PhoneVerificationCodeGroupByArgs['orderBy'] }
+        : { orderBy?: PhoneVerificationCodeGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, PhoneVerificationCodeGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPhoneVerificationCodeGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the PhoneVerificationCode model
+   */
+  readonly fields: PhoneVerificationCodeFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for PhoneVerificationCode.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__PhoneVerificationCodeClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the PhoneVerificationCode model
+   */
+  interface PhoneVerificationCodeFieldRefs {
+    readonly id: FieldRef<"PhoneVerificationCode", 'Int'>
+    readonly phone: FieldRef<"PhoneVerificationCode", 'String'>
+    readonly code: FieldRef<"PhoneVerificationCode", 'String'>
+    readonly expires: FieldRef<"PhoneVerificationCode", 'DateTime'>
+    readonly createdAt: FieldRef<"PhoneVerificationCode", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * PhoneVerificationCode findUnique
+   */
+  export type PhoneVerificationCodeFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PhoneVerificationCode
+     */
+    select?: PhoneVerificationCodeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PhoneVerificationCode
+     */
+    omit?: PhoneVerificationCodeOmit<ExtArgs> | null
+    /**
+     * Filter, which PhoneVerificationCode to fetch.
+     */
+    where: PhoneVerificationCodeWhereUniqueInput
+  }
+
+  /**
+   * PhoneVerificationCode findUniqueOrThrow
+   */
+  export type PhoneVerificationCodeFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PhoneVerificationCode
+     */
+    select?: PhoneVerificationCodeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PhoneVerificationCode
+     */
+    omit?: PhoneVerificationCodeOmit<ExtArgs> | null
+    /**
+     * Filter, which PhoneVerificationCode to fetch.
+     */
+    where: PhoneVerificationCodeWhereUniqueInput
+  }
+
+  /**
+   * PhoneVerificationCode findFirst
+   */
+  export type PhoneVerificationCodeFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PhoneVerificationCode
+     */
+    select?: PhoneVerificationCodeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PhoneVerificationCode
+     */
+    omit?: PhoneVerificationCodeOmit<ExtArgs> | null
+    /**
+     * Filter, which PhoneVerificationCode to fetch.
+     */
+    where?: PhoneVerificationCodeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PhoneVerificationCodes to fetch.
+     */
+    orderBy?: PhoneVerificationCodeOrderByWithRelationInput | PhoneVerificationCodeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PhoneVerificationCodes.
+     */
+    cursor?: PhoneVerificationCodeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PhoneVerificationCodes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PhoneVerificationCodes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PhoneVerificationCodes.
+     */
+    distinct?: PhoneVerificationCodeScalarFieldEnum | PhoneVerificationCodeScalarFieldEnum[]
+  }
+
+  /**
+   * PhoneVerificationCode findFirstOrThrow
+   */
+  export type PhoneVerificationCodeFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PhoneVerificationCode
+     */
+    select?: PhoneVerificationCodeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PhoneVerificationCode
+     */
+    omit?: PhoneVerificationCodeOmit<ExtArgs> | null
+    /**
+     * Filter, which PhoneVerificationCode to fetch.
+     */
+    where?: PhoneVerificationCodeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PhoneVerificationCodes to fetch.
+     */
+    orderBy?: PhoneVerificationCodeOrderByWithRelationInput | PhoneVerificationCodeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PhoneVerificationCodes.
+     */
+    cursor?: PhoneVerificationCodeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PhoneVerificationCodes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PhoneVerificationCodes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PhoneVerificationCodes.
+     */
+    distinct?: PhoneVerificationCodeScalarFieldEnum | PhoneVerificationCodeScalarFieldEnum[]
+  }
+
+  /**
+   * PhoneVerificationCode findMany
+   */
+  export type PhoneVerificationCodeFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PhoneVerificationCode
+     */
+    select?: PhoneVerificationCodeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PhoneVerificationCode
+     */
+    omit?: PhoneVerificationCodeOmit<ExtArgs> | null
+    /**
+     * Filter, which PhoneVerificationCodes to fetch.
+     */
+    where?: PhoneVerificationCodeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PhoneVerificationCodes to fetch.
+     */
+    orderBy?: PhoneVerificationCodeOrderByWithRelationInput | PhoneVerificationCodeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing PhoneVerificationCodes.
+     */
+    cursor?: PhoneVerificationCodeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PhoneVerificationCodes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PhoneVerificationCodes.
+     */
+    skip?: number
+    distinct?: PhoneVerificationCodeScalarFieldEnum | PhoneVerificationCodeScalarFieldEnum[]
+  }
+
+  /**
+   * PhoneVerificationCode create
+   */
+  export type PhoneVerificationCodeCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PhoneVerificationCode
+     */
+    select?: PhoneVerificationCodeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PhoneVerificationCode
+     */
+    omit?: PhoneVerificationCodeOmit<ExtArgs> | null
+    /**
+     * The data needed to create a PhoneVerificationCode.
+     */
+    data: XOR<PhoneVerificationCodeCreateInput, PhoneVerificationCodeUncheckedCreateInput>
+  }
+
+  /**
+   * PhoneVerificationCode createMany
+   */
+  export type PhoneVerificationCodeCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many PhoneVerificationCodes.
+     */
+    data: PhoneVerificationCodeCreateManyInput | PhoneVerificationCodeCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * PhoneVerificationCode createManyAndReturn
+   */
+  export type PhoneVerificationCodeCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PhoneVerificationCode
+     */
+    select?: PhoneVerificationCodeSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the PhoneVerificationCode
+     */
+    omit?: PhoneVerificationCodeOmit<ExtArgs> | null
+    /**
+     * The data used to create many PhoneVerificationCodes.
+     */
+    data: PhoneVerificationCodeCreateManyInput | PhoneVerificationCodeCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * PhoneVerificationCode update
+   */
+  export type PhoneVerificationCodeUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PhoneVerificationCode
+     */
+    select?: PhoneVerificationCodeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PhoneVerificationCode
+     */
+    omit?: PhoneVerificationCodeOmit<ExtArgs> | null
+    /**
+     * The data needed to update a PhoneVerificationCode.
+     */
+    data: XOR<PhoneVerificationCodeUpdateInput, PhoneVerificationCodeUncheckedUpdateInput>
+    /**
+     * Choose, which PhoneVerificationCode to update.
+     */
+    where: PhoneVerificationCodeWhereUniqueInput
+  }
+
+  /**
+   * PhoneVerificationCode updateMany
+   */
+  export type PhoneVerificationCodeUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update PhoneVerificationCodes.
+     */
+    data: XOR<PhoneVerificationCodeUpdateManyMutationInput, PhoneVerificationCodeUncheckedUpdateManyInput>
+    /**
+     * Filter which PhoneVerificationCodes to update
+     */
+    where?: PhoneVerificationCodeWhereInput
+    /**
+     * Limit how many PhoneVerificationCodes to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * PhoneVerificationCode updateManyAndReturn
+   */
+  export type PhoneVerificationCodeUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PhoneVerificationCode
+     */
+    select?: PhoneVerificationCodeSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the PhoneVerificationCode
+     */
+    omit?: PhoneVerificationCodeOmit<ExtArgs> | null
+    /**
+     * The data used to update PhoneVerificationCodes.
+     */
+    data: XOR<PhoneVerificationCodeUpdateManyMutationInput, PhoneVerificationCodeUncheckedUpdateManyInput>
+    /**
+     * Filter which PhoneVerificationCodes to update
+     */
+    where?: PhoneVerificationCodeWhereInput
+    /**
+     * Limit how many PhoneVerificationCodes to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * PhoneVerificationCode upsert
+   */
+  export type PhoneVerificationCodeUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PhoneVerificationCode
+     */
+    select?: PhoneVerificationCodeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PhoneVerificationCode
+     */
+    omit?: PhoneVerificationCodeOmit<ExtArgs> | null
+    /**
+     * The filter to search for the PhoneVerificationCode to update in case it exists.
+     */
+    where: PhoneVerificationCodeWhereUniqueInput
+    /**
+     * In case the PhoneVerificationCode found by the `where` argument doesn't exist, create a new PhoneVerificationCode with this data.
+     */
+    create: XOR<PhoneVerificationCodeCreateInput, PhoneVerificationCodeUncheckedCreateInput>
+    /**
+     * In case the PhoneVerificationCode was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PhoneVerificationCodeUpdateInput, PhoneVerificationCodeUncheckedUpdateInput>
+  }
+
+  /**
+   * PhoneVerificationCode delete
+   */
+  export type PhoneVerificationCodeDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PhoneVerificationCode
+     */
+    select?: PhoneVerificationCodeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PhoneVerificationCode
+     */
+    omit?: PhoneVerificationCodeOmit<ExtArgs> | null
+    /**
+     * Filter which PhoneVerificationCode to delete.
+     */
+    where: PhoneVerificationCodeWhereUniqueInput
+  }
+
+  /**
+   * PhoneVerificationCode deleteMany
+   */
+  export type PhoneVerificationCodeDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PhoneVerificationCodes to delete
+     */
+    where?: PhoneVerificationCodeWhereInput
+    /**
+     * Limit how many PhoneVerificationCodes to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * PhoneVerificationCode without action
+   */
+  export type PhoneVerificationCodeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PhoneVerificationCode
+     */
+    select?: PhoneVerificationCodeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PhoneVerificationCode
+     */
+    omit?: PhoneVerificationCodeOmit<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -25335,7 +26468,8 @@ export namespace Prisma {
     birthDate: 'birthDate',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
-    role: 'role'
+    role: 'role',
+    phoneVerified: 'phoneVerified'
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -25370,11 +26504,11 @@ export namespace Prisma {
     country: 'country',
     city: 'city',
     street: 'street',
+    settlement: 'settlement',
     building: 'building',
     apartment: 'apartment',
     entrance: 'entrance',
     floor: 'floor',
-    settlement: 'settlement',
     postalCode: 'postalCode',
     isDefault: 'isDefault'
   };
@@ -25572,6 +26706,17 @@ export namespace Prisma {
   export type ProductStockScalarFieldEnum = (typeof ProductStockScalarFieldEnum)[keyof typeof ProductStockScalarFieldEnum]
 
 
+  export const PhoneVerificationCodeScalarFieldEnum: {
+    id: 'id',
+    phone: 'phone',
+    code: 'code',
+    expires: 'expires',
+    createdAt: 'createdAt'
+  };
+
+  export type PhoneVerificationCodeScalarFieldEnum = (typeof PhoneVerificationCodeScalarFieldEnum)[keyof typeof PhoneVerificationCodeScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -25674,6 +26819,13 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Boolean'
+   */
+  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+    
+
+
+  /**
    * Reference to a field of type 'Json'
    */
   export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
@@ -25684,13 +26836,6 @@ export namespace Prisma {
    * Reference to a field of type 'QueryMode'
    */
   export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
-    
-
-
-  /**
-   * Reference to a field of type 'Boolean'
-   */
-  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 
@@ -25855,6 +27000,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     role?: EnumRoleFilter<"User"> | $Enums.Role
+    phoneVerified?: BoolFilter<"User"> | boolean
     addresses?: AddressListRelationFilter
     cart?: XOR<CartNullableScalarRelationFilter, CartWhereInput> | null
     favorites?: FavoriteListRelationFilter
@@ -25875,6 +27021,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     role?: SortOrder
+    phoneVerified?: SortOrder
     addresses?: AddressOrderByRelationAggregateInput
     cart?: CartOrderByWithRelationInput
     favorites?: FavoriteOrderByRelationAggregateInput
@@ -25898,6 +27045,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     role?: EnumRoleFilter<"User"> | $Enums.Role
+    phoneVerified?: BoolFilter<"User"> | boolean
     addresses?: AddressListRelationFilter
     cart?: XOR<CartNullableScalarRelationFilter, CartWhereInput> | null
     favorites?: FavoriteListRelationFilter
@@ -25918,6 +27066,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     role?: SortOrder
+    phoneVerified?: SortOrder
     _count?: UserCountOrderByAggregateInput
     _avg?: UserAvgOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
@@ -25941,6 +27090,7 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     role?: EnumRoleWithAggregatesFilter<"User"> | $Enums.Role
+    phoneVerified?: BoolWithAggregatesFilter<"User"> | boolean
   }
 
   export type PasswordResetTokenWhereInput = {
@@ -26065,11 +27215,11 @@ export namespace Prisma {
     country?: StringFilter<"Address"> | string
     city?: StringFilter<"Address"> | string
     street?: StringFilter<"Address"> | string
+    settlement?: StringNullableFilter<"Address"> | string | null
     building?: StringFilter<"Address"> | string
     apartment?: StringFilter<"Address"> | string
     entrance?: StringNullableFilter<"Address"> | string | null
     floor?: StringNullableFilter<"Address"> | string | null
-    settlement?: StringNullableFilter<"Address"> | string | null
     postalCode?: StringNullableFilter<"Address"> | string | null
     isDefault?: BoolFilter<"Address"> | boolean
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
@@ -26082,11 +27232,11 @@ export namespace Prisma {
     country?: SortOrder
     city?: SortOrder
     street?: SortOrder
+    settlement?: SortOrderInput | SortOrder
     building?: SortOrder
     apartment?: SortOrder
     entrance?: SortOrderInput | SortOrder
     floor?: SortOrderInput | SortOrder
-    settlement?: SortOrderInput | SortOrder
     postalCode?: SortOrderInput | SortOrder
     isDefault?: SortOrder
     user?: UserOrderByWithRelationInput
@@ -26102,11 +27252,11 @@ export namespace Prisma {
     country?: StringFilter<"Address"> | string
     city?: StringFilter<"Address"> | string
     street?: StringFilter<"Address"> | string
+    settlement?: StringNullableFilter<"Address"> | string | null
     building?: StringFilter<"Address"> | string
     apartment?: StringFilter<"Address"> | string
     entrance?: StringNullableFilter<"Address"> | string | null
     floor?: StringNullableFilter<"Address"> | string | null
-    settlement?: StringNullableFilter<"Address"> | string | null
     postalCode?: StringNullableFilter<"Address"> | string | null
     isDefault?: BoolFilter<"Address"> | boolean
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
@@ -26119,11 +27269,11 @@ export namespace Prisma {
     country?: SortOrder
     city?: SortOrder
     street?: SortOrder
+    settlement?: SortOrderInput | SortOrder
     building?: SortOrder
     apartment?: SortOrder
     entrance?: SortOrderInput | SortOrder
     floor?: SortOrderInput | SortOrder
-    settlement?: SortOrderInput | SortOrder
     postalCode?: SortOrderInput | SortOrder
     isDefault?: SortOrder
     _count?: AddressCountOrderByAggregateInput
@@ -26142,11 +27292,11 @@ export namespace Prisma {
     country?: StringWithAggregatesFilter<"Address"> | string
     city?: StringWithAggregatesFilter<"Address"> | string
     street?: StringWithAggregatesFilter<"Address"> | string
+    settlement?: StringNullableWithAggregatesFilter<"Address"> | string | null
     building?: StringWithAggregatesFilter<"Address"> | string
     apartment?: StringWithAggregatesFilter<"Address"> | string
     entrance?: StringNullableWithAggregatesFilter<"Address"> | string | null
     floor?: StringNullableWithAggregatesFilter<"Address"> | string | null
-    settlement?: StringNullableWithAggregatesFilter<"Address"> | string | null
     postalCode?: StringNullableWithAggregatesFilter<"Address"> | string | null
     isDefault?: BoolWithAggregatesFilter<"Address"> | boolean
   }
@@ -27209,6 +28359,60 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"ProductStock"> | Date | string
   }
 
+  export type PhoneVerificationCodeWhereInput = {
+    AND?: PhoneVerificationCodeWhereInput | PhoneVerificationCodeWhereInput[]
+    OR?: PhoneVerificationCodeWhereInput[]
+    NOT?: PhoneVerificationCodeWhereInput | PhoneVerificationCodeWhereInput[]
+    id?: IntFilter<"PhoneVerificationCode"> | number
+    phone?: StringFilter<"PhoneVerificationCode"> | string
+    code?: StringFilter<"PhoneVerificationCode"> | string
+    expires?: DateTimeFilter<"PhoneVerificationCode"> | Date | string
+    createdAt?: DateTimeFilter<"PhoneVerificationCode"> | Date | string
+  }
+
+  export type PhoneVerificationCodeOrderByWithRelationInput = {
+    id?: SortOrder
+    phone?: SortOrder
+    code?: SortOrder
+    expires?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type PhoneVerificationCodeWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    phone?: string
+    AND?: PhoneVerificationCodeWhereInput | PhoneVerificationCodeWhereInput[]
+    OR?: PhoneVerificationCodeWhereInput[]
+    NOT?: PhoneVerificationCodeWhereInput | PhoneVerificationCodeWhereInput[]
+    code?: StringFilter<"PhoneVerificationCode"> | string
+    expires?: DateTimeFilter<"PhoneVerificationCode"> | Date | string
+    createdAt?: DateTimeFilter<"PhoneVerificationCode"> | Date | string
+  }, "id" | "phone">
+
+  export type PhoneVerificationCodeOrderByWithAggregationInput = {
+    id?: SortOrder
+    phone?: SortOrder
+    code?: SortOrder
+    expires?: SortOrder
+    createdAt?: SortOrder
+    _count?: PhoneVerificationCodeCountOrderByAggregateInput
+    _avg?: PhoneVerificationCodeAvgOrderByAggregateInput
+    _max?: PhoneVerificationCodeMaxOrderByAggregateInput
+    _min?: PhoneVerificationCodeMinOrderByAggregateInput
+    _sum?: PhoneVerificationCodeSumOrderByAggregateInput
+  }
+
+  export type PhoneVerificationCodeScalarWhereWithAggregatesInput = {
+    AND?: PhoneVerificationCodeScalarWhereWithAggregatesInput | PhoneVerificationCodeScalarWhereWithAggregatesInput[]
+    OR?: PhoneVerificationCodeScalarWhereWithAggregatesInput[]
+    NOT?: PhoneVerificationCodeScalarWhereWithAggregatesInput | PhoneVerificationCodeScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"PhoneVerificationCode"> | number
+    phone?: StringWithAggregatesFilter<"PhoneVerificationCode"> | string
+    code?: StringWithAggregatesFilter<"PhoneVerificationCode"> | string
+    expires?: DateTimeWithAggregatesFilter<"PhoneVerificationCode"> | Date | string
+    createdAt?: DateTimeWithAggregatesFilter<"PhoneVerificationCode"> | Date | string
+  }
+
   export type BrandCreateInput = {
     name: string
     slug: string
@@ -27299,6 +28503,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     role?: $Enums.Role
+    phoneVerified?: boolean
     addresses?: AddressCreateNestedManyWithoutUserInput
     cart?: CartCreateNestedOneWithoutUserInput
     favorites?: FavoriteCreateNestedManyWithoutUserInput
@@ -27319,6 +28524,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     role?: $Enums.Role
+    phoneVerified?: boolean
     addresses?: AddressUncheckedCreateNestedManyWithoutUserInput
     cart?: CartUncheckedCreateNestedOneWithoutUserInput
     favorites?: FavoriteUncheckedCreateNestedManyWithoutUserInput
@@ -27338,6 +28544,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    phoneVerified?: BoolFieldUpdateOperationsInput | boolean
     addresses?: AddressUpdateManyWithoutUserNestedInput
     cart?: CartUpdateOneWithoutUserNestedInput
     favorites?: FavoriteUpdateManyWithoutUserNestedInput
@@ -27358,6 +28565,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    phoneVerified?: BoolFieldUpdateOperationsInput | boolean
     addresses?: AddressUncheckedUpdateManyWithoutUserNestedInput
     cart?: CartUncheckedUpdateOneWithoutUserNestedInput
     favorites?: FavoriteUncheckedUpdateManyWithoutUserNestedInput
@@ -27378,6 +28586,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     role?: $Enums.Role
+    phoneVerified?: boolean
   }
 
   export type UserUpdateManyMutationInput = {
@@ -27392,6 +28601,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    phoneVerified?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type UserUncheckedUpdateManyInput = {
@@ -27407,6 +28617,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    phoneVerified?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type PasswordResetTokenCreateInput = {
@@ -27526,11 +28737,11 @@ export namespace Prisma {
     country: string
     city: string
     street: string
+    settlement?: string | null
     building: string
     apartment: string
     entrance?: string | null
     floor?: string | null
-    settlement?: string | null
     postalCode?: string | null
     isDefault?: boolean
     user: UserCreateNestedOneWithoutAddressesInput
@@ -27543,11 +28754,11 @@ export namespace Prisma {
     country: string
     city: string
     street: string
+    settlement?: string | null
     building: string
     apartment: string
     entrance?: string | null
     floor?: string | null
-    settlement?: string | null
     postalCode?: string | null
     isDefault?: boolean
     Order?: OrderUncheckedCreateNestedManyWithoutAddressInput
@@ -27557,11 +28768,11 @@ export namespace Prisma {
     country?: StringFieldUpdateOperationsInput | string
     city?: StringFieldUpdateOperationsInput | string
     street?: StringFieldUpdateOperationsInput | string
+    settlement?: NullableStringFieldUpdateOperationsInput | string | null
     building?: StringFieldUpdateOperationsInput | string
     apartment?: StringFieldUpdateOperationsInput | string
     entrance?: NullableStringFieldUpdateOperationsInput | string | null
     floor?: NullableStringFieldUpdateOperationsInput | string | null
-    settlement?: NullableStringFieldUpdateOperationsInput | string | null
     postalCode?: NullableStringFieldUpdateOperationsInput | string | null
     isDefault?: BoolFieldUpdateOperationsInput | boolean
     user?: UserUpdateOneRequiredWithoutAddressesNestedInput
@@ -27574,11 +28785,11 @@ export namespace Prisma {
     country?: StringFieldUpdateOperationsInput | string
     city?: StringFieldUpdateOperationsInput | string
     street?: StringFieldUpdateOperationsInput | string
+    settlement?: NullableStringFieldUpdateOperationsInput | string | null
     building?: StringFieldUpdateOperationsInput | string
     apartment?: StringFieldUpdateOperationsInput | string
     entrance?: NullableStringFieldUpdateOperationsInput | string | null
     floor?: NullableStringFieldUpdateOperationsInput | string | null
-    settlement?: NullableStringFieldUpdateOperationsInput | string | null
     postalCode?: NullableStringFieldUpdateOperationsInput | string | null
     isDefault?: BoolFieldUpdateOperationsInput | boolean
     Order?: OrderUncheckedUpdateManyWithoutAddressNestedInput
@@ -27590,11 +28801,11 @@ export namespace Prisma {
     country: string
     city: string
     street: string
+    settlement?: string | null
     building: string
     apartment: string
     entrance?: string | null
     floor?: string | null
-    settlement?: string | null
     postalCode?: string | null
     isDefault?: boolean
   }
@@ -27603,11 +28814,11 @@ export namespace Prisma {
     country?: StringFieldUpdateOperationsInput | string
     city?: StringFieldUpdateOperationsInput | string
     street?: StringFieldUpdateOperationsInput | string
+    settlement?: NullableStringFieldUpdateOperationsInput | string | null
     building?: StringFieldUpdateOperationsInput | string
     apartment?: StringFieldUpdateOperationsInput | string
     entrance?: NullableStringFieldUpdateOperationsInput | string | null
     floor?: NullableStringFieldUpdateOperationsInput | string | null
-    settlement?: NullableStringFieldUpdateOperationsInput | string | null
     postalCode?: NullableStringFieldUpdateOperationsInput | string | null
     isDefault?: BoolFieldUpdateOperationsInput | boolean
   }
@@ -27618,11 +28829,11 @@ export namespace Prisma {
     country?: StringFieldUpdateOperationsInput | string
     city?: StringFieldUpdateOperationsInput | string
     street?: StringFieldUpdateOperationsInput | string
+    settlement?: NullableStringFieldUpdateOperationsInput | string | null
     building?: StringFieldUpdateOperationsInput | string
     apartment?: StringFieldUpdateOperationsInput | string
     entrance?: NullableStringFieldUpdateOperationsInput | string | null
     floor?: NullableStringFieldUpdateOperationsInput | string | null
-    settlement?: NullableStringFieldUpdateOperationsInput | string | null
     postalCode?: NullableStringFieldUpdateOperationsInput | string | null
     isDefault?: BoolFieldUpdateOperationsInput | boolean
   }
@@ -28681,6 +29892,59 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type PhoneVerificationCodeCreateInput = {
+    phone: string
+    code: string
+    expires: Date | string
+    createdAt?: Date | string
+  }
+
+  export type PhoneVerificationCodeUncheckedCreateInput = {
+    id?: number
+    phone: string
+    code: string
+    expires: Date | string
+    createdAt?: Date | string
+  }
+
+  export type PhoneVerificationCodeUpdateInput = {
+    phone?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    expires?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PhoneVerificationCodeUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    phone?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    expires?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PhoneVerificationCodeCreateManyInput = {
+    id?: number
+    phone: string
+    code: string
+    expires: Date | string
+    createdAt?: Date | string
+  }
+
+  export type PhoneVerificationCodeUpdateManyMutationInput = {
+    phone?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    expires?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PhoneVerificationCodeUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    phone?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    expires?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type IntFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[] | ListIntFieldRefInput<$PrismaModel>
@@ -28873,6 +30137,11 @@ export namespace Prisma {
     not?: NestedEnumRoleFilter<$PrismaModel> | $Enums.Role
   }
 
+  export type BoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
   export type AddressListRelationFilter = {
     every?: AddressWhereInput
     some?: AddressWhereInput
@@ -28931,6 +30200,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     role?: SortOrder
+    phoneVerified?: SortOrder
   }
 
   export type UserAvgOrderByAggregateInput = {
@@ -28951,6 +30221,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     role?: SortOrder
+    phoneVerified?: SortOrder
   }
 
   export type UserMinOrderByAggregateInput = {
@@ -28966,6 +30237,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     role?: SortOrder
+    phoneVerified?: SortOrder
   }
 
   export type UserSumOrderByAggregateInput = {
@@ -28995,6 +30267,14 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumRoleFilter<$PrismaModel>
     _max?: NestedEnumRoleFilter<$PrismaModel>
+  }
+
+  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type PasswordResetTokenCountOrderByAggregateInput = {
@@ -29111,11 +30391,6 @@ export namespace Prisma {
     _max?: NestedJsonFilter<$PrismaModel>
   }
 
-  export type BoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
-  }
-
   export type UserScalarRelationFilter = {
     is?: UserWhereInput
     isNot?: UserWhereInput
@@ -29127,11 +30402,11 @@ export namespace Prisma {
     country?: SortOrder
     city?: SortOrder
     street?: SortOrder
+    settlement?: SortOrder
     building?: SortOrder
     apartment?: SortOrder
     entrance?: SortOrder
     floor?: SortOrder
-    settlement?: SortOrder
     postalCode?: SortOrder
     isDefault?: SortOrder
   }
@@ -29147,11 +30422,11 @@ export namespace Prisma {
     country?: SortOrder
     city?: SortOrder
     street?: SortOrder
+    settlement?: SortOrder
     building?: SortOrder
     apartment?: SortOrder
     entrance?: SortOrder
     floor?: SortOrder
-    settlement?: SortOrder
     postalCode?: SortOrder
     isDefault?: SortOrder
   }
@@ -29162,11 +30437,11 @@ export namespace Prisma {
     country?: SortOrder
     city?: SortOrder
     street?: SortOrder
+    settlement?: SortOrder
     building?: SortOrder
     apartment?: SortOrder
     entrance?: SortOrder
     floor?: SortOrder
-    settlement?: SortOrder
     postalCode?: SortOrder
     isDefault?: SortOrder
   }
@@ -29174,14 +30449,6 @@ export namespace Prisma {
   export type AddressSumOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
-  }
-
-  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type SliderCountOrderByAggregateInput = {
@@ -30090,6 +31357,38 @@ export namespace Prisma {
     quantity?: SortOrder
   }
 
+  export type PhoneVerificationCodeCountOrderByAggregateInput = {
+    id?: SortOrder
+    phone?: SortOrder
+    code?: SortOrder
+    expires?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type PhoneVerificationCodeAvgOrderByAggregateInput = {
+    id?: SortOrder
+  }
+
+  export type PhoneVerificationCodeMaxOrderByAggregateInput = {
+    id?: SortOrder
+    phone?: SortOrder
+    code?: SortOrder
+    expires?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type PhoneVerificationCodeMinOrderByAggregateInput = {
+    id?: SortOrder
+    phone?: SortOrder
+    code?: SortOrder
+    expires?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type PhoneVerificationCodeSumOrderByAggregateInput = {
+    id?: SortOrder
+  }
+
   export type ProductCreateNestedManyWithoutBrandInput = {
     create?: XOR<ProductCreateWithoutBrandInput, ProductUncheckedCreateWithoutBrandInput> | ProductCreateWithoutBrandInput[] | ProductUncheckedCreateWithoutBrandInput[]
     connectOrCreate?: ProductCreateOrConnectWithoutBrandInput | ProductCreateOrConnectWithoutBrandInput[]
@@ -30226,6 +31525,10 @@ export namespace Prisma {
 
   export type EnumRoleFieldUpdateOperationsInput = {
     set?: $Enums.Role
+  }
+
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean
   }
 
   export type AddressUpdateManyWithoutUserNestedInput = {
@@ -30378,10 +31681,6 @@ export namespace Prisma {
     connectOrCreate?: OrderCreateOrConnectWithoutAddressInput | OrderCreateOrConnectWithoutAddressInput[]
     createMany?: OrderCreateManyAddressInputEnvelope
     connect?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
-  }
-
-  export type BoolFieldUpdateOperationsInput = {
-    set?: boolean
   }
 
   export type UserUpdateOneRequiredWithoutAddressesNestedInput = {
@@ -31740,6 +33039,11 @@ export namespace Prisma {
     not?: NestedEnumRoleFilter<$PrismaModel> | $Enums.Role
   }
 
+  export type NestedBoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
   export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
@@ -31763,6 +33067,14 @@ export namespace Prisma {
     _min?: NestedEnumRoleFilter<$PrismaModel>
     _max?: NestedEnumRoleFilter<$PrismaModel>
   }
+
+  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
+  }
   export type NestedJsonFilter<$PrismaModel = never> =
     | PatchUndefined<
         Either<Required<NestedJsonFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonFilterBase<$PrismaModel>>, 'path'>>,
@@ -31785,19 +33097,6 @@ export namespace Prisma {
     gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-  }
-
-  export type NestedBoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
-  }
-
-  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type NestedFloatNullableFilter<$PrismaModel = never> = {
@@ -32033,11 +33332,11 @@ export namespace Prisma {
     country: string
     city: string
     street: string
+    settlement?: string | null
     building: string
     apartment: string
     entrance?: string | null
     floor?: string | null
-    settlement?: string | null
     postalCode?: string | null
     isDefault?: boolean
     Order?: OrderCreateNestedManyWithoutAddressInput
@@ -32048,11 +33347,11 @@ export namespace Prisma {
     country: string
     city: string
     street: string
+    settlement?: string | null
     building: string
     apartment: string
     entrance?: string | null
     floor?: string | null
-    settlement?: string | null
     postalCode?: string | null
     isDefault?: boolean
     Order?: OrderUncheckedCreateNestedManyWithoutAddressInput
@@ -32200,11 +33499,11 @@ export namespace Prisma {
     country?: StringFilter<"Address"> | string
     city?: StringFilter<"Address"> | string
     street?: StringFilter<"Address"> | string
+    settlement?: StringNullableFilter<"Address"> | string | null
     building?: StringFilter<"Address"> | string
     apartment?: StringFilter<"Address"> | string
     entrance?: StringNullableFilter<"Address"> | string | null
     floor?: StringNullableFilter<"Address"> | string | null
-    settlement?: StringNullableFilter<"Address"> | string | null
     postalCode?: StringNullableFilter<"Address"> | string | null
     isDefault?: BoolFilter<"Address"> | boolean
   }
@@ -32334,6 +33633,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     role?: $Enums.Role
+    phoneVerified?: boolean
     cart?: CartCreateNestedOneWithoutUserInput
     favorites?: FavoriteCreateNestedManyWithoutUserInput
     orders?: OrderCreateNestedManyWithoutUserInput
@@ -32353,6 +33653,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     role?: $Enums.Role
+    phoneVerified?: boolean
     cart?: CartUncheckedCreateNestedOneWithoutUserInput
     favorites?: FavoriteUncheckedCreateNestedManyWithoutUserInput
     orders?: OrderUncheckedCreateNestedManyWithoutUserInput
@@ -32424,6 +33725,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    phoneVerified?: BoolFieldUpdateOperationsInput | boolean
     cart?: CartUpdateOneWithoutUserNestedInput
     favorites?: FavoriteUpdateManyWithoutUserNestedInput
     orders?: OrderUpdateManyWithoutUserNestedInput
@@ -32443,6 +33745,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    phoneVerified?: BoolFieldUpdateOperationsInput | boolean
     cart?: CartUncheckedUpdateOneWithoutUserNestedInput
     favorites?: FavoriteUncheckedUpdateManyWithoutUserNestedInput
     orders?: OrderUncheckedUpdateManyWithoutUserNestedInput
@@ -33385,6 +34688,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     role?: $Enums.Role
+    phoneVerified?: boolean
     addresses?: AddressCreateNestedManyWithoutUserInput
     cart?: CartCreateNestedOneWithoutUserInput
     favorites?: FavoriteCreateNestedManyWithoutUserInput
@@ -33404,6 +34708,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     role?: $Enums.Role
+    phoneVerified?: boolean
     addresses?: AddressUncheckedCreateNestedManyWithoutUserInput
     cart?: CartUncheckedCreateNestedOneWithoutUserInput
     favorites?: FavoriteUncheckedCreateNestedManyWithoutUserInput
@@ -33502,6 +34807,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    phoneVerified?: BoolFieldUpdateOperationsInput | boolean
     addresses?: AddressUpdateManyWithoutUserNestedInput
     cart?: CartUpdateOneWithoutUserNestedInput
     favorites?: FavoriteUpdateManyWithoutUserNestedInput
@@ -33521,6 +34827,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    phoneVerified?: BoolFieldUpdateOperationsInput | boolean
     addresses?: AddressUncheckedUpdateManyWithoutUserNestedInput
     cart?: CartUncheckedUpdateOneWithoutUserNestedInput
     favorites?: FavoriteUncheckedUpdateManyWithoutUserNestedInput
@@ -33531,11 +34838,11 @@ export namespace Prisma {
     country: string
     city: string
     street: string
+    settlement?: string | null
     building: string
     apartment: string
     entrance?: string | null
     floor?: string | null
-    settlement?: string | null
     postalCode?: string | null
     isDefault?: boolean
     user: UserCreateNestedOneWithoutAddressesInput
@@ -33547,11 +34854,11 @@ export namespace Prisma {
     country: string
     city: string
     street: string
+    settlement?: string | null
     building: string
     apartment: string
     entrance?: string | null
     floor?: string | null
-    settlement?: string | null
     postalCode?: string | null
     isDefault?: boolean
   }
@@ -33605,6 +34912,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     role?: $Enums.Role
+    phoneVerified?: boolean
     addresses?: AddressCreateNestedManyWithoutUserInput
     cart?: CartCreateNestedOneWithoutUserInput
     favorites?: FavoriteCreateNestedManyWithoutUserInput
@@ -33624,6 +34932,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     role?: $Enums.Role
+    phoneVerified?: boolean
     addresses?: AddressUncheckedCreateNestedManyWithoutUserInput
     cart?: CartUncheckedCreateNestedOneWithoutUserInput
     favorites?: FavoriteUncheckedCreateNestedManyWithoutUserInput
@@ -33700,11 +35009,11 @@ export namespace Prisma {
     country?: StringFieldUpdateOperationsInput | string
     city?: StringFieldUpdateOperationsInput | string
     street?: StringFieldUpdateOperationsInput | string
+    settlement?: NullableStringFieldUpdateOperationsInput | string | null
     building?: StringFieldUpdateOperationsInput | string
     apartment?: StringFieldUpdateOperationsInput | string
     entrance?: NullableStringFieldUpdateOperationsInput | string | null
     floor?: NullableStringFieldUpdateOperationsInput | string | null
-    settlement?: NullableStringFieldUpdateOperationsInput | string | null
     postalCode?: NullableStringFieldUpdateOperationsInput | string | null
     isDefault?: BoolFieldUpdateOperationsInput | boolean
     user?: UserUpdateOneRequiredWithoutAddressesNestedInput
@@ -33716,11 +35025,11 @@ export namespace Prisma {
     country?: StringFieldUpdateOperationsInput | string
     city?: StringFieldUpdateOperationsInput | string
     street?: StringFieldUpdateOperationsInput | string
+    settlement?: NullableStringFieldUpdateOperationsInput | string | null
     building?: StringFieldUpdateOperationsInput | string
     apartment?: StringFieldUpdateOperationsInput | string
     entrance?: NullableStringFieldUpdateOperationsInput | string | null
     floor?: NullableStringFieldUpdateOperationsInput | string | null
-    settlement?: NullableStringFieldUpdateOperationsInput | string | null
     postalCode?: NullableStringFieldUpdateOperationsInput | string | null
     isDefault?: BoolFieldUpdateOperationsInput | boolean
   }
@@ -33786,6 +35095,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    phoneVerified?: BoolFieldUpdateOperationsInput | boolean
     addresses?: AddressUpdateManyWithoutUserNestedInput
     cart?: CartUpdateOneWithoutUserNestedInput
     favorites?: FavoriteUpdateManyWithoutUserNestedInput
@@ -33805,6 +35115,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    phoneVerified?: BoolFieldUpdateOperationsInput | boolean
     addresses?: AddressUncheckedUpdateManyWithoutUserNestedInput
     cart?: CartUncheckedUpdateOneWithoutUserNestedInput
     favorites?: FavoriteUncheckedUpdateManyWithoutUserNestedInput
@@ -34130,6 +35441,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     role?: $Enums.Role
+    phoneVerified?: boolean
     addresses?: AddressCreateNestedManyWithoutUserInput
     favorites?: FavoriteCreateNestedManyWithoutUserInput
     orders?: OrderCreateNestedManyWithoutUserInput
@@ -34149,6 +35461,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     role?: $Enums.Role
+    phoneVerified?: boolean
     addresses?: AddressUncheckedCreateNestedManyWithoutUserInput
     favorites?: FavoriteUncheckedCreateNestedManyWithoutUserInput
     orders?: OrderUncheckedCreateNestedManyWithoutUserInput
@@ -34204,6 +35517,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    phoneVerified?: BoolFieldUpdateOperationsInput | boolean
     addresses?: AddressUpdateManyWithoutUserNestedInput
     favorites?: FavoriteUpdateManyWithoutUserNestedInput
     orders?: OrderUpdateManyWithoutUserNestedInput
@@ -34223,6 +35537,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    phoneVerified?: BoolFieldUpdateOperationsInput | boolean
     addresses?: AddressUncheckedUpdateManyWithoutUserNestedInput
     favorites?: FavoriteUncheckedUpdateManyWithoutUserNestedInput
     orders?: OrderUncheckedUpdateManyWithoutUserNestedInput
@@ -34479,6 +35794,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     role?: $Enums.Role
+    phoneVerified?: boolean
     addresses?: AddressCreateNestedManyWithoutUserInput
     cart?: CartCreateNestedOneWithoutUserInput
     orders?: OrderCreateNestedManyWithoutUserInput
@@ -34498,6 +35814,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     role?: $Enums.Role
+    phoneVerified?: boolean
     addresses?: AddressUncheckedCreateNestedManyWithoutUserInput
     cart?: CartUncheckedCreateNestedOneWithoutUserInput
     orders?: OrderUncheckedCreateNestedManyWithoutUserInput
@@ -34596,6 +35913,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    phoneVerified?: BoolFieldUpdateOperationsInput | boolean
     addresses?: AddressUpdateManyWithoutUserNestedInput
     cart?: CartUpdateOneWithoutUserNestedInput
     orders?: OrderUpdateManyWithoutUserNestedInput
@@ -34615,6 +35933,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    phoneVerified?: BoolFieldUpdateOperationsInput | boolean
     addresses?: AddressUncheckedUpdateManyWithoutUserNestedInput
     cart?: CartUncheckedUpdateOneWithoutUserNestedInput
     orders?: OrderUncheckedUpdateManyWithoutUserNestedInput
@@ -35373,11 +36692,11 @@ export namespace Prisma {
     country: string
     city: string
     street: string
+    settlement?: string | null
     building: string
     apartment: string
     entrance?: string | null
     floor?: string | null
-    settlement?: string | null
     postalCode?: string | null
     isDefault?: boolean
   }
@@ -35415,11 +36734,11 @@ export namespace Prisma {
     country?: StringFieldUpdateOperationsInput | string
     city?: StringFieldUpdateOperationsInput | string
     street?: StringFieldUpdateOperationsInput | string
+    settlement?: NullableStringFieldUpdateOperationsInput | string | null
     building?: StringFieldUpdateOperationsInput | string
     apartment?: StringFieldUpdateOperationsInput | string
     entrance?: NullableStringFieldUpdateOperationsInput | string | null
     floor?: NullableStringFieldUpdateOperationsInput | string | null
-    settlement?: NullableStringFieldUpdateOperationsInput | string | null
     postalCode?: NullableStringFieldUpdateOperationsInput | string | null
     isDefault?: BoolFieldUpdateOperationsInput | boolean
     Order?: OrderUpdateManyWithoutAddressNestedInput
@@ -35430,11 +36749,11 @@ export namespace Prisma {
     country?: StringFieldUpdateOperationsInput | string
     city?: StringFieldUpdateOperationsInput | string
     street?: StringFieldUpdateOperationsInput | string
+    settlement?: NullableStringFieldUpdateOperationsInput | string | null
     building?: StringFieldUpdateOperationsInput | string
     apartment?: StringFieldUpdateOperationsInput | string
     entrance?: NullableStringFieldUpdateOperationsInput | string | null
     floor?: NullableStringFieldUpdateOperationsInput | string | null
-    settlement?: NullableStringFieldUpdateOperationsInput | string | null
     postalCode?: NullableStringFieldUpdateOperationsInput | string | null
     isDefault?: BoolFieldUpdateOperationsInput | boolean
     Order?: OrderUncheckedUpdateManyWithoutAddressNestedInput
@@ -35445,11 +36764,11 @@ export namespace Prisma {
     country?: StringFieldUpdateOperationsInput | string
     city?: StringFieldUpdateOperationsInput | string
     street?: StringFieldUpdateOperationsInput | string
+    settlement?: NullableStringFieldUpdateOperationsInput | string | null
     building?: StringFieldUpdateOperationsInput | string
     apartment?: StringFieldUpdateOperationsInput | string
     entrance?: NullableStringFieldUpdateOperationsInput | string | null
     floor?: NullableStringFieldUpdateOperationsInput | string | null
-    settlement?: NullableStringFieldUpdateOperationsInput | string | null
     postalCode?: NullableStringFieldUpdateOperationsInput | string | null
     isDefault?: BoolFieldUpdateOperationsInput | boolean
   }

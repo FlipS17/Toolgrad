@@ -143,7 +143,8 @@ exports.Prisma.UserScalarFieldEnum = {
   birthDate: 'birthDate',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  role: 'role'
+  role: 'role',
+  phoneVerified: 'phoneVerified'
 };
 
 exports.Prisma.PasswordResetTokenScalarFieldEnum = {
@@ -169,11 +170,11 @@ exports.Prisma.AddressScalarFieldEnum = {
   country: 'country',
   city: 'city',
   street: 'street',
+  settlement: 'settlement',
   building: 'building',
   apartment: 'apartment',
   entrance: 'entrance',
   floor: 'floor',
-  settlement: 'settlement',
   postalCode: 'postalCode',
   isDefault: 'isDefault'
 };
@@ -326,6 +327,14 @@ exports.Prisma.ProductStockScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.PhoneVerificationCodeScalarFieldEnum = {
+  id: 'id',
+  phone: 'phone',
+  code: 'code',
+  expires: 'expires',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -402,7 +411,8 @@ exports.Prisma.ModelName = {
   ProductSpecification: 'ProductSpecification',
   Promotion: 'Promotion',
   Store: 'Store',
-  ProductStock: 'ProductStock'
+  ProductStock: 'ProductStock',
+  PhoneVerificationCode: 'PhoneVerificationCode'
 };
 
 /**

@@ -1,5 +1,4 @@
-// Полный обновлённый файл DeliveryPage с домом и квартирой через главный адрес,
-// и подъездом и этажом как отдельные поля
+// Полный обновлённый DeliveryPage с SMS-подтверждением, 30 сек таймером
 
 'use client'
 
@@ -8,6 +7,7 @@ import Input from '@/app/account/components/Input'
 import { useCart } from '@/app/cart/components/CartProvider'
 import DeliverySummaryBlock from '@/app/cart/components/CartSummary'
 import { useNotification } from '@/app/components/NotificationProvider'
+import PhoneVerification from '@/app/delivery/components/PhoneVerification'
 import { Map, Placemark, YMaps } from '@pbe/react-yandex-maps'
 import axios from 'axios'
 import 'cleave.js/dist/addons/cleave-phone.ru'
@@ -59,6 +59,8 @@ export default function DeliveryPage() {
 	const [floor, setFloor] = useState('')
 	const [deliveryPrice, setDeliveryPrice] = useState<number | null>(null)
 	const [selectedItemsData, setSelectedItemsData] = useState<CartItemType[]>([])
+	const [verifyingPhone, setVerifyingPhone] = useState(false)
+	const [pendingOrder, setPendingOrder] = useState<any>(null)
 	const [errors, setErrors] = useState<{
 		address?: string
 		phone?: string
@@ -110,13 +112,8 @@ export default function DeliveryPage() {
 		if (!selectedAddress) return
 		const userLat = parseFloat(selectedAddress.data.geo_lat)
 		const userLon = parseFloat(selectedAddress.data.geo_lon)
-		const STORE_LAT = 55.7558
-		const STORE_LON = 37.6173
-		const BASE_PRICE = 150
-		const PER_KM_PRICE = 20
-		const distance = getDistanceKm(STORE_LAT, STORE_LON, userLat, userLon)
-		const price = Math.max(BASE_PRICE, Math.round(distance * PER_KM_PRICE))
-		setDeliveryPrice(price)
+		const distance = getDistanceKm(55.7558, 37.6173, userLat, userLon)
+		setDeliveryPrice(Math.max(150, Math.round(distance * 20)))
 	}, [selectedAddress])
 
 	const handleSelectSuggestion = (suggestion: any) => {
@@ -150,6 +147,27 @@ export default function DeliveryPage() {
 			return
 		}
 
+		const phoneCheck = await axios.post('/api/sms/send', { phone })
+		if (phoneCheck.data?.alreadyVerified) {
+			return await submitFinalOrder()
+		} else {
+			setPendingOrder({
+				address: selectedAddress.data,
+				coordinates: {
+					lat: selectedAddress.data.geo_lat,
+					lon: selectedAddress.data.geo_lon,
+				},
+				phone,
+				comment,
+				deliveryPrice,
+				selectedItems: selectedItemsData.map(item => item.id),
+				addressExtra: { entrance, floor },
+			})
+			setVerifyingPhone(true)
+		}
+	}
+
+	const submitFinalOrder = async () => {
 		try {
 			const res = await fetch('/api/delivery', {
 				method: 'POST',
@@ -167,13 +185,11 @@ export default function DeliveryPage() {
 					addressExtra: { entrance, floor },
 				}),
 			})
-
 			const data = await res.json()
 			if (!res.ok) {
 				notify(data.error || 'Ошибка при оформлении доставки', 'error')
 				return
 			}
-
 			notify('Заказ успешно оформлен', 'success')
 			localStorage.removeItem('selectedItems')
 			await refreshCart()
@@ -190,6 +206,27 @@ export default function DeliveryPage() {
 				parseFloat(selectedAddress.data.geo_lon),
 		  ]
 		: [55.751244, 37.618423]
+
+	if (verifyingPhone) {
+		return (
+			<div className='container mx-auto py-10 px-4'>
+				<PhoneVerification
+					phone={phone}
+					onVerified={async () => {
+						setVerifyingPhone(false)
+						if (pendingOrder) {
+							await submitFinalOrder()
+							setPendingOrder(null)
+						}
+					}}
+					onCancel={() => {
+						setVerifyingPhone(false)
+						setPendingOrder(null)
+					}}
+				/>
+			</div>
+		)
+	}
 
 	return (
 		<div className='container mx-auto py-10 px-4'>

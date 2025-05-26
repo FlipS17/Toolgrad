@@ -23,23 +23,24 @@ model Brand {
 }
 
 model User {
-  id         Int        @id @default(autoincrement())
-  email      String     @unique
-  password   String
-  firstName  String
-  lastName   String
-  patronymic String?
-  phone      String?    @unique
-  avatar     Int
-  birthDate  DateTime?
-  createdAt  DateTime   @default(now())
-  updatedAt  DateTime   @updatedAt
-  role       Role       @default(CUSTOMER)
-  addresses  Address[]
-  cart       Cart?
-  favorites  Favorite[]
-  orders     Order[]
-  reviews    Review[]
+  id            Int        @id @default(autoincrement())
+  email         String     @unique
+  password      String
+  firstName     String
+  lastName      String
+  patronymic    String?
+  phone         String?    @unique
+  avatar        Int
+  birthDate     DateTime?
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+  role          Role       @default(CUSTOMER)
+  addresses     Address[]
+  cart          Cart?
+  favorites     Favorite[]
+  orders        Order[]
+  reviews       Review[]
+  phoneVerified Boolean    @default(false)
 }
 
 model PasswordResetToken {
@@ -306,4 +307,12 @@ enum PaymentStatus {
   COMPLETED
   FAILED
   REFUNDED
+}
+
+model PhoneVerificationCode {
+  id        Int      @id @default(autoincrement())
+  phone     String   @unique
+  code      String
+  expires   DateTime
+  createdAt DateTime @default(now())
 }

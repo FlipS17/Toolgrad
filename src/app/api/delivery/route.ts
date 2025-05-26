@@ -22,6 +22,14 @@ export async function POST(req: NextRequest) {
 			status: 404,
 		})
 	}
+	if (!user.phoneVerified) {
+		return new Response(
+			JSON.stringify({
+				error: 'Подтвердите номер телефона перед оформлением заказа',
+			}),
+			{ status: 400 }
+		)
+	}
 
 	const body = await req.json()
 	const {
