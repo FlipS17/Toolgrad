@@ -244,7 +244,7 @@ export default function CartPage() {
 					</div>
 
 					<Link
-						href='/pickup'
+						href={deliveryType === 'pickup' ? '/pickup' : '/delivery'}
 						className={`w-full block text-center text-white py-3 text-base rounded-xl font-semibold transition ${
 							isEmpty
 								? 'bg-gray-300 cursor-not-allowed'

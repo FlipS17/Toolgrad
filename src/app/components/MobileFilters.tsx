@@ -1,9 +1,9 @@
 'use client'
 
+import { Brand } from '@/../generated/prisma'
+import CatalogFilters from '@/app/catalog/components/CatalogFilters'
 import { X } from 'lucide-react'
 import { useEffect } from 'react'
-import { Brand } from '../../../../generated/prisma'
-import CatalogFilters from './CatalogFilters'
 
 interface MobileFiltersProps {
 	isOpen: boolean

@@ -126,7 +126,7 @@ export default function ProductCard({
 						isInCart(product.id)
 							? 'bg-gray-300 cursor-not-allowed'
 							: 'bg-[#F89514] hover:bg-[#d97c0f]'
-					} text-white text-sm font-medium py-2 rounded transition`}
+					} text-white text-sm font-medium py-2 rounded transition cursor-pointer`}
 					disabled={isInCart(product.id)}
 				>
 					{isInCart(product.id) ? 'В корзине' : 'В корзину'}
