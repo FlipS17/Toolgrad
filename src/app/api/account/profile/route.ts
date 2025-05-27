@@ -22,6 +22,8 @@ export async function GET() {
 				avatar: true,
 				createdAt: true,
 				updatedAt: true,
+				phone: true,
+				phoneVerified: true,
 			},
 		})
 

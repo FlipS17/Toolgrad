@@ -67,6 +67,11 @@ export default function DeliveryPage() {
 		comment?: string
 	}>({})
 	const { notify } = useNotification()
+	const [user, setUser] = useState<{
+		phone?: string
+		phoneVerified?: boolean
+	} | null>(null)
+
 	const { refreshCart } = useCart()
 	const router = useRouter()
 
@@ -81,6 +86,21 @@ export default function DeliveryPage() {
 			)
 			setSelectedItemsData(filtered)
 		})
+	}, [])
+
+	useEffect(() => {
+		const fetchUser = async () => {
+			try {
+				const res = await axios.get('/api/account/profile')
+				setUser(res.data)
+				if (res.data.phoneVerified && res.data.phone) {
+					setPhone(res.data.phone)
+				}
+			} catch (err) {
+				console.error('Ошибка получения данных пользователя', err)
+			}
+		}
+		fetchUser()
 	}, [])
 
 	useEffect(() => {
@@ -314,12 +334,15 @@ export default function DeliveryPage() {
 								numericOnly: true,
 							}}
 							value={phone}
+							disabled={user?.phoneVerified}
 							onChange={e => {
-								setPhone(e.target.value)
-								setErrors(prev => ({ ...prev, phone: undefined }))
+								if (!user?.phoneVerified) {
+									setPhone(e.target.value)
+									setErrors(prev => ({ ...prev, phone: undefined }))
+								}
 							}}
 							placeholder='+7 (___) ___-__-__'
-							className='w-full rounded-xl border px-4 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-[#F89514] border-gray-300'
+							className='w-full rounded-xl border px-4 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-[#F89514] border-gray-300 disabled:bg-gray-100 disabled:text-gray-500'
 						/>
 						{errors.phone && (
 							<p className='text-sm text-red-500'>{errors.phone}</p>
