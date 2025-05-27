@@ -1,7 +1,8 @@
 'use client'
 
-import { useState } from 'react'
-import StoreDetails from './StoreDetails'
+import StoreDetails from '@/app/pickup/components/StoreDetails'
+import { Map, Placemark, YMaps } from '@pbe/react-yandex-maps'
+import { useEffect, useState } from 'react'
 import StoreList from './StoreList'
 
 export type Store = {
@@ -17,6 +18,21 @@ export type Store = {
 
 export default function PickupPage({ stores }: { stores: Store[] }) {
 	const [selectedStore, setSelectedStore] = useState<Store | null>(null)
+	const [mapState, setMapState] = useState({
+		center: stores.length
+			? [stores[0].latitude, stores[0].longitude]
+			: [55.751244, 37.618423],
+		zoom: 11,
+	})
+
+	useEffect(() => {
+		if (selectedStore) {
+			setMapState({
+				center: [selectedStore.latitude, selectedStore.longitude],
+				zoom: 17,
+			})
+		}
+	}, [selectedStore])
 
 	return (
 		<div className='container mx-auto py-10 px-4 flex flex-col md:flex-row gap-6'>
@@ -28,14 +44,55 @@ export default function PickupPage({ stores }: { stores: Store[] }) {
 				/>
 			</div>
 
-			<div className='md:w-2/3'>
-				{selectedStore ? (
-					<StoreDetails store={selectedStore} />
-				) : (
-					<p className='text-gray-500 text-sm'>
-						Выберите магазин для самовывоза
-					</p>
+			<div className='md:w-2/3 space-y-4'>
+				{selectedStore && (
+					<div className='space-y-1'>
+						<h3 className='text-lg font-semibold text-gray-900'>
+							{selectedStore.name}
+						</h3>
+						<p className='text-sm text-gray-600'>
+							{selectedStore.city}, {selectedStore.address}
+						</p>
+						{selectedStore.phone && (
+							<p className='text-sm text-gray-600'>
+								Телефон: {selectedStore.phone}
+							</p>
+						)}
+						{selectedStore.schedule && (
+							<p className='text-sm text-gray-600'>
+								Режим работы: {selectedStore.schedule}
+							</p>
+						)}
+					</div>
 				)}
+
+				<YMaps>
+					<Map
+						state={mapState}
+						width='100%'
+						height='400px'
+						options={{ suppressMapOpenBlock: true }}
+					>
+						{stores.map(store => (
+							<Placemark
+								key={store.id}
+								geometry={[store.latitude, store.longitude]}
+								properties={{
+									balloonContent: `${store.name}<br/>${store.address}`,
+								}}
+								options={{
+									preset:
+										selectedStore?.id === store.id
+											? 'islands#redIcon'
+											: 'islands#blueIcon',
+								}}
+								onClick={() => setSelectedStore(store)}
+							/>
+						))}
+					</Map>
+				</YMaps>
+
+				{selectedStore && <StoreDetails store={selectedStore} />}
 			</div>
 		</div>
 	)

@@ -33,6 +33,7 @@ export async function GET() {
 				},
 			},
 			address: true,
+			store: true, // ✅ добавили
 		},
 	})
 
@@ -44,9 +45,22 @@ export async function GET() {
 		createdAt: order.createdAt,
 		deliveryType: order.deliveryType,
 		address: order.address
-			? `${order.address.city}, ${order.address.street}, д ${
-					order.address.building
-			  }${order.address.apartment ? `, кв ${order.address.apartment}` : ''}`
+			? {
+					city: order.address.city,
+					settlement: order.address.settlement,
+					street: order.address.street,
+					building: order.address.building,
+					apartment: order.address.apartment,
+					entrance: order.address.entrance,
+					floor: order.address.floor,
+					postalCode: order.address.postalCode,
+			  }
+			: null,
+		store: order.store
+			? {
+					city: order.store.city,
+					address: order.store.address,
+			  }
 			: null,
 		items: order.items.map(item => ({
 			id: item.id,

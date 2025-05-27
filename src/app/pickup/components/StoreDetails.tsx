@@ -66,31 +66,6 @@ export default function StoreDetails({ store }: { store: Store }) {
 
 	return (
 		<div className='space-y-6'>
-			<div>
-				<h3 className='text-lg font-semibold text-gray-900'>{store.name}</h3>
-				<p className='text-sm text-gray-600'>
-					{store.city}, {store.address}
-				</p>
-				{store.phone && (
-					<p className='text-sm text-gray-600'>Телефон: {store.phone}</p>
-				)}
-				{store.schedule && (
-					<p className='text-sm text-gray-600'>
-						Режим работы: {store.schedule}
-					</p>
-				)}
-			</div>
-
-			<div className='w-full h-[280px] rounded-xl overflow-hidden'>
-				<iframe
-					key={`${store.latitude}-${store.longitude}`}
-					src={`https://yandex.ru/map-widget/v1/?ll=${store.longitude},${store.latitude}&z=16&pt=${store.longitude},${store.latitude},pm2rdm`}
-					width='100%'
-					height='100%'
-					frameBorder='0'
-				></iframe>
-			</div>
-
 			<div className='pt-4 border-t'>
 				<PickupCartPreview
 					onReserve={handleReserve}
