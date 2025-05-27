@@ -92,6 +92,21 @@ export default function CartPage() {
 	const selected = items.filter(item => selectedItems.includes(item.id))
 	const isEmpty = selected.length === 0
 
+	if (isEmpty) {
+		return (
+			<div className='container mx-auto py-12 px-4 text-center'>
+				<h2 className='text-2xl font-semibold text-center mb-6'>Корзина</h2>
+				<p className='text-gray-500 mb-6'>В вашей корзине пока нет товаров</p>
+				<Link
+					href='/catalog'
+					className='inline-block bg-[#F89514] text-white px-6 py-2 rounded-xl hover:bg-[#d97c0f] transition'
+				>
+					К покупкам
+				</Link>
+			</div>
+		)
+	}
+
 	return (
 		<div className='container mx-auto py-12 px-4'>
 			<h2 className='text-2xl font-semibold text-center mb-6'>Корзина</h2>

@@ -3,6 +3,7 @@
 import { Product } from '@/../generated/prisma'
 import { useFavorites } from '@/app/favorite/components/FavoriteProvider'
 import axios from 'axios'
+import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import ProductCard from '../catalog/components/ProductCard'
 
@@ -29,11 +30,13 @@ export default function FavouritePage() {
 		fetchProducts()
 	}, [favoriteIds])
 
-	return (
-		<div className='max-w-7xl mx-auto px-4 py-10'>
-			<h1 className='text-3xl font-bold mb-6'>Избранное</h1>
+	const isEmpty = products.length === 0
 
-			{products.length > 0 ? (
+	return (
+		<div className='container mx-auto py-12 px-4'>
+			<h2 className='text-2xl font-semibold text-center mb-6'>Избранное</h2>
+
+			{!isEmpty ? (
 				<div className='grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4'>
 					{products.map(product => (
 						<ProductCard
@@ -46,7 +49,15 @@ export default function FavouritePage() {
 					))}
 				</div>
 			) : (
-				<p className='text-gray-500'>Вы ещё не добавили товары в избранное.</p>
+				<div className='text-center text-gray-500 mt-12'>
+					<p className='mb-6'>Вы ещё не добавили товары в избранное.</p>
+					<Link
+						href='/catalog'
+						className='inline-block bg-[#F89514] text-white px-6 py-2 rounded-xl hover:bg-[#d97c0f] transition'
+					>
+						К покупкам
+					</Link>
+				</div>
 			)}
 		</div>
 	)

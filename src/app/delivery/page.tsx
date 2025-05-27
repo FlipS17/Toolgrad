@@ -1,5 +1,3 @@
-// Полный обновлённый DeliveryPage с SMS-подтверждением, 30 сек таймером
-
 'use client'
 
 import AuthButton from '@/app/account/components/AuthButton'
