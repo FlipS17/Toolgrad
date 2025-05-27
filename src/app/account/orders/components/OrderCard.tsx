@@ -12,6 +12,7 @@ import {
 import Image from 'next/image'
 import Link from 'next/link'
 import { ReactElement } from 'react'
+import FormattedAddress from './FormattedAddress'
 
 interface OrderProduct {
 	id: number
@@ -23,14 +24,13 @@ interface OrderProduct {
 }
 
 interface Address {
+	settlement?: string
 	city: string
 	street: string
-	settlement?: string
 	building: string
 	apartment: string
 	entrance?: string
 	floor?: string
-	postalCode?: string
 }
 
 interface Store {
@@ -44,7 +44,7 @@ interface OrderCardProps {
 	total: number
 	status: string
 	products: OrderProduct[]
-	address?: string
+	address?: Address
 	store?: Store
 	deliveryType: 'PICKUP' | 'DELIVERY'
 	isOpen?: boolean
@@ -91,26 +91,6 @@ const statusMap: Record<
 		color: 'text-red-700',
 		bg: 'bg-red-50',
 	},
-}
-
-function formatAddress(address?: Address): string {
-	if (!address) return 'Адрес не указан'
-
-	const parts = [
-		address.settlement || address.city,
-		address.street,
-		address.building ? `д. ${address.building}` : '',
-		address.apartment ? `кв. ${address.apartment}` : '',
-		address.entrance ? `подъезд ${address.entrance}` : '',
-		address.floor ? `этаж ${address.floor}` : '',
-	]
-
-	return parts.filter(Boolean).join(', ')
-}
-
-function formatStoreAddress(store?: Store): string {
-	if (!store) return 'Магазин не найден'
-	return `${store.city}, ${store.address}`
 }
 
 export default function OrderCard({
@@ -192,7 +172,7 @@ export default function OrderCard({
 								</div>
 								<Link
 									href={`/products/${product.productId}`}
-									className='text-sm bg-gray-100 hover:bg-gray-200 px-3 py-1 rounded-xl whitespace-nowrap'
+									className='text-sm font-medium text-[#F89514] border border-[#F89514] px-4 py-1.5 rounded-lg hover:bg-[#F89514] hover:text-white transition duration-150 ease-in-out whitespace-nowrap'
 								>
 									К товару
 								</Link>
@@ -202,9 +182,19 @@ export default function OrderCard({
 
 					<div className='flex flex-col sm:flex-row justify-between text-sm text-gray-700 pt-2 border-t gap-3 sm:gap-0'>
 						<div>
-							{deliveryType === 'PICKUP'
-								? `Самовывоз — ${formatStoreAddress(store)}`
-								: `Доставка — ${address || 'Адрес не указан'}`}
+							{deliveryType === 'PICKUP' ? (
+								store?.city && store?.address ? (
+									<>
+										Самовывоз — {store.city}, {store.address}
+									</>
+								) : (
+									<>Самовывоз — Магазин не найден</>
+								)
+							) : (
+								<>
+									Доставка — <FormattedAddress address={address} />
+								</>
+							)}
 						</div>
 						<div className='font-bold text-[#F89514] text-base'>
 							Итого {total.toLocaleString('ru-RU')} ₽

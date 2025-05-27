@@ -13,14 +13,30 @@ interface OrderProduct {
 	productId: number
 }
 
+interface Address {
+	city: string
+	street: string
+	settlement?: string
+	building: string
+	apartment: string
+	entrance?: string
+	floor?: string
+}
+
+interface Store {
+	city: string
+	address: string
+}
+
 interface Order {
 	id: number
 	orderNumber: string
 	status: string
 	total: number
 	createdAt: string
-	address?: string
 	deliveryType: 'PICKUP' | 'DELIVERY'
+	address?: Address
+	store?: Store
 	items: OrderProduct[]
 }
 
@@ -60,6 +76,7 @@ export default function OrdersPage() {
 						total={order.total}
 						deliveryType={order.deliveryType}
 						address={order.address}
+						store={order.store}
 						products={order.items}
 						isOpen={openOrderId === order.id}
 						onToggle={() =>
