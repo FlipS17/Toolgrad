@@ -73,7 +73,7 @@ export default function Header() {
 					<div className='container mx-auto flex justify-between items-center text-sm'>
 						<div className='flex items-center space-x-2'>
 							<LocationIcon />
-							<span>Красногорск, ул. Вилора Трифонова, д. 3</span>
+							<span>Красногорск, ул. Губайлово, 56</span>
 						</div>
 						<div className='flex items-center space-x-2'>
 							<PhoneIcon />
@@ -185,7 +185,9 @@ export default function Header() {
 						<div className='space-y-4'>
 							<div className='flex items-center'>
 								<LocationIcon className='text-gray-400 mr-3' />
-								<span className='text-gray-600'>Москва, ул. Примерная 123</span>
+								<span className='text-gray-600'>
+									Красногорск, ул. Губайлово, 56
+								</span>
 							</div>
 							<div className='flex items-center'>
 								<PhoneIcon className='text-gray-400 mr-3' />

@@ -335,6 +335,14 @@ exports.Prisma.PhoneVerificationCodeScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.ContactMessageScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  email: 'email',
+  message: 'message',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -413,7 +421,8 @@ exports.Prisma.ModelName = {
   Promotion: 'Promotion',
   Store: 'Store',
   ProductStock: 'ProductStock',
-  PhoneVerificationCode: 'PhoneVerificationCode'
+  PhoneVerificationCode: 'PhoneVerificationCode',
+  ContactMessage: 'ContactMessage'
 };
 
 /**

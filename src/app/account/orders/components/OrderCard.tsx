@@ -128,7 +128,7 @@ export default function OrderCard({
 				</div>
 				<button
 					onClick={onToggle}
-					className='flex items-center text-sm text-blue-600 hover:underline'
+					className='flex items-center text-sm text-blue-600 hover:underline cursor-pointer'
 				>
 					{isOpen ? (
 						<>
