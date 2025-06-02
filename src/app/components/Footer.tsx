@@ -85,7 +85,7 @@ export default function Footer() {
 							</li>
 							<li>
 								<ContactItem icon={<PhoneIcon />}>
-									+7 (925) 616-09-95
+									+7 (903) 750-98-16
 								</ContactItem>
 							</li>
 							<li>

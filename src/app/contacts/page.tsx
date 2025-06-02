@@ -128,12 +128,9 @@ export default function ContactsPage() {
 								<span className='block font-semibold text-gray-800 mb-1'>
 									Телефон:
 								</span>
-								<a
-									href='tel:+79256160995'
-									className='text-[#F89514] font-medium hover:underline'
-								>
-									+7 (925) 616-09-95
-								</a>
+								<span className='text-[#F89514] font-medium hover:underline'>
+									+7 (903) 750-98-16
+								</span>
 							</div>
 							<div>
 								<span className='block font-semibold text-gray-800 mb-1'>

@@ -77,7 +77,7 @@ export default function Header() {
 						</div>
 						<div className='flex items-center space-x-2'>
 							<PhoneIcon />
-							<span>+7 (925) 616-09-95</span>
+							<span>+7 (903) 750-98-16</span>
 						</div>
 						<Link
 							href={userName ? '/account/profile' : '/account'}
@@ -104,7 +104,7 @@ export default function Header() {
 							<NavLink href='/'>Главная</NavLink>
 							<NavLink href='/catalog'>Каталог</NavLink>
 							<NavLink href='/sales'>Акции</NavLink>
-							<NavLink href='/delivery'>Доставка</NavLink>
+							<NavLink href='/delivery-info'>Доставка</NavLink>
 							<NavLink href='/contacts'>Контакты</NavLink>
 						</nav>
 
@@ -172,7 +172,7 @@ export default function Header() {
 						<MobileNavLink href='/sales' onClick={toggleMenu}>
 							Акции
 						</MobileNavLink>
-						<MobileNavLink href='/delivery' onClick={toggleMenu}>
+						<MobileNavLink href='/delivery-info' onClick={toggleMenu}>
 							Доставка
 						</MobileNavLink>
 						<MobileNavLink href='/contacts' onClick={toggleMenu}>
@@ -191,7 +191,7 @@ export default function Header() {
 							</div>
 							<div className='flex items-center'>
 								<PhoneIcon className='text-gray-400 mr-3' />
-								<span className='text-gray-600'>+7 (925) 616-09-95</span>
+								<span className='text-gray-600'>+7 (903) 750-98-16</span>
 							</div>
 							<div className='flex items-center'>
 								<AccountIcon className='text-gray-400 mr-3' />
