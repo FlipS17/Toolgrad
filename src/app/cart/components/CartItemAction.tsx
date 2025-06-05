@@ -1,4 +1,3 @@
-// CartItemActions.tsx
 import FavoriteToggleButton from '@/app/catalog/components/FavoriteToggleButton'
 import { useNotification } from '@/app/components/NotificationProvider'
 import { FiTrash } from 'react-icons/fi'
@@ -30,13 +29,13 @@ export default function CartItemActions({
 	}
 
 	return (
-		<div className='flex gap-3 mt-auto'>
+		<div className='flex gap-4 mt-2 sm:mt-auto'>
 			<button
 				onClick={handleRemove}
 				className='text-gray-400 hover:text-red-500 transition text-xs flex items-center gap-1 cursor-pointer'
 			>
 				<FiTrash className='w-4 h-4' />
-				<span>Удалить</span>
+				<span className='hidden xs:inline'>Удалить</span>
 			</button>
 
 			<FavoriteToggleButton

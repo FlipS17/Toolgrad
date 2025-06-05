@@ -7,12 +7,14 @@ interface StoreListProps {
 	stores: Store[]
 	selectedStoreId?: number
 	onSelect: (store: Store) => void
+	scrollable?: boolean
 }
 
 export default function StoreList({
 	stores,
 	selectedStoreId,
 	onSelect,
+	scrollable = false,
 }: StoreListProps) {
 	const [query, setQuery] = useState('')
 
@@ -23,7 +25,8 @@ export default function StoreList({
 	)
 
 	return (
-		<div className='space-y-4 w-full md:w-[400px]'>
+		<div className='w-full space-y-4'>
+			{/* Назад */}
 			<button
 				onClick={() => history.back()}
 				className='flex items-center text-sm text-gray-600 hover:text-[#F89514] transition font-medium gap-2'
@@ -31,6 +34,7 @@ export default function StoreList({
 				<ArrowLeft className='w-4 h-4 cursor-pointer' /> Назад
 			</button>
 
+			{/* Поиск */}
 			<div className='relative'>
 				<Input
 					label='Поиск по магазинам'
@@ -41,7 +45,11 @@ export default function StoreList({
 				/>
 			</div>
 
-			<div className='space-y-3'>
+			<div
+				className={`space-y-3 ${
+					scrollable ? 'overflow-y-auto max-h-[260px]' : ''
+				}`}
+			>
 				{filtered.map(store => (
 					<button
 						key={store.id}

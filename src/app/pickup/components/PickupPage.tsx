@@ -21,9 +21,21 @@ export default function PickupPage({ stores }: { stores: Store[] }) {
 	const [mapState, setMapState] = useState({
 		center: stores.length
 			? [stores[0].latitude, stores[0].longitude]
-			: [55.751244, 37.618423],
-		zoom: 11,
+			: [55.7558, 37.6173],
+		zoom: 8,
 	})
+
+	const [shouldScroll, setShouldScroll] = useState(false)
+
+	useEffect(() => {
+		const updateScroll = () => {
+			const width = window.innerWidth
+			setShouldScroll(width < 1024 || stores.length > 6)
+		}
+		updateScroll()
+		window.addEventListener('resize', updateScroll)
+		return () => window.removeEventListener('resize', updateScroll)
+	}, [stores])
 
 	useEffect(() => {
 		if (selectedStore) {
@@ -35,16 +47,17 @@ export default function PickupPage({ stores }: { stores: Store[] }) {
 	}, [selectedStore])
 
 	return (
-		<div className='container mx-auto py-10 px-4 flex flex-col md:flex-row gap-6'>
-			<div className='md:w-1/3'>
+		<div className='container mx-auto py-10 px-4 flex flex-col lg:flex-row gap-6'>
+			<div className='lg:w-1/3 w-full max-w-full'>
 				<StoreList
 					stores={stores}
 					selectedStoreId={selectedStore?.id}
 					onSelect={store => setSelectedStore(store)}
+					scrollable={shouldScroll}
 				/>
 			</div>
 
-			<div className='md:w-2/3 space-y-4'>
+			<div className='lg:w-2/3 space-y-4'>
 				{selectedStore && (
 					<div className='space-y-1'>
 						<h3 className='text-lg font-semibold text-gray-900'>
@@ -78,7 +91,6 @@ export default function PickupPage({ stores }: { stores: Store[] }) {
 								key={store.id}
 								geometry={[store.latitude, store.longitude]}
 								properties={{
-									// Подпись над иконкой
 									iconCaption: store.name,
 									balloonContent: 'ToolGrad',
 								}}

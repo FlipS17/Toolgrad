@@ -208,7 +208,10 @@ export default function CartPage() {
 					</div>
 				</div>
 
-				<div className='w-full md:w-[380px] shrink-0 space-y-4'>
+				<div
+					id='cart-summary'
+					className='w-full md:w-[380px] shrink-0 space-y-4 scroll-mt-24'
+				>
 					<CartSummaryBlock
 						items={selected}
 						promoCode={promoCode}
