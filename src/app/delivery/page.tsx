@@ -1,7 +1,6 @@
 'use client'
 
 import AuthButton from '@/app/account/components/AuthButton'
-import Input from '@/app/account/components/Input'
 import { useCart } from '@/app/cart/components/CartProvider'
 import DeliverySummaryBlock from '@/app/cart/components/CartSummary'
 import { useNotification } from '@/app/components/NotificationProvider'
@@ -12,9 +11,12 @@ import 'cleave.js/dist/addons/cleave-phone.ru'
 import Cleave from 'cleave.js/react'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
+import Input from '../account/components/Input'
 
+// Токен DaData
 const DADATA_TOKEN = process.env.NEXT_PUBLIC_DADATA_TOKEN as string
 
+// Функция для расчёта расстояния
 function getDistanceKm(
 	lat1: number,
 	lon1: number,
@@ -34,6 +36,7 @@ function getDistanceKm(
 	return R * c
 }
 
+// Тип товара в корзине
 interface CartItemType {
 	id: number
 	quantity: number
@@ -48,6 +51,7 @@ interface CartItemType {
 }
 
 export default function DeliveryPage() {
+	const [promoDiscountPercent, setPromoDiscountPercent] = useState(0)
 	const [addressQuery, setAddressQuery] = useState('')
 	const [suggestions, setSuggestions] = useState<any[]>([])
 	const [selectedAddress, setSelectedAddress] = useState<any | null>(null)
@@ -76,8 +80,20 @@ export default function DeliveryPage() {
 	const MAX_WORDS = 50
 	const MAX_CHARS = 300
 
+	// Загружаем данные из корзины и применяем скидку
 	useEffect(() => {
 		const selected = JSON.parse(localStorage.getItem('selectedItems') || '[]')
+		const promoData = JSON.parse(localStorage.getItem('finalPrice') || '{}')
+
+		// Вычисляем процент скидки по промокоду, если данные есть
+		if (promoData?.promoDiscount && promoData?.sumBeforeDiscount) {
+			const percent = Math.round(
+				(promoData.promoDiscount / promoData.sumBeforeDiscount) * 100
+			)
+			setPromoDiscountPercent(percent)
+		}
+
+		// Загружаем корзину и фильтруем выбранные позиции
 		axios.get('/api/cart').then(res => {
 			const filtered = res.data.filter((item: CartItemType) =>
 				selected.includes(item.id)
@@ -86,6 +102,7 @@ export default function DeliveryPage() {
 		})
 	}, [])
 
+	// Загружаем данные пользователя
 	useEffect(() => {
 		const fetchUser = async () => {
 			try {
@@ -101,6 +118,7 @@ export default function DeliveryPage() {
 		fetchUser()
 	}, [])
 
+	// Получаем подсказки DaData
 	useEffect(() => {
 		const fetchSuggestions = async () => {
 			if (!addressQuery || selectedAddress) return
@@ -126,6 +144,7 @@ export default function DeliveryPage() {
 		return () => clearTimeout(timeout)
 	}, [addressQuery, selectedAddress])
 
+	// Расчёт стоимости доставки
 	useEffect(() => {
 		if (!selectedAddress) return
 		const userLat = parseFloat(selectedAddress.data.geo_lat)
@@ -134,6 +153,7 @@ export default function DeliveryPage() {
 		setDeliveryPrice(Math.max(150, Math.round(distance * 20)))
 	}, [selectedAddress])
 
+	// Обработка выбора адреса из подсказок
 	const handleSelectSuggestion = (suggestion: any) => {
 		setSelectedAddress(suggestion)
 		setAddressQuery(suggestion.value)
@@ -141,6 +161,7 @@ export default function DeliveryPage() {
 		setErrors(prev => ({ ...prev, address: undefined }))
 	}
 
+	// Валидация комментария
 	const handleCommentChange = (value: string) => {
 		const wordCount = value.trim().split(/\s+/).length
 		if (wordCount > MAX_WORDS || value.length > MAX_CHARS) {
@@ -154,6 +175,7 @@ export default function DeliveryPage() {
 		setComment(value)
 	}
 
+	// Обработка отправки заказа
 	const handleSubmit = async () => {
 		const cleanedPhone = phone.replace(/\D/g, '')
 		const newErrors: typeof errors = {}
@@ -165,10 +187,12 @@ export default function DeliveryPage() {
 			return
 		}
 
+		// Проверка телефона через SMS
 		const phoneCheck = await axios.post('/api/sms/send', { phone })
 		if (phoneCheck.data?.alreadyVerified) {
 			return await submitFinalOrder()
 		} else {
+			// Запускаем верификацию
 			setPendingOrder({
 				address: selectedAddress.data,
 				coordinates: {
@@ -185,6 +209,7 @@ export default function DeliveryPage() {
 		}
 	}
 
+	// Отправка финального заказа
 	const submitFinalOrder = async () => {
 		try {
 			const res = await fetch('/api/delivery', {
@@ -218,6 +243,7 @@ export default function DeliveryPage() {
 		}
 	}
 
+	// Координаты склада
 	const userCoords = selectedAddress
 		? [
 				parseFloat(selectedAddress.data.geo_lat),
@@ -225,6 +251,7 @@ export default function DeliveryPage() {
 		  ]
 		: [55.751244, 37.618423]
 
+	// Блок верификации телефона
 	if (verifyingPhone) {
 		return (
 			<div className='container mx-auto py-10 px-4'>
@@ -246,6 +273,7 @@ export default function DeliveryPage() {
 		)
 	}
 
+	// Основной UI страницы
 	return (
 		<div className='container mx-auto py-10 px-4'>
 			<h2 className='text-2xl font-semibold text-center mb-6'>
@@ -401,6 +429,7 @@ export default function DeliveryPage() {
 					<DeliverySummaryBlock
 						items={selectedItemsData}
 						deliveryPrice={deliveryPrice}
+						promoDiscountPercent={promoDiscountPercent}
 					/>
 
 					<AuthButton label='Оформить заказ' onClick={handleSubmit} />

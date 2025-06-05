@@ -1,15 +1,16 @@
 'use client'
 
-import AuthButton from '@/app/account/components/AuthButton'
 import CartItem from '@/app/cart/components/CartItem'
 import { useCart } from '@/app/cart/components/CartProvider'
 import CartSummaryBlock from '@/app/cart/components/CartSummary'
 import { useNotification } from '@/app/components/NotificationProvider'
 import { useFavorites } from '@/app/favorite/components/FavoriteProvider'
+import { calculateCartTotals } from '@/utils/calculateCartTotals'
 import axios from 'axios'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
+import AuthButton from '../account/components/AuthButton'
 import DeliveryTypeButton from './components/DeliveryTypeButton'
 
 export type CartItemType = {
@@ -110,37 +111,32 @@ export default function CartPage() {
 	const isEmpty = selected.length === 0
 
 	const handleCheckout = () => {
-		const sumBeforeDiscount = selected.reduce(
-			(sum, item) => sum + item.product.price * item.quantity,
-			0
-		)
+		const deliveryPrice = deliveryType === 'delivery' ? 300 : 0
+		const {
+			sumBeforeDiscount,
+			productDiscount,
+			totalPrice,
+			totalWithDelivery,
+		} = calculateCartTotals(selected, {
+			deliveryFee: deliveryPrice,
+		})
 
-		const productDiscount = selected.reduce((sum, item) => {
-			if (item.product.oldPrice && item.product.oldPrice > item.product.price) {
-				return (
-					sum + (item.product.oldPrice - item.product.price) * item.quantity
-				)
-			}
-			return sum
-		}, 0)
-
-		const promoDiscountValue = promoDiscountPercent
+		const promoDiscount = promoDiscountPercent
 			? (sumBeforeDiscount * promoDiscountPercent) / 100
 			: 0
 
-		const totalDiscount = productDiscount + promoDiscountValue
-		const totalPrice = sumBeforeDiscount - totalDiscount
-		const deliveryPrice = deliveryType === 'delivery' ? 300 : 0
-		const totalWithDelivery = totalPrice + deliveryPrice
+		const totalDiscount = productDiscount + promoDiscount
+		const finalTotal = totalWithDelivery - promoDiscount
 
 		localStorage.setItem(
 			'finalPrice',
 			JSON.stringify({
-				total: totalWithDelivery,
+				total: finalTotal,
 				totalDiscount,
-				promoDiscount: promoDiscountValue,
+				promoDiscount,
 				productDiscount,
 				deliveryPrice,
+				sumBeforeDiscount,
 			})
 		)
 
