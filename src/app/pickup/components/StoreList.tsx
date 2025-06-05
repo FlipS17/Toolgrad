@@ -28,7 +28,7 @@ export default function StoreList({
 				onClick={() => history.back()}
 				className='flex items-center text-sm text-gray-600 hover:text-[#F89514] transition font-medium gap-2'
 			>
-				<ArrowLeft className='w-4 h-4' /> Назад
+				<ArrowLeft className='w-4 h-4 cursor-pointer' /> Назад
 			</button>
 
 			<div className='relative'>

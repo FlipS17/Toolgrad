@@ -1,5 +1,6 @@
 'use client'
 
+import AuthButton from '@/app/account/components/AuthButton'
 import axios from 'axios'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
@@ -29,6 +30,7 @@ export default function PickupCartPreview({
 	onItemsLoaded,
 }: Props) {
 	const [items, setItems] = useState<CartItem[]>([])
+	const [finalPrice, setFinalPrice] = useState<number | null>(null)
 
 	useEffect(() => {
 		const selected = JSON.parse(localStorage.getItem('selectedItems') || '[]')
@@ -40,15 +42,21 @@ export default function PickupCartPreview({
 			setItems(selectedItems)
 			onItemsLoaded?.(selected)
 		})
+
+		const savedPrice = localStorage.getItem('finalPrice')
+		if (savedPrice) {
+			try {
+				const parsed = JSON.parse(savedPrice)
+				setFinalPrice(parsed.total)
+			} catch {
+				setFinalPrice(null)
+			}
+		}
 	}, [])
 
 	if (!items.length) return null
 
 	const totalQuantity = items.reduce((a, b) => a + b.quantity, 0)
-	const totalPrice = items.reduce(
-		(sum, item) => sum + item.product.price * item.quantity,
-		0
-	)
 
 	return (
 		<div className='space-y-4'>
@@ -98,22 +106,24 @@ export default function PickupCartPreview({
 			<div className='mt-4 text-base font-bold flex justify-end text-[#F89514]'>
 				<span className='mr-2'>Итого</span>
 				<span className='mr-2'>{totalQuantity} шт</span>
-				<span>{totalPrice.toLocaleString('ru-RU')} ₽</span>
+				<span>
+					{finalPrice !== null
+						? finalPrice.toLocaleString('ru-RU', {
+								minimumFractionDigits: 2,
+								maximumFractionDigits: 2,
+						  })
+						: '—'}{' '}
+					₽
+				</span>
 			</div>
 
 			{onReserve && (
 				<div className='pt-4 flex justify-center'>
-					<button
+					<AuthButton
 						onClick={onReserve}
 						disabled={disabled}
-						className={`w-full cursor-pointer md:w-auto text-white text-sm font-medium py-2 px-6 rounded-xl transition ${
-							disabled
-								? 'bg-gray-300 cursor-not-allowed'
-								: 'bg-[#F89514] hover:bg-[#d97c0f]'
-						}`}
-					>
-						Оформить заказ
-					</button>
+						label='Оформить заказ'
+					/>
 				</div>
 			)}
 		</div>

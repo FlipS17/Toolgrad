@@ -1,11 +1,14 @@
+// app/cart/page.tsx
 'use client'
 
 import CartItem from '@/app/cart/components/CartItem'
 import { useCart } from '@/app/cart/components/CartProvider'
 import CartSummaryBlock from '@/app/cart/components/CartSummary'
+import { useNotification } from '@/app/components/NotificationProvider'
 import { useFavorites } from '@/app/favorite/components/FavoriteProvider'
 import axios from 'axios'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import DeliveryTypeButton from './components/DeliveryTypeButton'
 
@@ -30,6 +33,9 @@ export default function CartPage() {
 		'pickup'
 	)
 	const { refreshCart } = useCart()
+	const { notify } = useNotification()
+	const [promoDiscountPercent, setPromoDiscountPercent] = useState<number>(0)
+	const router = useRouter()
 
 	useEffect(() => {
 		axios
@@ -46,6 +52,17 @@ export default function CartPage() {
 	useEffect(() => {
 		localStorage.setItem('selectedItems', JSON.stringify(selectedItems))
 	}, [selectedItems])
+
+	const handleApplyPromo = async () => {
+		try {
+			const res = await axios.post('/api/promo/apply', { code: promoCode })
+			setPromoDiscountPercent(res.data.discount)
+			notify('Промокод применён!', 'success')
+		} catch (err: any) {
+			notify(err.response?.data?.error || 'Ошибка применения', 'error')
+			setPromoDiscountPercent(0)
+		}
+	}
 
 	const handleSelect = (id: number, checked: boolean) => {
 		setSelectedItems(prev =>
@@ -92,6 +109,44 @@ export default function CartPage() {
 	const selected = items.filter(item => selectedItems.includes(item.id))
 	const isEmpty = selected.length === 0
 
+	const handleCheckout = () => {
+		const sumBeforeDiscount = selected.reduce(
+			(sum, item) => sum + item.product.price * item.quantity,
+			0
+		)
+
+		const productDiscount = selected.reduce((sum, item) => {
+			if (item.product.oldPrice && item.product.oldPrice > item.product.price) {
+				return (
+					sum + (item.product.oldPrice - item.product.price) * item.quantity
+				)
+			}
+			return sum
+		}, 0)
+
+		const promoDiscountValue = promoDiscountPercent
+			? (sumBeforeDiscount * promoDiscountPercent) / 100
+			: 0
+
+		const totalDiscount = productDiscount + promoDiscountValue
+		const totalPrice = sumBeforeDiscount - totalDiscount
+		const deliveryPrice = deliveryType === 'delivery' ? 300 : 0
+		const totalWithDelivery = totalPrice + deliveryPrice
+
+		localStorage.setItem(
+			'finalPrice',
+			JSON.stringify({
+				total: totalWithDelivery,
+				totalDiscount,
+				promoDiscount: promoDiscountValue,
+				productDiscount,
+				deliveryPrice,
+			})
+		)
+
+		router.push(deliveryType === 'pickup' ? '/pickup' : '/delivery')
+	}
+
 	if (isEmpty) {
 		return (
 			<div className='container mx-auto py-12 px-4 text-center'>
@@ -130,43 +185,6 @@ export default function CartPage() {
 						/>
 					</div>
 
-					<div className='flex items-center gap-3 mb-6 px-1'>
-						<input
-							type='checkbox'
-							checked={selectedItems.length === items.length}
-							onChange={e =>
-								setSelectedItems(e.target.checked ? items.map(i => i.id) : [])
-							}
-							className='accent-[#F89514] w-5 h-5 rounded border border-gray-300'
-						/>
-						<span className='text-sm text-gray-700'>Выбрать все</span>
-						<button
-							onClick={() => selectedItems.forEach(id => handleRemove(id))}
-							disabled={selectedItems.length === 0}
-							className={`ml-4 flex items-center gap-1 text-sm font-medium ${
-								selectedItems.length === 0
-									? 'text-gray-300'
-									: 'text-red-600 hover:text-red-700'
-							}`}
-						>
-							<svg
-								xmlns='http://www.w3.org/2000/svg'
-								className='w-4 h-4'
-								fill='none'
-								viewBox='0 0 24 24'
-								stroke='currentColor'
-							>
-								<path
-									strokeLinecap='round'
-									strokeLinejoin='round'
-									strokeWidth={2}
-									d='M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3m-4 0h14'
-								/>
-							</svg>
-							Удалить
-						</button>
-					</div>
-
 					<div className='space-y-4'>
 						{items.map(item => (
 							<CartItem
@@ -199,18 +217,21 @@ export default function CartPage() {
 						items={selected}
 						promoCode={promoCode}
 						setPromoCode={setPromoCode}
+						handleApplyPromo={handleApplyPromo}
+						promoDiscountPercent={promoDiscountPercent}
 					/>
 
-					<Link
-						href={deliveryType === 'pickup' ? '/pickup' : '/delivery'}
-						className={`w-full block text-center text-white py-3 text-base rounded-xl font-semibold transition ${
+					<button
+						onClick={handleCheckout}
+						disabled={isEmpty}
+						className={`w-full text-center text-white py-3 text-base rounded-xl font-semibold transition ${
 							isEmpty
 								? 'bg-gray-300 cursor-not-allowed'
 								: 'bg-[#F89514] hover:bg-[#d97c0f]'
 						}`}
 					>
 						Оформить заказ
-					</Link>
+					</button>
 				</div>
 			</div>
 		</div>

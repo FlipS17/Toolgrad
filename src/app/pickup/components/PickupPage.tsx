@@ -78,13 +78,15 @@ export default function PickupPage({ stores }: { stores: Store[] }) {
 								key={store.id}
 								geometry={[store.latitude, store.longitude]}
 								properties={{
-									balloonContent: `${store.name}<br/>${store.address}`,
+									// Подпись над иконкой
+									iconCaption: store.name,
+									balloonContent: 'ToolGrad',
 								}}
 								options={{
-									preset:
-										selectedStore?.id === store.id
-											? 'islands#redIcon'
-											: 'islands#blueIcon',
+									iconLayout: 'default#image',
+									iconImageHref: '/images/logo.svg',
+									iconImageSize: [60, 30],
+									iconImageOffset: [-15, -42],
 								}}
 								onClick={() => setSelectedStore(store)}
 							/>
