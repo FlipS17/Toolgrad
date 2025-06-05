@@ -34,6 +34,16 @@ export default function PickupCartPreview({
 
 	useEffect(() => {
 		const selected = JSON.parse(localStorage.getItem('selectedItems') || '[]')
+		const saved = localStorage.getItem('finalPrice')
+
+		if (saved) {
+			try {
+				const parsed = JSON.parse(saved)
+				if (parsed?.total) {
+					setFinalPrice(parsed.total)
+				}
+			} catch {}
+		}
 
 		axios.get('/api/cart').then(res => {
 			const selectedItems = res.data.filter((item: CartItem) =>
@@ -42,16 +52,6 @@ export default function PickupCartPreview({
 			setItems(selectedItems)
 			onItemsLoaded?.(selected)
 		})
-
-		const savedPrice = localStorage.getItem('finalPrice')
-		if (savedPrice) {
-			try {
-				const parsed = JSON.parse(savedPrice)
-				setFinalPrice(parsed.total)
-			} catch {
-				setFinalPrice(null)
-			}
-		}
 	}, [])
 
 	if (!items.length) return null

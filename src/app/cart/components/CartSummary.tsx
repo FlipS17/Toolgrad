@@ -1,5 +1,6 @@
 import Input from '@/app/account/components/Input'
 import { CartItemType } from '@/app/cart/page'
+import { calculateCartTotals } from '@/utils/calculateCartTotals'
 
 interface Props {
 	items: CartItemType[]
@@ -18,25 +19,15 @@ export default function CartSummaryBlock({
 	promoDiscountPercent = 0,
 	handleApplyPromo,
 }: Props) {
-	const totalQuantity = items.reduce((a, b) => a + b.quantity, 0)
-	const sumBeforeDiscount = items.reduce(
-		(sum, item) => sum + item.product.price * item.quantity,
-		0
-	)
-	const productDiscount = items.reduce((sum, item) => {
-		if (item.product.oldPrice && item.product.oldPrice > item.product.price) {
-			return sum + (item.product.oldPrice - item.product.price) * item.quantity
-		}
-		return sum
-	}, 0)
+	const { sumBeforeDiscount, productDiscount, totalPrice, totalWithDelivery } =
+		calculateCartTotals(items, { deliveryFee: deliveryPrice ?? undefined })
 
 	const promoDiscountValue = promoDiscountPercent
 		? (sumBeforeDiscount * promoDiscountPercent) / 100
 		: 0
 
+	const finalTotal = totalWithDelivery - promoDiscountValue
 	const totalDiscount = productDiscount + promoDiscountValue
-	const totalPrice = sumBeforeDiscount - totalDiscount
-	const totalWithDelivery = totalPrice + (deliveryPrice ?? 0)
 
 	const formatCurrency = (value: number) =>
 		value.toLocaleString('ru-RU', {
@@ -68,7 +59,7 @@ export default function CartSummaryBlock({
 					<h4 className='text-base font-bold text-gray-900 flex justify-between'>
 						<span>Ваш заказ</span>
 						<span className='text-sm font-normal text-gray-500'>
-							{totalQuantity} товаров
+							{items.reduce((a, b) => a + b.quantity, 0)} товаров
 						</span>
 					</h4>
 
@@ -111,7 +102,7 @@ export default function CartSummaryBlock({
 
 					<div className='flex justify-between text-xl font-bold text-gray-900'>
 						<span>Итого:</span>
-						<span>{formatCurrency(totalWithDelivery)} ₽</span>
+						<span>{formatCurrency(finalTotal)} ₽</span>
 					</div>
 				</div>
 			</div>

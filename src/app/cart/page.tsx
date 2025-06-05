@@ -1,6 +1,6 @@
-// app/cart/page.tsx
 'use client'
 
+import AuthButton from '@/app/account/components/AuthButton'
 import CartItem from '@/app/cart/components/CartItem'
 import { useCart } from '@/app/cart/components/CartProvider'
 import CartSummaryBlock from '@/app/cart/components/CartSummary'
@@ -221,17 +221,12 @@ export default function CartPage() {
 						promoDiscountPercent={promoDiscountPercent}
 					/>
 
-					<button
+					<AuthButton
 						onClick={handleCheckout}
 						disabled={isEmpty}
-						className={`w-full text-center text-white py-3 text-base rounded-xl font-semibold transition ${
-							isEmpty
-								? 'bg-gray-300 cursor-not-allowed'
-								: 'bg-[#F89514] hover:bg-[#d97c0f]'
-						}`}
-					>
-						Оформить заказ
-					</button>
+						label='Оформить заказ'
+						className={isEmpty ? 'bg-gray-300 cursor-not-allowed' : ''}
+					/>
 				</div>
 			</div>
 		</div>
