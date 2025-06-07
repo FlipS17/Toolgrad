@@ -78,7 +78,7 @@ export default function ContactsPage() {
 		<div className='px-4 py-16 space-y-24'>
 			{/* Блок "О компании" */}
 			<section className='container mx-auto px-4 text-center'>
-				<h1 className='text-2xl font-semibold tracking-tight'>О компании</h1>
+				<h1 className='text-2xl font-bold tracking-tight'>О компании</h1>
 			</section>
 
 			<section className='container mx-auto px-4 grid md:grid-cols-2 gap-12 items-center'>
@@ -112,7 +112,7 @@ export default function ContactsPage() {
 			{/* Контакты и карта */}
 			<section className='container mx-auto px-4 space-y-12'>
 				<div className='text-center space-y-2'>
-					<h2 className='text-2xl font-semibold text-gray-900'>Контакты</h2>
+					<h2 className='text-2xl font-bold text-gray-900'>Контакты</h2>
 				</div>
 
 				<div className='grid lg:grid-cols-2 gap-10'>
@@ -172,7 +172,7 @@ export default function ContactsPage() {
 
 			{/* Форма обратной связи */}
 			<section className='bg-gray-50 py-12 px-4 rounded-xl max-w-2xl mx-auto shadow'>
-				<h2 className='text-2xl font-semibold mb-6 text-center'>
+				<h2 className='text-2xl font-bold mb-6 text-center'>
 					Форма обратной связи
 				</h2>
 				{submitted ? (

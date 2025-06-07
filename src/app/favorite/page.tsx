@@ -34,7 +34,7 @@ export default function FavouritePage() {
 
 	return (
 		<div className='container mx-auto py-12 px-4'>
-			<h2 className='text-2xl font-semibold text-center mb-6'>Избранное</h2>
+			<h2 className='text-2xl font-bold text-center mb-6'>Избранное</h2>
 
 			{!isEmpty ? (
 				<div className='grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4'>

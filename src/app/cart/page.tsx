@@ -146,7 +146,7 @@ export default function CartPage() {
 	if (isEmpty) {
 		return (
 			<div className='container mx-auto py-12 px-4 text-center'>
-				<h2 className='text-2xl font-semibold text-center mb-6'>Корзина</h2>
+				<h2 className='text-2xl font-bold text-center mb-6'>Корзина</h2>
 				<p className='text-gray-500 mb-6'>В вашей корзине пока нет товаров</p>
 				<Link
 					href='/catalog'
@@ -160,7 +160,7 @@ export default function CartPage() {
 
 	return (
 		<div className='container mx-auto py-12 px-4'>
-			<h2 className='text-2xl font-semibold text-center mb-6'>Корзина</h2>
+			<h2 className='text-2xl font-bold text-center mb-6'>Корзина</h2>
 
 			<div className='flex flex-col md:flex-row gap-8'>
 				<div className='flex-1'>

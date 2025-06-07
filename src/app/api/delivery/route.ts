@@ -22,33 +22,18 @@ export async function POST(req: NextRequest) {
 			status: 404,
 		})
 	}
-	if (!user.phoneVerified) {
-		return new Response(
-			JSON.stringify({
-				error: 'Подтвердите номер телефона перед оформлением заказа',
-			}),
-			{ status: 400 }
-		)
-	}
 
 	const body = await req.json()
 	const {
 		selectedItems,
 		address,
 		coordinates,
-		phone,
 		comment,
 		deliveryPrice,
 		addressExtra,
 	} = body
 
-	if (
-		!address ||
-		!coordinates ||
-		!phone ||
-		!selectedItems?.length ||
-		!deliveryPrice
-	) {
+	if (!address || !coordinates || !selectedItems?.length || !deliveryPrice) {
 		return new Response(JSON.stringify({ error: 'Неверные данные' }), {
 			status: 400,
 		})

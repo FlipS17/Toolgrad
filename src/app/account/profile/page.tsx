@@ -30,7 +30,7 @@ export default function ProfilePage() {
 
 	return (
 		<div className='container mx-auto px-4'>
-			<h1 className='text-2xl font-semibold mb-6 text-center'>Информация</h1>
+			<h1 className='text-2xl font-bold mb-6 text-center'>Информация</h1>
 
 			<UserInfo
 				fullName={`${user.firstName} ${user.lastName}`}

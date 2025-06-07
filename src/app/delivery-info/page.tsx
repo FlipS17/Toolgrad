@@ -3,7 +3,7 @@
 export default function DeliveryInfoPage() {
 	return (
 		<div className='container mx-auto px-4 py-16 space-y-12'>
-			<h1 className='text-2xl font-semibold text-center mb-8'>
+			<h1 className='text-2xl font-bold text-center mb-8'>
 				Информация о доставке
 			</h1>
 

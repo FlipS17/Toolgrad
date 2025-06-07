@@ -96,9 +96,8 @@ export default function PickupPage({ stores }: { stores: Store[] }) {
 								}}
 								options={{
 									iconLayout: 'default#image',
-									iconImageHref: '/images/logo.svg',
-									iconImageSize: [60, 30],
-									iconImageOffset: [-15, -42],
+									iconImageHref: '/images/marker.png',
+									iconImageSize: [45, 45],
 								}}
 								onClick={() => setSelectedStore(store)}
 							/>

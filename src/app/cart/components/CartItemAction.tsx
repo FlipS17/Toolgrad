@@ -35,7 +35,7 @@ export default function CartItemActions({
 				className='text-gray-400 hover:text-red-500 transition text-xs flex items-center gap-1 cursor-pointer'
 			>
 				<FiTrash className='w-4 h-4' />
-				<span className='hidden xs:inline'>Удалить</span>
+				<span>Удалить</span>
 			</button>
 
 			<FavoriteToggleButton

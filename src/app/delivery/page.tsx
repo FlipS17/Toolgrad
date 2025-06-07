@@ -4,19 +4,16 @@ import AuthButton from '@/app/account/components/AuthButton'
 import { useCart } from '@/app/cart/components/CartProvider'
 import DeliverySummaryBlock from '@/app/cart/components/CartSummary'
 import { useNotification } from '@/app/components/NotificationProvider'
-import PhoneVerification from '@/app/delivery/components/PhoneVerification'
 import { Map, Placemark, YMaps } from '@pbe/react-yandex-maps'
 import axios from 'axios'
-import 'cleave.js/dist/addons/cleave-phone.ru'
-import Cleave from 'cleave.js/react'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import Input from '../account/components/Input'
 
-// Токен DaData
+// DADATA API token
 const DADATA_TOKEN = process.env.NEXT_PUBLIC_DADATA_TOKEN as string
 
-// Функция для расчёта расстояния
+// Расчёт расстояния по координатам
 function getDistanceKm(
 	lat1: number,
 	lon1: number,
@@ -36,7 +33,7 @@ function getDistanceKm(
 	return R * c
 }
 
-// Тип товара в корзине
+// Тип для товаров в корзине
 interface CartItemType {
 	id: number
 	quantity: number
@@ -56,36 +53,26 @@ export default function DeliveryPage() {
 	const [suggestions, setSuggestions] = useState<any[]>([])
 	const [selectedAddress, setSelectedAddress] = useState<any | null>(null)
 	const [comment, setComment] = useState('')
-	const [phone, setPhone] = useState('')
 	const [entrance, setEntrance] = useState('')
 	const [floor, setFloor] = useState('')
 	const [deliveryPrice, setDeliveryPrice] = useState<number | null>(null)
 	const [selectedItemsData, setSelectedItemsData] = useState<CartItemType[]>([])
-	const [verifyingPhone, setVerifyingPhone] = useState(false)
-	const [pendingOrder, setPendingOrder] = useState<any>(null)
-	const [errors, setErrors] = useState<{
-		address?: string
-		phone?: string
-		comment?: string
-	}>({})
+	const [userEmail, setUserEmail] = useState<string | null>(null)
+	const [errors, setErrors] = useState<{ address?: string; comment?: string }>(
+		{}
+	)
 	const { notify } = useNotification()
-	const [user, setUser] = useState<{
-		phone?: string
-		phoneVerified?: boolean
-	} | null>(null)
-
 	const { refreshCart } = useCart()
 	const router = useRouter()
 
 	const MAX_WORDS = 50
 	const MAX_CHARS = 300
 
-	// Загружаем данные из корзины и применяем скидку
+	// Загружаем данные корзины и промокод
 	useEffect(() => {
 		const selected = JSON.parse(localStorage.getItem('selectedItems') || '[]')
 		const promoData = JSON.parse(localStorage.getItem('finalPrice') || '{}')
 
-		// Вычисляем процент скидки по промокоду, если данные есть
 		if (promoData?.promoDiscount && promoData?.sumBeforeDiscount) {
 			const percent = Math.round(
 				(promoData.promoDiscount / promoData.sumBeforeDiscount) * 100
@@ -93,7 +80,6 @@ export default function DeliveryPage() {
 			setPromoDiscountPercent(percent)
 		}
 
-		// Загружаем корзину и фильтруем выбранные позиции
 		axios.get('/api/cart').then(res => {
 			const filtered = res.data.filter((item: CartItemType) =>
 				selected.includes(item.id)
@@ -102,23 +88,20 @@ export default function DeliveryPage() {
 		})
 	}, [])
 
-	// Загружаем данные пользователя
+	// Получаем email пользователя из /api/account/profile
 	useEffect(() => {
 		const fetchUser = async () => {
 			try {
 				const res = await axios.get('/api/account/profile')
-				setUser(res.data)
-				if (res.data.phoneVerified && res.data.phone) {
-					setPhone(res.data.phone)
-				}
+				setUserEmail(res.data.email)
 			} catch (err) {
-				console.error('Ошибка получения данных пользователя', err)
+				console.error('Ошибка получения профиля пользователя', err)
 			}
 		}
 		fetchUser()
 	}, [])
 
-	// Получаем подсказки DaData
+	// Получаем подсказки по адресу
 	useEffect(() => {
 		const fetchSuggestions = async () => {
 			if (!addressQuery || selectedAddress) return
@@ -144,7 +127,7 @@ export default function DeliveryPage() {
 		return () => clearTimeout(timeout)
 	}, [addressQuery, selectedAddress])
 
-	// Расчёт стоимости доставки
+	// Расчёт стоимости доставки по расстоянию
 	useEffect(() => {
 		if (!selectedAddress) return
 		const userLat = parseFloat(selectedAddress.data.geo_lat)
@@ -153,7 +136,7 @@ export default function DeliveryPage() {
 		setDeliveryPrice(Math.max(150, Math.round(distance * 20)))
 	}, [selectedAddress])
 
-	// Обработка выбора адреса из подсказок
+	// Выбор подсказки адреса
 	const handleSelectSuggestion = (suggestion: any) => {
 		setSelectedAddress(suggestion)
 		setAddressQuery(suggestion.value)
@@ -161,7 +144,7 @@ export default function DeliveryPage() {
 		setErrors(prev => ({ ...prev, address: undefined }))
 	}
 
-	// Валидация комментария
+	// Обработка комментария
 	const handleCommentChange = (value: string) => {
 		const wordCount = value.trim().split(/\s+/).length
 		if (wordCount > MAX_WORDS || value.length > MAX_CHARS) {
@@ -175,41 +158,25 @@ export default function DeliveryPage() {
 		setComment(value)
 	}
 
-	// Обработка отправки заказа
+	// Отправка заказа и письма
 	const handleSubmit = async () => {
-		const cleanedPhone = phone.replace(/\D/g, '')
 		const newErrors: typeof errors = {}
-		if (!selectedAddress) newErrors.address = 'Заполните адрес доставки'
-		if (cleanedPhone.length !== 11)
-			newErrors.phone = 'Введите корректный номер телефона'
+		if (!selectedAddress) {
+			newErrors.address = 'Заполните адрес доставки'
+		} else {
+			const data = selectedAddress.data
+			if (!data.house) {
+				newErrors.address = 'Укажите номер дома в адресе'
+			}
+		}
+
 		if (Object.keys(newErrors).length > 0) {
 			setErrors(newErrors)
 			return
 		}
-
-		// Проверка телефона через SMS
-		const phoneCheck = await axios.post('/api/sms/send', { phone })
-		if (phoneCheck.data?.alreadyVerified) {
-			return await submitFinalOrder()
-		} else {
-			// Запускаем верификацию
-			setPendingOrder({
-				address: selectedAddress.data,
-				coordinates: {
-					lat: selectedAddress.data.geo_lat,
-					lon: selectedAddress.data.geo_lon,
-				},
-				phone,
-				comment,
-				deliveryPrice,
-				selectedItems: selectedItemsData.map(item => item.id),
-				addressExtra: { entrance, floor },
-			})
-			setVerifyingPhone(true)
-		}
+		await submitFinalOrder()
 	}
 
-	// Отправка финального заказа
 	const submitFinalOrder = async () => {
 		try {
 			const res = await fetch('/api/delivery', {
@@ -221,7 +188,6 @@ export default function DeliveryPage() {
 						lat: selectedAddress.data.geo_lat,
 						lon: selectedAddress.data.geo_lon,
 					},
-					phone,
 					comment,
 					deliveryPrice,
 					selectedItems: selectedItemsData.map(item => item.id),
@@ -233,6 +199,22 @@ export default function DeliveryPage() {
 				notify(data.error || 'Ошибка при оформлении доставки', 'error')
 				return
 			}
+
+			// Отправка письма через API маршрут
+			if (userEmail) {
+				await fetch('/api/send-confirmation-email', {
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify({
+						email: userEmail,
+						address: selectedAddress.value,
+						entrance,
+						floor,
+						comment,
+					}),
+				})
+			}
+
 			notify('Заказ успешно оформлен', 'success')
 			localStorage.removeItem('selectedItems')
 			await refreshCart()
@@ -243,7 +225,6 @@ export default function DeliveryPage() {
 		}
 	}
 
-	// Координаты склада
 	const userCoords = selectedAddress
 		? [
 				parseFloat(selectedAddress.data.geo_lat),
@@ -251,32 +232,9 @@ export default function DeliveryPage() {
 		  ]
 		: [55.751244, 37.618423]
 
-	// Блок верификации телефона
-	if (verifyingPhone) {
-		return (
-			<div className='container mx-auto py-10 px-4'>
-				<PhoneVerification
-					phone={phone}
-					onVerified={async () => {
-						setVerifyingPhone(false)
-						if (pendingOrder) {
-							await submitFinalOrder()
-							setPendingOrder(null)
-						}
-					}}
-					onCancel={() => {
-						setVerifyingPhone(false)
-						setPendingOrder(null)
-					}}
-				/>
-			</div>
-		)
-	}
-
-	// Основной UI страницы
 	return (
 		<div className='container mx-auto py-10 px-4'>
-			<h2 className='text-2xl font-semibold text-center mb-6'>
+			<h2 className='text-2xl font-bold text-center mb-6'>
 				Оформление доставки
 			</h2>
 			<div className='flex flex-col lg:flex-row gap-8'>
@@ -345,33 +303,6 @@ export default function DeliveryPage() {
 						/>
 						{errors.comment && (
 							<p className='text-sm text-red-500'>{errors.comment}</p>
-						)}
-					</div>
-
-					<div className='space-y-1'>
-						<label className='text-sm font-medium text-gray-700'>
-							Телефон для связи
-						</label>
-						<Cleave
-							options={{
-								prefix: '+7',
-								delimiters: ['(', ')', '-', '-'],
-								blocks: [2, 3, 3, 2, 2],
-								numericOnly: true,
-							}}
-							value={phone}
-							disabled={user?.phoneVerified}
-							onChange={e => {
-								if (!user?.phoneVerified) {
-									setPhone(e.target.value)
-									setErrors(prev => ({ ...prev, phone: undefined }))
-								}
-							}}
-							placeholder='+7 (___) ___-__-__'
-							className='w-full rounded-xl border px-4 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-[#F89514] border-gray-300 disabled:bg-gray-100 disabled:text-gray-500'
-						/>
-						{errors.phone && (
-							<p className='text-sm text-red-500'>{errors.phone}</p>
 						)}
 					</div>
 

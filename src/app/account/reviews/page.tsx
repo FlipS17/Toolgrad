@@ -26,7 +26,7 @@ export default function ReviewsPage() {
 
 	return (
 		<div className='space-y-4'>
-			<h1 className='text-2xl font-semibold text-center'>Мои отзывы</h1>
+			<h1 className='text-2xl font-bold text-center'>Мои отзывы</h1>
 			{reviews.length === 0 ? (
 				<p className='text-center text-gray-600 mt-10'>
 					Вы ещё не оставили отзывов.

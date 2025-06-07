@@ -103,7 +103,7 @@ export default function ResetPasswordPage() {
 			<div className='w-full max-w-md bg-white border border-gray-200 p-8 rounded-2xl shadow-lg space-y-6'>
 				{step === 'email' && (
 					<>
-						<h2 className='text-xl font-semibold text-center'>Сброс пароля</h2>
+						<h2 className='text-2xl font-bold text-center'>Сброс пароля</h2>
 						<form onSubmit={handleSubmit(sendEmail)} className='space-y-5'>
 							<Input
 								label='Email'

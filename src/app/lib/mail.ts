@@ -53,3 +53,32 @@ export async function sendPasswordResetEmail(email: string, token: string) {
 		html,
 	})
 }
+
+export async function sendOrderConfirmationEmail(
+	email: string,
+	details: {
+		address: string
+		entrance?: string
+		floor?: string
+		comment?: string
+	}
+) {
+	const { address, entrance, floor, comment } = details
+	const html = `
+		<div style="font-family:Arial,sans-serif;max-width:500px;margin:auto;padding:20px;border:1px solid #eee;border-radius:8px;">
+			<h2>Спасибо за заказ!</h2>
+			<p>Вы оформили заказ на адрес: <strong>${address}</strong></p>
+			${entrance ? `<p>Подъезд: ${entrance}</p>` : ''}
+			${floor ? `<p>Этаж: ${floor}</p>` : ''}
+			${comment ? `<p>Комментарий: ${comment}</p>` : ''}
+			<p>Мы свяжемся с вами при необходимости. Следите за статусом заказа в <a href="http://localhost:3000/account/orders">личном кабинете</a>.</p>
+		</div>
+	`
+
+	await transporter.sendMail({
+		from: process.env.SMTP_FROM,
+		to: email,
+		subject: 'Подтверждение заказа • ToolGrad',
+		html,
+	})
+}

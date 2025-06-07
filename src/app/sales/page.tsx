@@ -1,5 +1,6 @@
 'use client'
 
+import { useNotification } from '@/app/components/NotificationProvider'
 import axios from 'axios'
 import { useEffect, useState } from 'react'
 
@@ -12,6 +13,7 @@ type Promotion = {
 
 export default function SalesPage() {
 	const [promos, setPromos] = useState<Promotion[]>([])
+	const { notify } = useNotification()
 
 	useEffect(() => {
 		axios.get('/api/promo/list').then(res => setPromos(res.data))
@@ -20,12 +22,13 @@ export default function SalesPage() {
 	const handleCopy = (code: string | null) => {
 		if (code) {
 			navigator.clipboard.writeText(code)
+			notify('Промокод скопирован', 'success')
 		}
 	}
 
 	return (
 		<div className='container mx-auto px-4 py-12 space-y-8'>
-			<h1 className='text-3xl font-bold text-center'>Актуальные акции</h1>
+			<h2 className='text-2xl font-bold text-center'>Актуальные акции</h2>
 
 			<div className='grid md:grid-cols-2 lg:grid-cols-3 gap-6'>
 				{promos.map(promo => (
@@ -41,12 +44,12 @@ export default function SalesPage() {
 						{promo.code && (
 							<div className='bg-gray-100 rounded px-3 py-2 flex justify-between items-center'>
 								<span className='font-mono text-sm'>{promo.code}</span>
-								<button
+								<span
 									onClick={() => handleCopy(promo.code)}
-									className='text-[#F89514] text-xs font-medium hover:underline'
+									className='text-[#F89514] text-xs font-medium hover:underline cursor-pointer'
 								>
 									Скопировать
-								</button>
+								</span>
 							</div>
 						)}
 					</div>
