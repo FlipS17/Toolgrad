@@ -35,14 +35,25 @@ export default function CartItemActions({
 				className='text-gray-400 hover:text-red-500 transition text-xs flex items-center gap-1 cursor-pointer'
 			>
 				<FiTrash className='w-4 h-4' />
-				<span>Удалить</span>
+				<span className='hidden xs:inline'>Удалить</span>
 			</button>
 
-			<FavoriteToggleButton
-				isFavorite={isFavorite}
-				onToggle={handleToggleFavorite}
-				variant='with-text'
-			/>
+			<div>
+				<div className='hidden xs:block'>
+					<FavoriteToggleButton
+						isFavorite={isFavorite}
+						onToggle={handleToggleFavorite}
+						variant='with-text'
+					/>
+				</div>
+				<div className='block xs:hidden'>
+					<FavoriteToggleButton
+						isFavorite={isFavorite}
+						onToggle={handleToggleFavorite}
+						variant='icon-only'
+					/>
+				</div>
+			</div>
 		</div>
 	)
 }

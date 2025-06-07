@@ -54,7 +54,7 @@ export default function CartItem({
 	}
 
 	return (
-		<div className='flex items-start gap-4 rounded-xl bg-white px-4 py-4 shadow-sm'>
+		<div className='flex flex-wrap md:flex-nowrap gap-4 rounded-xl bg-white px-4 py-4 shadow-sm items-center'>
 			{/* Чекбокс */}
 			<div className='pt-2'>
 				<input
@@ -77,7 +77,7 @@ export default function CartItem({
 			</div>
 
 			{/* Основная информация */}
-			<div className='flex flex-col flex-1 h-[88px]'>
+			<div className='flex flex-col justify-between flex-1 min-w-[150px]'>
 				<div className='mb-auto'>
 					<h3 className='font-medium text-sm text-gray-900'>{name}</h3>
 					{brand && <p className='text-xs text-gray-500'>{brand}</p>}
@@ -91,7 +91,7 @@ export default function CartItem({
 			</div>
 
 			{/* Кол-во и цена */}
-			<div className='flex items-center gap-6 h-[88px]'>
+			<div className='flex items-center gap-4 justify-end min-w-[150px] ml-auto'>
 				<QuantityCounter
 					quantity={quantity}
 					onDecrement={handleDecrement}

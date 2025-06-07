@@ -82,6 +82,29 @@ export default function CartPage() {
 		}
 	}
 
+	const [isSummaryVisible, setIsSummaryVisible] = useState(false)
+
+	useEffect(() => {
+		const summary = document.getElementById('cart-summary')
+		if (!summary) return
+
+		const observer = new IntersectionObserver(
+			([entry]) => {
+				setIsSummaryVisible(entry.isIntersecting)
+			},
+			{
+				root: null,
+				threshold: 0.1,
+			}
+		)
+
+		observer.observe(summary)
+
+		return () => {
+			if (summary) observer.unobserve(summary)
+		}
+	}, [])
+
 	const handleQuantityChange = async (id: number, newQuantity: number) => {
 		if (newQuantity < 1) return handleRemove(id)
 		try {
@@ -143,7 +166,7 @@ export default function CartPage() {
 		router.push(deliveryType === 'pickup' ? '/pickup' : '/delivery')
 	}
 
-	if (isEmpty) {
+	if (items.length === 0) {
 		return (
 			<div className='container mx-auto py-12 px-4 text-center'>
 				<h2 className='text-2xl font-bold text-center mb-6'>Корзина</h2>
@@ -162,9 +185,9 @@ export default function CartPage() {
 		<div className='container mx-auto py-12 px-4'>
 			<h2 className='text-2xl font-bold text-center mb-6'>Корзина</h2>
 
-			<div className='flex flex-col md:flex-row gap-8'>
+			<div className='flex flex-col lg:flex-row gap-8'>
 				<div className='flex-1'>
-					<div className='bg-white rounded-xl shadow-sm p-4 mb-6 flex gap-4'>
+					<div className='bg-white rounded-xl shadow-sm p-4 mb-6 flex flex-wrap gap-4'>
 						<DeliveryTypeButton
 							value='pickup'
 							active={deliveryType === 'pickup'}
@@ -182,6 +205,56 @@ export default function CartPage() {
 					</div>
 
 					<div className='space-y-4'>
+						{/* Управление выбором */}
+						<div className='flex flex-wrap items-center gap-4 justify-between sm:justify-start mb-4'>
+							<label className='flex items-center gap-2'>
+								<input
+									type='checkbox'
+									checked={selectedItems.length === items.length}
+									onChange={e =>
+										setSelectedItems(
+											e.target.checked ? items.map(i => i.id) : []
+										)
+									}
+									className='w-5 h-5 accent-[#F89514] rounded border border-gray-300 cursor-pointer'
+								/>
+								<span className='text-sm font-medium text-gray-700'>
+									Выбрать все
+								</span>
+							</label>
+
+							<button
+								disabled={selectedItems.length === 0}
+								onClick={async () => {
+									for (const id of selectedItems) {
+										await handleRemove(id)
+									}
+								}}
+								className={`flex items-center gap-1 text-sm font-medium transition ${
+									selectedItems.length === 0
+										? 'text-gray-300 cursor-not-allowed'
+										: 'text-red-500 hover:text-red-600'
+								}`}
+							>
+								<svg
+									xmlns='http://www.w3.org/2000/svg'
+									className='h-4 w-4'
+									fill='none'
+									viewBox='0 0 24 24'
+									stroke='currentColor'
+								>
+									<path
+										strokeLinecap='round'
+										strokeLinejoin='round'
+										strokeWidth={2}
+										d='M6 18L18 6M6 6l12 12'
+									/>
+								</svg>
+								<span className='inline sm:hidden'>Удалить</span>
+								<span className='hidden sm:inline'>Удалить выбранные</span>
+							</button>
+						</div>
+
 						{items.map(item => (
 							<CartItem
 								key={item.id}
@@ -210,7 +283,7 @@ export default function CartPage() {
 
 				<div
 					id='cart-summary'
-					className='w-full md:w-[380px] shrink-0 space-y-4 scroll-mt-24'
+					className='w-full md:w-[380px] shrink-0 space-y-4 scroll-mt-24 mt-6 md:mt-0'
 				>
 					<CartSummaryBlock
 						items={selected}
@@ -228,6 +301,31 @@ export default function CartPage() {
 					/>
 				</div>
 			</div>
+			{/* Мобильная кнопка "К оформлению" — показывается только на <768px */}
+			{!isSummaryVisible && (
+				<div className='md:hidden fixed bottom-[56px] left-0 right-0 z-40 px-4 pb-3 bg-white border-t border-gray-200'>
+					<div className='flex justify-between items-center'>
+						<div className='text-sm text-gray-500'>
+							{selected.length} товар{selected.length === 1 ? '' : 'а'}
+						</div>
+						<div className='text-base font-bold'>
+							{selected
+								.reduce((sum, i) => sum + i.product.price * i.quantity, 0)
+								.toLocaleString('ru-RU')}{' '}
+							₽
+						</div>
+					</div>
+
+					<AuthButton
+						label='К оформлению'
+						onClick={() => {
+							const el = document.getElementById('cart-summary')
+							if (el) el.scrollIntoView({ behavior: 'smooth' })
+						}}
+						className='mt-2 bg-[#F89514] hover:bg-[#d97c0f]'
+					/>
+				</div>
+			)}
 		</div>
 	)
 }

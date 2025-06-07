@@ -36,7 +36,7 @@ export default function CartSummaryBlock({
 		})
 
 	return (
-		<div className='w-full shrink-0 space-y-4'>
+		<div id='cart-summary' className='w-full shrink-0 space-y-4'>
 			<div className='bg-white rounded-xl shadow-sm p-6 space-y-6'>
 				{setPromoCode && (
 					<div className='space-y-2'>
