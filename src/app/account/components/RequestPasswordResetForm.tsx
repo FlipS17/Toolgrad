@@ -8,18 +8,22 @@ import AuthButton from './AuthButton'
 import Input from './Input'
 
 export default function RequestPasswordResetForm() {
+	// Инициализация формы
 	const {
 		register,
 		handleSubmit,
 		formState: { errors },
 	} = useForm()
-	const { notify } = useNotification()
-	const [sent, setSent] = useState(false)
-	const [loading, setLoading] = useState(false)
 
+	const { notify } = useNotification() // Хук для показа уведомлений
+	const [sent, setSent] = useState(false) // Флаг, было ли отправлено письмо
+	const [loading, setLoading] = useState(false) // Флаг загрузки
+
+	// Обработка отправки формы
 	const onSubmit = async (data: any) => {
 		setLoading(true)
 		try {
+			// Запрос на отправку письма сброса пароля
 			await axios.post('/api/request-password-reset', { email: data.email })
 			setSent(true)
 			notify('Если email существует, письмо отправлено', 'success')
@@ -33,12 +37,15 @@ export default function RequestPasswordResetForm() {
 	return (
 		<div className='space-y-6'>
 			<h2 className='text-center text-lg font-semibold'>Сброс пароля</h2>
+
+			{/* Сообщение об успехе */}
 			{sent ? (
 				<p className='text-sm text-center text-gray-600'>
 					Если email зарегистрирован, вы получите письмо со ссылкой на сброс
 					пароля.
 				</p>
 			) : (
+				// Форма ввода email
 				<form onSubmit={handleSubmit(onSubmit)} className='space-y-5'>
 					<Input
 						label='Email'
@@ -55,7 +62,7 @@ export default function RequestPasswordResetForm() {
 					<AuthButton
 						type='submit'
 						label='Отправить письмо'
-						disabled={loading}
+						disabled={loading} // Блокируем кнопку при загрузке
 					/>
 				</form>
 			)}

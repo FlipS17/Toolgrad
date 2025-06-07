@@ -4,6 +4,7 @@ import { useNotification } from '@/app/components/NotificationProvider'
 import axios from 'axios'
 import { useEffect, useRef, useState } from 'react'
 
+// Пропсы для компонента подтверждения email
 interface Props {
 	email: string
 	userData: any
@@ -17,11 +18,12 @@ export default function EmailVerification({
 	onSuccess,
 	onCancel,
 }: Props) {
-	const [code, setCode] = useState(Array(6).fill(''))
+	const [code, setCode] = useState(Array(6).fill('')) // Состояние для кода (6 цифр)
 	const inputsRef = useRef<HTMLInputElement[]>([])
 	const [timer, setTimer] = useState(30)
 	const { notify } = useNotification()
 
+	// Таймер обратного отсчета
 	useEffect(() => {
 		const interval = setInterval(() => {
 			setTimer(prev => (prev > 0 ? prev - 1 : 0))
@@ -29,8 +31,9 @@ export default function EmailVerification({
 		return () => clearInterval(interval)
 	}, [])
 
+	// Обработка изменения ввода (ввод цифр)
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>, i: number) => {
-		const val = e.target.value.replace(/\D/g, '')
+		const val = e.target.value.replace(/\D/g, '') // Удаляем нецифровые символы
 		if (!val) return
 
 		const newCode = [...code]
@@ -41,9 +44,10 @@ export default function EmailVerification({
 
 		setCode(newCode)
 		const next = Math.min(i + val.length, 5)
-		inputsRef.current[next]?.focus()
+		inputsRef.current[next]?.focus() // Переход к следующему полю
 	}
 
+	// Обработка клавиши Backspace
 	const handleKeyDown = (
 		e: React.KeyboardEvent<HTMLInputElement>,
 		i: number
@@ -61,23 +65,26 @@ export default function EmailVerification({
 		}
 	}
 
+	// Вставка кода из буфера обмена
 	const handlePaste = (e: React.ClipboardEvent<HTMLInputElement>) => {
 		e.preventDefault()
 		const pasted = e.clipboardData
 			.getData('Text')
 			.slice(0, 6)
-			.replace(/\D/g, '')
+			.replace(/\D/g, '') // Удаляем всё, кроме цифр
 		if (pasted.length !== 6) return
 		setCode(pasted.split(''))
-		inputsRef.current[5]?.focus()
+		inputsRef.current[5]?.focus() // Ставим фокус в конец
 	}
 
+	// Автоматическая проверка при вводе всех 6 цифр
 	useEffect(() => {
 		if (code.every(c => c.length === 1)) {
 			verifyCode()
 		}
 	}, [code])
 
+	// Запрос на верификацию кода
 	const verifyCode = async () => {
 		try {
 			await axios.post('/api/verify-code', {
@@ -90,15 +97,16 @@ export default function EmailVerification({
 		} catch (err: any) {
 			notify(err.response?.data?.message || 'Неверный код', 'error')
 			setCode(Array(6).fill(''))
-			inputsRef.current[0]?.focus()
+			inputsRef.current[0]?.focus() // Возврат к первому полю
 		}
 	}
 
+	// Повторная отправка кода
 	const resendCode = async () => {
 		try {
 			await axios.post('/api/send-code', { email, data: userData })
 			notify('Код отправлен повторно', 'success')
-			setTimer(30)
+			setTimer(30) // Обновление таймера
 		} catch (err: any) {
 			notify('Ошибка отправки кода', 'error')
 		}
@@ -107,12 +115,14 @@ export default function EmailVerification({
 	return (
 		<div className='flex flex-col items-center space-y-4'>
 			<p className='text-lg font-medium text-gray-700'>Введите код из письма</p>
+
+			{/* Инпуты для кода */}
 			<div className='flex gap-2'>
 				{code.map((digit, i) => (
 					<input
 						key={i}
 						ref={el => {
-							if (el) inputsRef.current[i] = el
+							if (el) inputsRef.current[i] = el // Сохраняем ссылку на input
 						}}
 						type='text'
 						inputMode='numeric'
@@ -125,6 +135,8 @@ export default function EmailVerification({
 					/>
 				))}
 			</div>
+
+			{/* Таймер и кнопка повторной отправки */}
 			<div className='text-sm text-gray-500'>
 				{timer > 0 ? (
 					<p>Повторная отправка через {timer} сек.</p>
@@ -137,6 +149,8 @@ export default function EmailVerification({
 					</button>
 				)}
 			</div>
+
+			{/* Кнопка отмены */}
 			<button
 				onClick={onCancel}
 				className='text-gray-500 hover:underline text-sm'

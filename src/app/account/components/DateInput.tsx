@@ -3,6 +3,7 @@
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 
+// Интерфейс пропсов компонента
 interface DateInputProps {
 	label: string
 	value: Date | null
@@ -18,8 +19,11 @@ export default function DateInput({
 }: DateInputProps) {
 	return (
 		<div className='space-y-1 w-full'>
+			{/* Подпись к полю */}
 			<label className='text-sm font-medium text-gray-700'>{label}</label>
+
 			<div>
+				{/* Сам компонент выбора даты */}
 				<DatePicker
 					selected={value}
 					onChange={onChange}
@@ -28,16 +32,18 @@ export default function DateInput({
 					showMonthDropdown
 					showYearDropdown
 					dropdownMode='select'
-					onKeyDown={e => e.preventDefault()}
+					onKeyDown={e => e.preventDefault()} // Запрещаем ручной ввод
 					className={`w-full rounded-xl border px-4 py-2 bg-white focus:outline-none focus:ring-2 transition ${
 						error
-							? 'border-red-500 focus:ring-red-400'
-							: 'border-gray-300 focus:ring-[#F89514]'
+							? 'border-red-500 focus:ring-red-400' // Стили при ошибке
+							: 'border-gray-300 focus:ring-[#F89514]' // Стили по умолчанию
 					}`}
-					maxDate={new Date()}
+					maxDate={new Date()} // Запрещаем выбор будущих дат
 					showPopperArrow={false}
 				/>
 			</div>
+
+			{/* Сообщение об ошибке */}
 			{error && <p className='text-sm text-red-500'>{error}</p>}
 		</div>
 	)

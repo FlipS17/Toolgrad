@@ -1,14 +1,15 @@
 interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-	label: string
+	label: string // Текст
 }
 
+// Компонент кнопки
 export default function AuthButton({ label, ...props }: Props) {
 	return (
 		<button
-			{...props}
+			{...props} // Применяем пропсы
 			className='w-full bg-[#F89514] text-white py-2 rounded-xl font-semibold transition hover:bg-opacity-90 cursor-pointer'
 		>
-			{label}
+			{label} {/* Отображаем переданный текст */}
 		</button>
 	)
 }

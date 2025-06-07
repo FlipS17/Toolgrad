@@ -13,6 +13,7 @@ import EmailVerification from './EmailVerification'
 import Input from './Input'
 
 export default function AuthForm() {
+	// Состояние режима формы: вход или регистрация
 	const [mode, setMode] = useState<'login' | 'register'>('login')
 	const [verifying, setVerifying] = useState(false)
 	const [tempData, setTempData] = useState<any>(null)
@@ -21,6 +22,7 @@ export default function AuthForm() {
 	const router = useRouter()
 	const { notify } = useNotification()
 
+	// управление полями формы, валидацией и ошибками
 	const {
 		register: formRegister,
 		handleSubmit,
@@ -31,6 +33,7 @@ export default function AuthForm() {
 		trigger,
 	} = useForm()
 
+	// Проверка локального хранилища на отложенную регистрацию
 	useEffect(() => {
 		if (typeof window !== 'undefined') {
 			const cached = localStorage.getItem('pending-registration')
@@ -48,12 +51,14 @@ export default function AuthForm() {
 		}
 	}, [mode])
 
+	// Обработка отправки формы
 	const onSubmit = async (data: any) => {
 		clearErrors()
 		const isValid = await trigger()
 		if (!isValid) return
 
 		if (mode === 'register') {
+			// Проверка совпадения паролей
 			if (data.password !== data.confirmPassword) {
 				setError('confirmPassword', {
 					type: 'manual',
@@ -61,6 +66,7 @@ export default function AuthForm() {
 				})
 				return
 			}
+			// Проверка выбора даты рождения
 			if (!birthDate) {
 				setError('birthDate', {
 					type: 'manual',
@@ -69,7 +75,7 @@ export default function AuthForm() {
 				return
 			}
 
-			const avatarColorIndex = Math.floor(Math.random() * 4)
+			const avatarColorIndex = Math.floor(Math.random() * 4) // Индекс цвета аватара
 
 			const payload = {
 				...data,
@@ -78,13 +84,16 @@ export default function AuthForm() {
 			}
 
 			try {
+				// Проверка доступности регистрации
 				await axios.post('/api/check-registration', payload)
 
+				// Отправка кода на почту
 				await axios.post('/api/send-code', {
 					email: data.email,
 					data: payload,
 				})
 
+				// Сохраняем данные в localStorage и переключаемся на экран подтверждения
 				localStorage.setItem(
 					'pending-registration',
 					JSON.stringify({ email: data.email, userData: payload })
@@ -93,6 +102,7 @@ export default function AuthForm() {
 				setVerifying(true)
 				notify('Код отправлен на email', 'success')
 			} catch (err: any) {
+				// Обработка ошибок с сервера
 				const msg = err.response?.data?.message
 				if (msg?.toLowerCase().includes('email')) {
 					setError('email', { type: 'manual', message: msg })
@@ -103,6 +113,7 @@ export default function AuthForm() {
 				}
 			}
 		} else {
+			// Попытка входа пользователя
 			const res = await signIn('credentials', {
 				email: data.email,
 				password: data.password,
@@ -124,11 +135,13 @@ export default function AuthForm() {
 		}
 	}
 
+	// Успешное подтверждение email
 	const handleVerifySuccess = async () => {
 		localStorage.removeItem('pending-registration')
 		setVerifying(false)
 		setTempData(null)
 
+		// Автоматический вход после подтверждения
 		const res = await signIn('credentials', {
 			email: tempData.email,
 			password: tempData.userData.password,
@@ -140,6 +153,7 @@ export default function AuthForm() {
 		}
 	}
 
+	// Отмена подтверждения
 	const handleCancelVerification = () => {
 		localStorage.removeItem('pending-registration')
 		setVerifying(false)
@@ -150,6 +164,7 @@ export default function AuthForm() {
 	return (
 		<div className='w-full min-h-screen flex items-center justify-center bg-gray-100'>
 			<div className='w-full max-w-md bg-white border border-gray-200 p-8 rounded-2xl shadow-lg'>
+				{/* Если нужно подтвердить email */}
 				{verifying && tempData ? (
 					<EmailVerification
 						email={tempData.email}
@@ -159,6 +174,7 @@ export default function AuthForm() {
 					/>
 				) : (
 					<>
+						{/* Переключение между входом и регистрацией */}
 						<div className='flex justify-center space-x-6 mb-6'>
 							{['login', 'register'].map(tab => (
 								<button
@@ -174,7 +190,10 @@ export default function AuthForm() {
 								</button>
 							))}
 						</div>
+
+						{/* Форма */}
 						<form onSubmit={handleSubmit(onSubmit)} className='space-y-5'>
+							{/* Поля формы для регистрации */}
 							{mode === 'register' && (
 								<>
 									<Input
@@ -197,6 +216,8 @@ export default function AuthForm() {
 									/>
 								</>
 							)}
+
+							{/* Email */}
 							<Input
 								label='Email'
 								type='email'
@@ -209,6 +230,8 @@ export default function AuthForm() {
 								})}
 								error={(errors.email as any)?.message}
 							/>
+
+							{/* Пароль */}
 							<Input
 								label='Пароль'
 								type='password'
@@ -225,6 +248,8 @@ export default function AuthForm() {
 								})}
 								error={(errors.password as any)?.message}
 							/>
+
+							{/* Ссылка на восстановление пароля */}
 							{mode === 'login' && (
 								<div className='text-right'>
 									<button
@@ -237,6 +262,7 @@ export default function AuthForm() {
 								</div>
 							)}
 
+							{/* Подтверждение пароля при регистрации */}
 							{mode === 'register' && (
 								<Input
 									label='Повторите пароль'
@@ -247,6 +273,8 @@ export default function AuthForm() {
 									error={(errors.confirmPassword as any)?.message}
 								/>
 							)}
+
+							{/* Кнопка отправки */}
 							<AuthButton
 								type='submit'
 								label={mode === 'login' ? 'Войти' : 'Зарегистрироваться'}

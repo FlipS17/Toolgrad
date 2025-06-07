@@ -1,14 +1,15 @@
 'use client'
-
+import { Truck } from 'lucide-react'
 import { signOut } from 'next-auth/react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { FaShoppingBag, FaSignOutAlt, FaStar, FaUser } from 'react-icons/fa'
+import { FaShoppingBag, FaSignOutAlt, FaUser } from 'react-icons/fa'
 
+// Массив ссылок для личного кабинета
 const links = [
 	{ href: '/account/profile', label: 'Информация', icon: <FaUser /> },
-	{ href: '/account/orders', label: 'Заказы', icon: <FaShoppingBag /> },
-	{ href: '/account/reviews', label: 'Отзывы', icon: <FaStar /> },
+	{ href: '/account/delivery', label: 'Доставка', icon: <Truck /> },
+	{ href: '/account/orders', label: 'Мои заказы', icon: <FaShoppingBag /> },
 ]
 
 export default function AccountLayoutWrapper({
@@ -25,8 +26,9 @@ export default function AccountLayoutWrapper({
 					<div>
 						<h2 className='text-xl font-bold mb-6'>Личный кабинет</h2>
 						<nav className='space-y-2'>
+							{/* Генерация ссылок */}
 							{links.map(link => {
-								const isActive = pathname.startsWith(link.href)
+								const isActive = pathname.startsWith(link.href) // Проверка, активна ли ссылка
 								return (
 									<Link
 										key={link.href}
@@ -45,6 +47,7 @@ export default function AccountLayoutWrapper({
 						</nav>
 					</div>
 
+					{/* Кнопка выхода из аккаунта */}
 					<button
 						onClick={() => signOut({ callbackUrl: '/' })}
 						className='mt-10 flex cursor-pointer items-center gap-2 w-full px-3 py-2 rounded-xl bg-red-500 text-white hover:bg-red-600 transition-colors'
@@ -54,6 +57,7 @@ export default function AccountLayoutWrapper({
 					</button>
 				</aside>
 
+				{/* Основной контент, переданный через пропс */}
 				<main className='flex-1'>{children}</main>
 			</div>
 		</div>

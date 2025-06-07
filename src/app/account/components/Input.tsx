@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 
+// Интерфейс пропсов поля ввода
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 	label: string
 	error?: string
@@ -14,27 +15,32 @@ export default function Input({
 	type = 'text',
 	...props
 }: InputProps) {
-	const [show, setShow] = useState(false)
-	const isPassword = type === 'password'
+	const [show, setShow] = useState(false) // Состояние видимости пароля
+	const isPassword = type === 'password' // Проверка, является ли поле паролем
 
 	return (
 		<div className='space-y-1 w-full'>
+			{/* Подпись к полю */}
 			<label className='text-sm font-medium text-gray-700'>{label}</label>
+
 			<div className='relative'>
+				{/* Поле ввода */}
 				<input
 					{...props}
-					type={isPassword && !show ? 'password' : 'text'}
+					type={isPassword && !show ? 'password' : 'text'} // Переключение типа ввода для пароля
 					className={`w-full rounded-xl border px-4 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-[#F89514] transition ${
-						error ? 'border-red-500' : 'border-gray-300'
+						error ? 'border-red-500' : 'border-gray-300' // Цвет рамки при ошибке
 					}`}
 				/>
+
+				{/* Кнопка-переключатель видимости пароля */}
 				{isPassword && (
 					<button
 						type='button'
 						onClick={() => setShow(!show)}
 						className='absolute inset-y-0 right-3 flex items-center'
 					>
-						{/* SVG-глазик */}
+						{/* SVG иконка глазика */}
 						{show ? (
 							<svg
 								xmlns='http://www.w3.org/2000/svg'
@@ -74,6 +80,8 @@ export default function Input({
 					</button>
 				)}
 			</div>
+
+			{/* Сообщение об ошибке */}
 			{error && <p className='text-sm text-red-500'>{error}</p>}
 		</div>
 	)
