@@ -1,6 +1,7 @@
 'use client'
 
 import { Brand } from '@/../generated/prisma'
+import DOMPurify from 'dompurify'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Slider from 'rc-slider'
 import 'rc-slider/assets/index.css'
@@ -149,7 +150,7 @@ export default function CatalogFilters({
 					type='text'
 					placeholder='Поиск бренда...'
 					value={searchBrand}
-					onChange={e => setSearchBrand(e.target.value)}
+					onChange={e => setSearchBrand(DOMPurify.sanitize(e.target.value))}
 					className='w-full border px-3 py-2 rounded-lg text-sm mb-2'
 				/>
 				<div className='max-h-56 overflow-y-auto pr-1 space-y-2'>
@@ -173,7 +174,7 @@ export default function CatalogFilters({
 					type='text'
 					placeholder='Поиск категории...'
 					value={searchCategory}
-					onChange={e => setSearchCategory(e.target.value)}
+					onChange={e => setSearchCategory(DOMPurify.sanitize(e.target.value))}
 					className='w-full border px-3 py-2 rounded-lg text-sm mb-2'
 				/>
 				<div className='max-h-56 overflow-y-auto pr-1 space-y-2'>

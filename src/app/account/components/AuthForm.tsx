@@ -198,11 +198,13 @@ export default function AuthForm() {
 								<>
 									<Input
 										label='Имя'
+										sanitize={true}
 										{...formRegister('firstName', { required: 'Введите имя' })}
 										error={(errors.firstName as any)?.message}
 									/>
 									<Input
 										label='Фамилия'
+										sanitize={true}
 										{...formRegister('lastName', {
 											required: 'Введите фамилию',
 										})}
@@ -221,6 +223,7 @@ export default function AuthForm() {
 							<Input
 								label='Email'
 								type='email'
+								sanitize={true}
 								{...formRegister('email', {
 									required: 'Введите email',
 									pattern: {

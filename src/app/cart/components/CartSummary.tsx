@@ -1,6 +1,7 @@
 import Input from '@/app/account/components/Input'
 import { CartItemType } from '@/app/cart/page'
 import { calculateCartTotals } from '@/utils/calculateCartTotals'
+import DOMPurify from 'dompurify'
 
 interface Props {
 	items: CartItemType[]
@@ -44,7 +45,7 @@ export default function CartSummaryBlock({
 							label='Промокод'
 							placeholder='Введите промокод'
 							value={promoCode}
-							onChange={e => setPromoCode(e.target.value)}
+							onChange={e => setPromoCode(DOMPurify.sanitize(e.target.value))}
 						/>
 						<button
 							onClick={handleApplyPromo}

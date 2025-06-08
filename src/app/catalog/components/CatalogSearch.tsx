@@ -1,5 +1,6 @@
 'use client'
 
+import DOMPurify from 'dompurify'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
@@ -13,7 +14,11 @@ export default function CatalogSearch() {
 	}, [searchParams])
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		setQuery(e.target.value)
+		const cleaned = DOMPurify.sanitize(e.target.value, {
+			ALLOWED_TAGS: [],
+			ALLOWED_ATTR: [],
+		})
+		setQuery(cleaned)
 	}
 
 	const handleSubmit = (e: React.FormEvent) => {

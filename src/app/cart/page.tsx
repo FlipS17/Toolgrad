@@ -82,29 +82,6 @@ export default function CartPage() {
 		}
 	}
 
-	const [isSummaryVisible, setIsSummaryVisible] = useState(false)
-
-	useEffect(() => {
-		const summary = document.getElementById('cart-summary')
-		if (!summary) return
-
-		const observer = new IntersectionObserver(
-			([entry]) => {
-				setIsSummaryVisible(entry.isIntersecting)
-			},
-			{
-				root: null,
-				threshold: 0.1,
-			}
-		)
-
-		observer.observe(summary)
-
-		return () => {
-			if (summary) observer.unobserve(summary)
-		}
-	}, [])
-
 	const handleQuantityChange = async (id: number, newQuantity: number) => {
 		if (newQuantity < 1) return handleRemove(id)
 		try {
@@ -230,7 +207,7 @@ export default function CartPage() {
 										await handleRemove(id)
 									}
 								}}
-								className={`flex items-center gap-1 text-sm font-medium transition ${
+								className={`flex items-center gap-1 text-sm font-medium transition cursor-pointer ${
 									selectedItems.length === 0
 										? 'text-gray-300 cursor-not-allowed'
 										: 'text-red-500 hover:text-red-600'
@@ -302,30 +279,28 @@ export default function CartPage() {
 				</div>
 			</div>
 			{/* Мобильная кнопка "К оформлению" — показывается только на <768px */}
-			{!isSummaryVisible && (
-				<div className='md:hidden fixed bottom-[56px] left-0 right-0 z-40 px-4 pb-3 bg-white border-t border-gray-200'>
-					<div className='flex justify-between items-center'>
-						<div className='text-sm text-gray-500'>
-							{selected.length} товар{selected.length === 1 ? '' : 'а'}
-						</div>
-						<div className='text-base font-bold'>
-							{selected
-								.reduce((sum, i) => sum + i.product.price * i.quantity, 0)
-								.toLocaleString('ru-RU')}{' '}
-							₽
-						</div>
+			<div className='md:hidden fixed bottom-[56px] left-0 right-0 z-40 px-4 pb-3 bg-white border-t border-gray-200'>
+				<div className='flex justify-between items-center'>
+					<div className='text-sm text-gray-500'>
+						{selected.length} товар{selected.length === 1 ? '' : 'а'}
 					</div>
-
-					<AuthButton
-						label='К оформлению'
-						onClick={() => {
-							const el = document.getElementById('cart-summary')
-							if (el) el.scrollIntoView({ behavior: 'smooth' })
-						}}
-						className='mt-2 bg-[#F89514] hover:bg-[#d97c0f]'
-					/>
+					<div className='text-base font-bold'>
+						{selected
+							.reduce((sum, i) => sum + i.product.price * i.quantity, 0)
+							.toLocaleString('ru-RU')}{' '}
+						₽
+					</div>
 				</div>
-			)}
+
+				<AuthButton
+					label='К оформлению'
+					onClick={() => {
+						const el = document.getElementById('cart-summary')
+						if (el) el.scrollIntoView({ behavior: 'smooth' })
+					}}
+					className='mt-2 bg-[#F89514] hover:bg-[#d97c0f]'
+				/>
+			</div>
 		</div>
 	)
 }

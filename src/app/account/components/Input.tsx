@@ -1,5 +1,6 @@
 'use client'
 
+import DOMPurify from 'dompurify'
 import { useState } from 'react'
 
 // Интерфейс пропсов поля ввода
@@ -7,40 +8,65 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 	label: string
 	error?: string
 	type?: string
+	sanitize?: boolean // включить очистку через DOMPurify при onChange
 }
 
 export default function Input({
 	label,
 	error,
 	type = 'text',
+	sanitize = false,
+	onChange,
 	...props
 }: InputProps) {
 	const [show, setShow] = useState(false) // Состояние видимости пароля
-	const isPassword = type === 'password' // Проверка, является ли поле паролем
+
+	const isPassword = type === 'password'
+
+	// Обработчик изменения значения
+	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		if (!onChange) return
+
+		if (sanitize) {
+			// Очистка ввода от потенциального вредного HTML
+			const clean = DOMPurify.sanitize(e.target.value, {
+				ALLOWED_TAGS: [],
+				ALLOWED_ATTR: [],
+			})
+			const event = {
+				...e,
+				target: {
+					...e.target,
+					value: clean,
+				},
+			}
+			onChange(event as React.ChangeEvent<HTMLInputElement>)
+		} else {
+			onChange(e)
+		}
+	}
 
 	return (
 		<div className='space-y-1 w-full'>
-			{/* Подпись к полю */}
 			<label className='text-sm font-medium text-gray-700'>{label}</label>
 
 			<div className='relative'>
-				{/* Поле ввода */}
 				<input
 					{...props}
-					type={isPassword && !show ? 'password' : 'text'} // Переключение типа ввода для пароля
+					type={isPassword && !show ? 'password' : 'text'}
+					onChange={handleChange}
 					className={`w-full rounded-xl border px-4 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-[#F89514] transition ${
-						error ? 'border-red-500' : 'border-gray-300' // Цвет рамки при ошибке
+						error ? 'border-red-500' : 'border-gray-300'
 					}`}
 				/>
 
-				{/* Кнопка-переключатель видимости пароля */}
+				{/* Переключение пароля */}
 				{isPassword && (
 					<button
 						type='button'
 						onClick={() => setShow(!show)}
 						className='absolute inset-y-0 right-3 flex items-center'
 					>
-						{/* SVG иконка глазика */}
 						{show ? (
 							<svg
 								xmlns='http://www.w3.org/2000/svg'
@@ -81,7 +107,6 @@ export default function Input({
 				)}
 			</div>
 
-			{/* Сообщение об ошибке */}
 			{error && <p className='text-sm text-red-500'>{error}</p>}
 		</div>
 	)

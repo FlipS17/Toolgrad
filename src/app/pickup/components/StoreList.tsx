@@ -1,4 +1,5 @@
 import Input from '@/app/account/components/Input'
+import DOMPurify from 'dompurify'
 import { ArrowLeft, Clock, MapPin } from 'lucide-react'
 import { useState } from 'react'
 import { Store } from './PickupPage'
@@ -40,7 +41,7 @@ export default function StoreList({
 					label='Поиск по магазинам'
 					placeholder='Искать магазин'
 					value={query}
-					onChange={e => setQuery(e.target.value)}
+					onChange={e => setQuery(DOMPurify.sanitize(e.target.value))}
 					className='pl-10'
 				/>
 			</div>

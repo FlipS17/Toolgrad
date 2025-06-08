@@ -50,6 +50,7 @@ export default function RequestPasswordResetForm() {
 					<Input
 						label='Email'
 						type='email'
+						sanitize={true}
 						{...register('email', {
 							required: 'Введите email',
 							pattern: {

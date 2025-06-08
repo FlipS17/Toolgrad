@@ -108,6 +108,7 @@ export default function ResetPasswordPage() {
 							<Input
 								label='Email'
 								type='email'
+								sanitize={true}
 								{...register('email', {
 									required: 'Введите email',
 									pattern: {

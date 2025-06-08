@@ -1,6 +1,7 @@
 'use client'
 
 import SearchCard from '@/app/components/SearchCard'
+import DOMPurify from 'dompurify'
 import { useRouter } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
 
@@ -33,9 +34,10 @@ export default function HomeSearch() {
 
 	useEffect(() => {
 		const delay = setTimeout(() => {
-			if (query.trim().length > 1) {
+			const cleanQuery = DOMPurify.sanitize(query.trim())
+			if (cleanQuery.length > 1) {
 				setLoading(true)
-				fetch(`/api/search?q=${encodeURIComponent(query)}`)
+				fetch(`/api/search?q=${encodeURIComponent(cleanQuery)}`)
 					.then(res => res.json())
 					.then(data => {
 						setResults(data)
@@ -53,7 +55,8 @@ export default function HomeSearch() {
 
 	const handleSubmit = (e: React.FormEvent) => {
 		e.preventDefault()
-		router.push(`/catalog?q=${encodeURIComponent(query)}`)
+		const cleanQuery = DOMPurify.sanitize(query.trim())
+		router.push(`/catalog?q=${encodeURIComponent(cleanQuery)}`)
 		setShowDropdown(false)
 	}
 

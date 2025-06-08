@@ -6,14 +6,13 @@ import DeliverySummaryBlock from '@/app/cart/components/CartSummary'
 import { useNotification } from '@/app/components/NotificationProvider'
 import { Map, Placemark, YMaps } from '@pbe/react-yandex-maps'
 import axios from 'axios'
+import DOMPurify from 'dompurify'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import Input from '../account/components/Input'
 
-// DADATA API token
 const DADATA_TOKEN = process.env.NEXT_PUBLIC_DADATA_TOKEN as string
 
-// Расчёт расстояния по координатам
 function getDistanceKm(
 	lat1: number,
 	lon1: number,
@@ -33,7 +32,6 @@ function getDistanceKm(
 	return R * c
 }
 
-// Тип для товаров в корзине
 interface CartItemType {
 	id: number
 	quantity: number
@@ -68,18 +66,15 @@ export default function DeliveryPage() {
 	const MAX_WORDS = 50
 	const MAX_CHARS = 300
 
-	// Загружаем данные корзины и промокод
 	useEffect(() => {
 		const selected = JSON.parse(localStorage.getItem('selectedItems') || '[]')
 		const promoData = JSON.parse(localStorage.getItem('finalPrice') || '{}')
-
 		if (promoData?.promoDiscount && promoData?.sumBeforeDiscount) {
 			const percent = Math.round(
 				(promoData.promoDiscount / promoData.sumBeforeDiscount) * 100
 			)
 			setPromoDiscountPercent(percent)
 		}
-
 		axios.get('/api/cart').then(res => {
 			const filtered = res.data.filter((item: CartItemType) =>
 				selected.includes(item.id)
@@ -88,7 +83,6 @@ export default function DeliveryPage() {
 		})
 	}, [])
 
-	// Получаем email пользователя из /api/account/profile
 	useEffect(() => {
 		const fetchUser = async () => {
 			try {
@@ -101,7 +95,6 @@ export default function DeliveryPage() {
 		fetchUser()
 	}, [])
 
-	// Получаем подсказки по адресу
 	useEffect(() => {
 		const fetchSuggestions = async () => {
 			if (!addressQuery || selectedAddress) return
@@ -127,7 +120,6 @@ export default function DeliveryPage() {
 		return () => clearTimeout(timeout)
 	}, [addressQuery, selectedAddress])
 
-	// Расчёт стоимости доставки по расстоянию
 	useEffect(() => {
 		if (!selectedAddress) return
 		const userLat = parseFloat(selectedAddress.data.geo_lat)
@@ -136,7 +128,6 @@ export default function DeliveryPage() {
 		setDeliveryPrice(Math.max(150, Math.round(distance * 20)))
 	}, [selectedAddress])
 
-	// Выбор подсказки адреса
 	const handleSelectSuggestion = (suggestion: any) => {
 		setSelectedAddress(suggestion)
 		setAddressQuery(suggestion.value)
@@ -144,10 +135,13 @@ export default function DeliveryPage() {
 		setErrors(prev => ({ ...prev, address: undefined }))
 	}
 
-	// Обработка комментария
 	const handleCommentChange = (value: string) => {
-		const wordCount = value.trim().split(/\s+/).length
-		if (wordCount > MAX_WORDS || value.length > MAX_CHARS) {
+		const clean = DOMPurify.sanitize(value, {
+			ALLOWED_TAGS: [],
+			ALLOWED_ATTR: [],
+		})
+		const wordCount = clean.trim().split(/\s+/).length
+		if (wordCount > MAX_WORDS || clean.length > MAX_CHARS) {
 			setErrors(prev => ({
 				...prev,
 				comment: `Комментарий до ${MAX_WORDS} слов и ${MAX_CHARS} символов`,
@@ -155,10 +149,9 @@ export default function DeliveryPage() {
 			return
 		}
 		setErrors(prev => ({ ...prev, comment: undefined }))
-		setComment(value)
+		setComment(clean)
 	}
 
-	// Отправка заказа и письма
 	const handleSubmit = async () => {
 		const newErrors: typeof errors = {}
 		if (!selectedAddress) {
@@ -169,7 +162,6 @@ export default function DeliveryPage() {
 				newErrors.address = 'Укажите номер дома в адресе'
 			}
 		}
-
 		if (Object.keys(newErrors).length > 0) {
 			setErrors(newErrors)
 			return
@@ -191,7 +183,16 @@ export default function DeliveryPage() {
 					comment,
 					deliveryPrice,
 					selectedItems: selectedItemsData.map(item => item.id),
-					addressExtra: { entrance, floor },
+					addressExtra: {
+						entrance: DOMPurify.sanitize(entrance, {
+							ALLOWED_TAGS: [],
+							ALLOWED_ATTR: [],
+						}),
+						floor: DOMPurify.sanitize(floor, {
+							ALLOWED_TAGS: [],
+							ALLOWED_ATTR: [],
+						}),
+					},
 				}),
 			})
 			const data = await res.json()
@@ -199,8 +200,6 @@ export default function DeliveryPage() {
 				notify(data.error || 'Ошибка при оформлении доставки', 'error')
 				return
 			}
-
-			// Отправка письма через API маршрут
 			if (userEmail) {
 				await fetch('/api/send-confirmation-email', {
 					method: 'POST',
@@ -208,13 +207,18 @@ export default function DeliveryPage() {
 					body: JSON.stringify({
 						email: userEmail,
 						address: selectedAddress.value,
-						entrance,
-						floor,
+						entrance: DOMPurify.sanitize(entrance, {
+							ALLOWED_TAGS: [],
+							ALLOWED_ATTR: [],
+						}),
+						floor: DOMPurify.sanitize(floor, {
+							ALLOWED_TAGS: [],
+							ALLOWED_ATTR: [],
+						}),
 						comment,
 					}),
 				})
 			}
-
 			notify('Заказ успешно оформлен', 'success')
 			localStorage.removeItem('selectedItems')
 			await refreshCart()
