@@ -51,7 +51,7 @@ export default function PopularCategories() {
 					categories.slice(0, 6).map(category => (
 						<Link
 							key={category.id}
-							href={`/catalog/${category.slug}`}
+							href={`/catalog?category=${category.slug}`}
 							className='group block text-center p-4 rounded-lg bg-white shadow-md hover:shadow-lg transition-all w-full max-w-[180px]'
 						>
 							<div className='relative h-24 w-24 mx-auto mb-3'>
