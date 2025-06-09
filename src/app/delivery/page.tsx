@@ -222,7 +222,7 @@ export default function DeliveryPage() {
 			notify('Заказ успешно оформлен', 'success')
 			localStorage.removeItem('selectedItems')
 			await refreshCart()
-			router.push('http://localhost:3000/account/orders')
+			router.push('http://localhost:3000/account/delivery')
 		} catch (error) {
 			console.error('Ошибка при отправке заказа:', error)
 			notify('Не удалось отправить заказ', 'error')

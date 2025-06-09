@@ -12,13 +12,14 @@ export async function GET() {
 				image: true,
 			},
 			orderBy: { name: 'asc' },
-			take: 12,
+			take: 6,
 		})
 
 		return NextResponse.json(categories)
 	} catch (error) {
+		console.error('Ошибка при загрузке категорий:', error)
 		return NextResponse.json(
-			{ error: 'Failed to fetch categories' },
+			{ error: 'Ошибка при загрузке категорий' },
 			{ status: 500 }
 		)
 	}

@@ -33,7 +33,7 @@ export default function ProductCard({
 }: ProductCardProps) {
 	const isNew =
 		Date.now() - new Date(product.createdAt).getTime() <
-		1000 * 60 * 60 * 24 * 14
+		1000 * 60 * 60 * 24 * 30
 
 	const discount =
 		product.oldPrice && product.oldPrice > product.price

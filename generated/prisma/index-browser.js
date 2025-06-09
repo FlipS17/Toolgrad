@@ -209,7 +209,8 @@ exports.Prisma.ProductScalarFieldEnum = {
   isActive: 'isActive',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  promotionId: 'promotionId'
+  promotionId: 'promotionId',
+  isPopular: 'isPopular'
 };
 
 exports.Prisma.CategoryScalarFieldEnum = {
@@ -303,7 +304,8 @@ exports.Prisma.PromotionScalarFieldEnum = {
   startDate: 'startDate',
   endDate: 'endDate',
   isActive: 'isActive',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  isFeatured: 'isFeatured'
 };
 
 exports.Prisma.StoreScalarFieldEnum = {

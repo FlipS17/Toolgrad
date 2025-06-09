@@ -119,6 +119,7 @@ model Product {
   reviews        Review[]
   categories     Category[]             @relation("CategoryToProduct")
   promotions     Promotion[]            @relation("PromotionToProduct")
+  isPopular      Boolean                @default(false)
   ProductStock   ProductStock[]
 }
 
@@ -245,6 +246,7 @@ model Promotion {
   Product     Product[]
   categories  Category[] @relation("PromotionToCategory")
   products    Product[]  @relation("PromotionToProduct")
+  isFeatured  Boolean    @default(false)
 }
 
 model Store {

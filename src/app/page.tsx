@@ -1,5 +1,8 @@
 import HeroSlider from '@/app/components/HeroSlider'
+import NewProducts from '@/app/components/NewProducts'
 import PopularCategories from '@/app/components/PopularCategories'
+import PopularProducts from '@/app/components/PopularProducts'
+import PromoProducts from '@/app/components/PromoProducts'
 import { prisma } from '@/utils/db'
 import HomeSearch from './components/HomeSearch'
 
@@ -14,6 +17,9 @@ export default async function Home() {
 			<HeroSlider items={sliderItems} />
 			<HomeSearch />
 			<PopularCategories />
+			<PopularProducts />
+			<PromoProducts />
+			<NewProducts />
 		</main>
 	)
 }
