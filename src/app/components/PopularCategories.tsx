@@ -48,7 +48,7 @@ export default function PopularCategories() {
 				{loading ? (
 					<p>Загрузка...</p>
 				) : (
-					categories.map(category => (
+					categories.slice(0, 6).map(category => (
 						<Link
 							key={category.id}
 							href={`/catalog/${category.slug}`}

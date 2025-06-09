@@ -201,11 +201,6 @@ export default function CatalogFilters({
 			{/* Сброс фильтров и закрытие на мобилке */}
 			<div className='pt-2 border-t border-gray-200 mt-4 flex justify-between items-center'>
 				<AuthButton label='Сбросить фильтры' onClick={resetFilters} />
-				{isMobile && (
-					<button onClick={onClose} className='text-sm text-gray-500'>
-						Закрыть
-					</button>
-				)}
 			</div>
 		</div>
 	)

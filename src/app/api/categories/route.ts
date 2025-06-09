@@ -4,6 +4,9 @@ import { NextResponse } from 'next/server'
 export async function GET() {
 	try {
 		const categories = await prisma.category.findMany({
+			where: {
+				isActive: true, // Показываем только активные категории
+			},
 			select: {
 				id: true,
 				name: true,
@@ -11,6 +14,7 @@ export async function GET() {
 				image: true,
 			},
 			orderBy: { name: 'asc' },
+			take: 6, // Максимум 6 категорий
 		})
 
 		return NextResponse.json(categories)
