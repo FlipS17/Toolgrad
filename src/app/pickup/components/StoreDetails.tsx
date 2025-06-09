@@ -49,10 +49,10 @@ export default function StoreDetails({ store }: { store: Store }) {
 				selectedItems: selectedIds,
 			})
 
-			notify(res.data.message || 'Бронь оформлена', 'success')
+			notify(res.data.message || 'Заказ оформлен', 'success')
 			localStorage.removeItem('selectedItems')
 			await refreshCart()
-			router.push('/account/orders')
+			router.push('/account/delivery')
 		} catch (err: any) {
 			console.log('Ошибка оформления заказа:', err)
 			notify(

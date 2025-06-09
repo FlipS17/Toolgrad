@@ -14,20 +14,6 @@ export default function Footer() {
 						<p className='text-gray-500 mt-2 max-w-md'>
 							Профессиональные инструменты и решения для вашего бизнеса и дома
 						</p>
-						<div className='flex space-x-4 mt-6'>
-							<SocialLink href='#'>
-								<TwitterIcon />
-							</SocialLink>
-							<SocialLink href='#'>
-								<FacebookIcon />
-							</SocialLink>
-							<SocialLink href='#'>
-								<InstagramIcon />
-							</SocialLink>
-							<SocialLink href='#'>
-								<LinkedInIcon />
-							</SocialLink>
-						</div>
 					</div>
 
 					{/* Компания */}
@@ -37,16 +23,13 @@ export default function Footer() {
 						</h3>
 						<ul className='space-y-3'>
 							<li>
-								<FooterLink href='/about'>О нас</FooterLink>
+								<FooterLink href='/contacts'>О нас</FooterLink>
 							</li>
 							<li>
-								<FooterLink href='/blog'>Доставка</FooterLink>
+								<FooterLink href='/delivery-info'>Доставка</FooterLink>
 							</li>
 							<li>
 								<FooterLink href='/contacts'>Контакты</FooterLink>
-							</li>
-							<li>
-								<FooterLink href='/markets'>Магазины</FooterLink>
 							</li>
 						</ul>
 					</div>
@@ -58,16 +41,16 @@ export default function Footer() {
 						</h3>
 						<ul className='space-y-3'>
 							<li>
-								<FooterLink href='/products'>Все товары</FooterLink>
+								<FooterLink href='/catalog'>Все товары</FooterLink>
 							</li>
 							<li>
-								<FooterLink href='/new'>Новинки</FooterLink>
+								<FooterLink href='/catalog?sort=newest'>Новинки</FooterLink>
 							</li>
 							<li>
-								<FooterLink href='/bestsellers'>Бестселлеры</FooterLink>
+								<FooterLink href='/catalog?sort=popular'>Популярное</FooterLink>
 							</li>
 							<li>
-								<FooterLink href='/promo'>Акции</FooterLink>
+								<FooterLink href='/sales'>Акции</FooterLink>
 							</li>
 						</ul>
 					</div>
@@ -100,17 +83,6 @@ export default function Footer() {
 					<p className='text-gray-500 text-sm text-center md:text-left'>
 						© {new Date().getFullYear()} ToolGrad. Все права защищены.
 					</p>
-					<div className='flex flex-wrap justify-center gap-x-6 gap-y-2'>
-						<FooterLink href='/privacy' small>
-							Конфиденциальность
-						</FooterLink>
-						<FooterLink href='/terms' small>
-							Условия
-						</FooterLink>
-						<FooterLink href='/cookies' small>
-							Cookies
-						</FooterLink>
-					</div>
 				</div>
 			</div>
 		</footer>

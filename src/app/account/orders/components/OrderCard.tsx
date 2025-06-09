@@ -171,7 +171,7 @@ export default function OrderCard({
 									{product.price.toLocaleString('ru-RU')} ₽
 								</div>
 								<Link
-									href={`/products/${product.productId}`}
+									href={`/product/${product.productId}`}
 									className='text-sm font-medium text-[#F89514] border border-[#F89514] px-4 py-1.5 rounded-lg hover:bg-[#F89514] hover:text-white transition duration-150 ease-in-out whitespace-nowrap'
 								>
 									К товару

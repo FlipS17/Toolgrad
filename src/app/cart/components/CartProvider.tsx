@@ -63,7 +63,9 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 		}
 	}
 
-	const isInCart = (productId: number) => cartIds.includes(productId)
+	const isInCart = (productId: number): boolean => {
+		return cartIds.includes(productId)
+	}
 
 	return (
 		<CartContext.Provider value={{ cartIds, addToCart, isInCart, refreshCart }}>
