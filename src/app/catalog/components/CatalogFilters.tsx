@@ -1,15 +1,17 @@
 'use client'
 
 import { Brand } from '@/../generated/prisma'
+import AuthButton from '@/app/account/components/AuthButton'
 import DOMPurify from 'dompurify'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Slider from 'rc-slider'
 import 'rc-slider/assets/index.css'
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 
 interface CatalogFiltersProps {
 	brands: Brand[]
 	categories?: { id: number; name: string; slug: string }[]
+	maxAvailablePrice?: number
 	isMobile?: boolean
 	onClose?: () => void
 }
@@ -17,6 +19,7 @@ interface CatalogFiltersProps {
 export default function CatalogFilters({
 	brands,
 	categories = [],
+	maxAvailablePrice = 200000,
 	isMobile = false,
 	onClose,
 }: CatalogFiltersProps) {
@@ -31,11 +34,12 @@ export default function CatalogFilters({
 		() => searchParams.getAll('category'),
 		[searchParams]
 	)
-	const selectedRating = searchParams.get('rating')
-	const showOnlyAvailable = searchParams.get('inStock') === 'true'
 
 	const minPriceParam = parseInt(searchParams.get('minPrice') || '0', 10)
-	const maxPriceParam = parseInt(searchParams.get('maxPrice') || '200000', 10)
+	const maxPriceParam = parseInt(
+		searchParams.get('maxPrice') || String(maxAvailablePrice),
+		10
+	)
 
 	const [priceRange, setPriceRange] = useState<[number, number]>([
 		minPriceParam,
@@ -44,63 +48,60 @@ export default function CatalogFilters({
 	const [searchBrand, setSearchBrand] = useState('')
 	const [searchCategory, setSearchCategory] = useState('')
 
-	const updateMultiParam = (key: string, value: string) => {
+	useEffect(() => {
+		setPriceRange([minPriceParam, maxPriceParam])
+	}, [minPriceParam, maxPriceParam])
+
+	// Обновление параметров для множественного выбора
+	const toggleParam = (key: string, value: string) => {
 		const params = new URLSearchParams(searchParams.toString())
-		const existing = params.getAll(key)
-
-		if (existing.includes(value)) {
-			const filtered = existing.filter(v => v !== value)
-			params.delete(key)
-			filtered.forEach(val => params.append(key, val))
+		const currentValues = new Set(params.getAll(key))
+		if (currentValues.has(value)) {
+			currentValues.delete(value)
 		} else {
-			params.append(key, value)
+			currentValues.add(value)
 		}
-
-		router.push(`?${params.toString()}`)
+		params.delete(key)
+		currentValues.forEach(v => params.append(key, v))
+		router.replace(`?${params.toString()}`)
 	}
 
-	const updateParam = (key: string, value: string | null) => {
-		const params = new URLSearchParams(searchParams.toString())
-		if (value === null) {
-			params.delete(key)
-		} else {
-			params.set(key, value)
-		}
-		router.push(`?${params.toString()}`)
-	}
-
-	const resetFilters = () => {
-		router.push('?')
-		if (onClose) onClose()
-	}
-
+	// Применение фильтра по цене
 	const applyPriceFilter = () => {
-		updateParam('minPrice', String(priceRange[0]))
-		updateParam('maxPrice', String(priceRange[1]))
+		const params = new URLSearchParams(searchParams.toString())
+		params.set('minPrice', String(priceRange[0]))
+		params.set('maxPrice', String(priceRange[1]))
+		router.replace(`?${params.toString()}`)
 		if (isMobile && onClose) onClose()
 	}
 
+	// Сброс всех фильтров
+	const resetFilters = () => {
+		router.replace('?')
+		setPriceRange([0, maxAvailablePrice])
+		if (onClose) onClose()
+	}
+
+	// Поиск по брендам и категориям
 	const filteredBrands = useMemo(() => {
-		if (searchBrand.trim()) {
-			return brands.filter(b =>
-				b.name.toLowerCase().includes(searchBrand.toLowerCase())
-			)
-		}
-		return brands
+		return searchBrand.trim()
+			? brands.filter(b =>
+					b.name.toLowerCase().includes(searchBrand.toLowerCase())
+			  )
+			: brands
 	}, [brands, searchBrand])
 
 	const filteredCategories = useMemo(() => {
-		if (searchCategory.trim()) {
-			return categories.filter(c =>
-				c.name.toLowerCase().includes(searchCategory.toLowerCase())
-			)
-		}
-		return categories
+		return searchCategory.trim()
+			? categories.filter(c =>
+					c.name.toLowerCase().includes(searchCategory.toLowerCase())
+			  )
+			: categories
 	}, [categories, searchCategory])
 
 	return (
 		<div className='space-y-6 text-sm text-gray-800'>
-			{/* Цена */}
+			{/* Фильтр по цене */}
 			<div>
 				<h3 className='font-semibold mb-2'>Цена, ₽</h3>
 				<div className='flex gap-2 mb-3'>
@@ -124,9 +125,8 @@ export default function CatalogFilters({
 				<Slider
 					range
 					min={0}
-					max={200000}
+					max={maxAvailablePrice}
 					step={100}
-					defaultValue={priceRange}
 					value={priceRange}
 					onChange={val => setPriceRange(val as [number, number])}
 					trackStyle={[{ backgroundColor: '#F89514' }]}
@@ -135,15 +135,12 @@ export default function CatalogFilters({
 						{ borderColor: '#F89514', backgroundColor: '#F89514' },
 					]}
 				/>
-				<button
-					onClick={applyPriceFilter}
-					className='mt-2 w-full bg-[#F89514] text-white py-2 rounded-xl hover:bg-orange-600 transition'
-				>
-					Применить
-				</button>
+				<div className='mt-2'>
+					<AuthButton label='Применить' onClick={applyPriceFilter} />
+				</div>
 			</div>
 
-			{/* Поиск бренда */}
+			{/* Фильтр по брендам */}
 			<div>
 				<h3 className='font-semibold mb-2'>Бренды</h3>
 				<input
@@ -153,13 +150,18 @@ export default function CatalogFilters({
 					onChange={e => setSearchBrand(DOMPurify.sanitize(e.target.value))}
 					className='w-full border px-3 py-2 rounded-lg text-sm mb-2'
 				/>
-				<div className='max-h-56 overflow-y-auto pr-1 space-y-2'>
+				<div
+					className={`space-y-2 ${
+						filteredBrands.length > 9 ? 'max-h-56 overflow-y-auto pr-1' : ''
+					}`}
+					style={{ overscrollBehavior: 'contain' }}
+				>
 					{filteredBrands.map(brand => (
 						<label key={brand.id} className='flex items-center space-x-2'>
 							<input
 								type='checkbox'
 								checked={selectedBrands.includes(brand.slug)}
-								onChange={() => updateMultiParam('brand', brand.slug)}
+								onChange={() => toggleParam('brand', brand.slug)}
 							/>
 							<span>{brand.name}</span>
 						</label>
@@ -167,7 +169,7 @@ export default function CatalogFilters({
 				</div>
 			</div>
 
-			{/* Категории */}
+			{/* Фильтр по категориям */}
 			<div>
 				<h3 className='font-semibold mb-2'>Категории</h3>
 				<input
@@ -177,13 +179,18 @@ export default function CatalogFilters({
 					onChange={e => setSearchCategory(DOMPurify.sanitize(e.target.value))}
 					className='w-full border px-3 py-2 rounded-lg text-sm mb-2'
 				/>
-				<div className='max-h-56 overflow-y-auto pr-1 space-y-2'>
+				<div
+					className={`space-y-2 ${
+						filteredCategories.length > 9 ? 'max-h-56 overflow-y-auto pr-1' : ''
+					}`}
+					style={{ overscrollBehavior: 'contain' }}
+				>
 					{filteredCategories.map(cat => (
 						<label key={cat.id} className='flex items-center space-x-2'>
 							<input
 								type='checkbox'
 								checked={selectedCategories.includes(cat.slug)}
-								onChange={() => updateMultiParam('category', cat.slug)}
+								onChange={() => toggleParam('category', cat.slug)}
 							/>
 							<span>{cat.name}</span>
 						</label>
@@ -191,62 +198,15 @@ export default function CatalogFilters({
 				</div>
 			</div>
 
-			{/* Рейтинг */}
-			<div>
-				<h3 className='font-semibold mb-2'>Рейтинг</h3>
-				<div className='space-y-2'>
-					{['5', '4', '3'].map(r => (
-						<label key={r} className='flex items-center space-x-2'>
-							<input
-								type='radio'
-								name='rating'
-								checked={selectedRating === r}
-								onChange={() => updateParam('rating', r)}
-							/>
-							<span>{r} звезды и выше</span>
-						</label>
-					))}
-					<label className='flex items-center space-x-2'>
-						<input
-							type='radio'
-							name='rating'
-							checked={!selectedRating}
-							onChange={() => updateParam('rating', null)}
-						/>
-						<span>Все</span>
-					</label>
-				</div>
-			</div>
-
-			{/* В наличии */}
-			<div>
-				<h3 className='font-semibold mb-2'>Наличие</h3>
-				<label className='flex items-center space-x-2'>
-					<input
-						type='checkbox'
-						checked={showOnlyAvailable}
-						onChange={() =>
-							updateParam('inStock', showOnlyAvailable ? null : 'true')
-						}
-					/>
-					<span>Только в наличии</span>
-				</label>
-			</div>
-
-			{/* Сброс и закрытие */}
-			{isMobile && (
-				<div className='pt-4 border-t border-gray-200 mt-4 flex justify-between items-center'>
-					<button
-						onClick={resetFilters}
-						className='text-sm text-[#F89514] underline'
-					>
-						Сбросить фильтры
-					</button>
+			{/* Сброс фильтров и закрытие на мобилке */}
+			<div className='pt-2 border-t border-gray-200 mt-4 flex justify-between items-center'>
+				<AuthButton label='Сбросить фильтры' onClick={resetFilters} />
+				{isMobile && (
 					<button onClick={onClose} className='text-sm text-gray-500'>
 						Закрыть
 					</button>
-				</div>
-			)}
+				)}
+			</div>
 		</div>
 	)
 }

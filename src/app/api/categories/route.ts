@@ -4,7 +4,6 @@ import { NextResponse } from 'next/server'
 export async function GET() {
 	try {
 		const categories = await prisma.category.findMany({
-			where: { isActive: true },
 			select: {
 				id: true,
 				name: true,
@@ -12,7 +11,6 @@ export async function GET() {
 				image: true,
 			},
 			orderBy: { name: 'asc' },
-			take: 6,
 		})
 
 		return NextResponse.json(categories)

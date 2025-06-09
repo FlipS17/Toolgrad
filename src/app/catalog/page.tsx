@@ -4,33 +4,48 @@ import { Brand, Product } from '@/../generated/prisma'
 import CatalogFilters from '@/app/catalog/components/CatalogFilters'
 import CatalogSort from '@/app/catalog/components/CatalogSort'
 import ProductCard from '@/app/catalog/components/ProductCard'
-import { useNotification } from '@/app/components/NotificationProvider'
 import { useFavorites } from '@/app/favorite/components/FavoriteProvider'
 import axios from 'axios'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { useEffect, useState } from 'react'
+// @ts-ignore
+import qs from 'qs'
+import { useEffect, useMemo, useState } from 'react'
 import { FiFilter } from 'react-icons/fi'
 import CatalogSearch from './components/CatalogSearch'
+
+interface Category {
+	id: number
+	name: string
+	slug: string
+}
 
 export default function CatalogPage() {
 	const [products, setProducts] = useState<Product[]>([])
 	const [brands, setBrands] = useState<Brand[]>([])
+	const [categories, setCategories] = useState<Category[]>([])
+	const [maxPrice, setMaxPrice] = useState<number>(200000)
 	const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
-	const [totalPages, setTotalPages] = useState(1)
 
 	const searchParams = useSearchParams()
 	const router = useRouter()
 
-	const selectedBrand = searchParams.get('brand')
+	// Мемоизация параметров из URL
+	const selectedBrands = useMemo(
+		() => searchParams.getAll('brand'),
+		[searchParams]
+	)
+	const selectedCategories = useMemo(
+		() => searchParams.getAll('category'),
+		[searchParams]
+	)
 	const sort = searchParams.get('sort') || 'newest'
 	const minPrice = Number(searchParams.get('minPrice') || '0')
-	const maxPrice = Number(searchParams.get('maxPrice') || '100000')
-	const page = Number(searchParams.get('page') || '1')
+	const maxPriceParam = Number(searchParams.get('maxPrice') || maxPrice)
 	const searchQuery = searchParams.get('q') || ''
 
-	const { notify } = useNotification()
 	const { favoriteIds, toggleFavorite } = useFavorites()
 
+	// Функция обновления одного параметра в URL
 	const updateParam = (key: string, value: string | null) => {
 		const params = new URLSearchParams(searchParams.toString())
 		if (value === null) {
@@ -41,42 +56,58 @@ export default function CatalogPage() {
 		router.push(`?${params.toString()}`)
 	}
 
+	// Основной эффект загрузки товаров
 	useEffect(() => {
-		const fetchProducts = async () => {
-			const res = await axios.get('/api/products', {
-				params: {
-					brand: selectedBrand || undefined,
-					sort,
-					minPrice,
-					maxPrice,
-					page,
-					q: searchQuery || undefined,
-				},
-			})
-			const productsWithDates = res.data.data.map((product: Product) => ({
+		const fetchAll = async () => {
+			const [productsRes, brandsRes, categoriesRes] = await Promise.all([
+				axios.get('/api/products', {
+					params: {
+						brand: selectedBrands,
+						category: selectedCategories,
+						sort,
+						minPrice,
+						maxPrice: maxPriceParam,
+						q: searchQuery || undefined,
+					},
+					// ключевая часть: сериализация массивов как brand=a&brand=b
+					paramsSerializer: params =>
+						qs.stringify(params, { arrayFormat: 'repeat' }),
+				}),
+				axios.get('/api/brands'),
+				axios.get('/api/categories'),
+			])
+
+			const data = productsRes.data
+			const productsWithDates = data.data.map((product: Product) => ({
 				...product,
 				createdAt: new Date(product.createdAt),
 			}))
+
 			setProducts(productsWithDates)
-			setTotalPages(res.data.totalPages || 1)
+			setMaxPrice(data.maxPrice || 200000)
+			setBrands(brandsRes.data)
+			setCategories(categoriesRes.data)
 		}
 
-		const fetchBrands = async () => {
-			const res = await axios.get('/api/brands')
-			setBrands(res.data)
-		}
-
-		fetchProducts()
-		fetchBrands()
-	}, [selectedBrand, sort, minPrice, maxPrice, page, searchQuery])
+		fetchAll()
+	}, [
+		selectedBrands.join(','),
+		selectedCategories.join(','),
+		sort,
+		minPrice,
+		maxPriceParam,
+		searchQuery,
+	])
 
 	return (
 		<div className='bg-gray-50 min-h-screen'>
 			<div className='max-w-8xl mx-auto px-6 sm:px-8 lg:px-10 py-12'>
+				{/* Поиск */}
 				<div className='mb-10'>
 					<CatalogSearch />
 				</div>
 
+				{/* Заголовок и сортировка */}
 				<div className='flex flex-col md:flex-row justify-between items-start md:items-center mb-8'>
 					<h1 className='text-2xl font-bold text-gray-900 mb-4 md:mb-0'>
 						Каталог
@@ -92,14 +123,21 @@ export default function CatalogPage() {
 					</div>
 				</div>
 
+				{/* Контент */}
 				<div className='flex flex-col lg:flex-row gap-8'>
+					{/* Фильтры */}
 					<aside className='hidden lg:block w-72 self-start'>
 						<div className='bg-white border border-gray-200 rounded-2xl p-5 shadow-sm'>
 							<h2 className='text-lg font-bold mb-5 text-gray-800'>Фильтры</h2>
-							<CatalogFilters brands={brands} />
+							<CatalogFilters
+								brands={brands}
+								categories={categories}
+								maxAvailablePrice={maxPrice}
+							/>
 						</div>
 					</aside>
 
+					{/* Товары */}
 					<main className='flex-1'>
 						{products.length > 0 ? (
 							<div className='grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6'>
@@ -115,29 +153,7 @@ export default function CatalogPage() {
 							</div>
 						) : (
 							<div className='bg-white rounded-2xl p-10 shadow-sm text-center'>
-								<p className='text-gray-500'>
-									Товары не найдены. Попробуйте изменить параметры поиска или
-									фильтрации.
-								</p>
-							</div>
-						)}
-
-						{/* Пагинация */}
-						{totalPages > 1 && (
-							<div className='mt-10 flex justify-center gap-2'>
-								{Array.from({ length: totalPages }).map((_, i) => (
-									<button
-										key={i}
-										onClick={() => updateParam('page', String(i + 1))}
-										className={`w-10 h-10 rounded-lg text-sm font-medium transition-all ${
-											page === i + 1
-												? 'bg-[#F89514] text-white shadow-md'
-												: 'border border-gray-200 hover:bg-gray-100 shadow-sm'
-										}`}
-									>
-										{i + 1}
-									</button>
-								))}
+								<p className='text-gray-500'>Товары не найдены</p>
 							</div>
 						)}
 					</main>
@@ -145,7 +161,7 @@ export default function CatalogPage() {
 
 				{/* Мобильные фильтры */}
 				{mobileFiltersOpen && (
-					<div className='fixed inset-0 z-60 bg-white flex flex-col p-4'>
+					<div className='fixed inset-0 z-60 bg-white flex flex-col p-4 overflow-y-auto'>
 						<div className='flex justify-between items-center mb-4'>
 							<h2 className='text-lg font-bold'>Фильтры</h2>
 							<button
@@ -155,9 +171,11 @@ export default function CatalogPage() {
 								✕
 							</button>
 						</div>
-						<div className='flex-1 overflow-y-auto'>
+						<div className='flex-1'>
 							<CatalogFilters
 								brands={brands}
+								categories={categories}
+								maxAvailablePrice={maxPrice}
 								isMobile
 								onClose={() => setMobileFiltersOpen(false)}
 							/>

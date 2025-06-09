@@ -5,7 +5,11 @@ const prisma = new PrismaClient()
 
 export async function GET() {
 	const brands = await prisma.brand.findMany({
-		where: { products: { some: { isActive: true } } },
+		where: {
+			products: {
+				some: {}, // хотя бы один товар
+			},
+		},
 		orderBy: { name: 'asc' },
 		select: {
 			id: true,

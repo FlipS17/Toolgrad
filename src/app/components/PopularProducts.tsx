@@ -24,7 +24,7 @@ export default async function PopularProducts() {
 			<div className='relative mb-6'>
 				<h2 className='text-2xl font-bold text-center'>Популярное</h2>
 				<Link
-					href='/catalog?popular=true'
+					href='/catalog?sort=popular'
 					className='absolute right-0 top-1 text-orange-500 hover:underline flex items-center gap-1'
 				>
 					Ещё <ChevronRight className='w-4 h-4' />

@@ -27,7 +27,7 @@ export default async function NewProducts() {
 			<div className='relative mb-6'>
 				<h2 className='text-2xl font-bold text-center'>Новинки</h2>
 				<Link
-					href='/catalog?new=true'
+					href='catalog?sort=newest'
 					className='absolute right-0 top-1 text-orange-500 hover:underline flex items-center gap-1'
 				>
 					Ещё <ChevronRight className='w-4 h-4' />
