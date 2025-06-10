@@ -10,7 +10,7 @@ const nextConfig: NextConfig = {
 			},
 			{
 				protocol: 'https',
-				hostname: '**.example.com', // Добавьте ваши реальные домены
+				hostname: '**.example.com',
 			},
 		],
 	},

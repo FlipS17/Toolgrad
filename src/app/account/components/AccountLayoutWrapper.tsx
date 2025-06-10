@@ -1,11 +1,11 @@
 'use client'
+
 import { Truck } from 'lucide-react'
-import { signOut } from 'next-auth/react'
+import { signOut, useSession } from 'next-auth/react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { FaShoppingBag, FaSignOutAlt, FaUser } from 'react-icons/fa'
+import { FaShoppingBag, FaSignOutAlt, FaTools, FaUser } from 'react-icons/fa'
 
-// Массив ссылок для личного кабинета
 const links = [
 	{ href: '/account/profile', label: 'Информация', icon: <FaUser /> },
 	{ href: '/account/delivery', label: 'Доставка', icon: <Truck /> },
@@ -18,6 +18,8 @@ export default function AccountLayoutWrapper({
 	children: React.ReactNode
 }) {
 	const pathname = usePathname()
+	const { data: session } = useSession()
+	const isAdmin = session?.user?.role === 'ADMIN'
 
 	return (
 		<div className='min-h-screen bg-gray-50 p-4'>
@@ -26,9 +28,8 @@ export default function AccountLayoutWrapper({
 					<div>
 						<h2 className='text-xl font-bold mb-6'>Личный кабинет</h2>
 						<nav className='space-y-2'>
-							{/* Генерация ссылок */}
 							{links.map(link => {
-								const isActive = pathname.startsWith(link.href) // Проверка, активна ли ссылка
+								const isActive = pathname.startsWith(link.href)
 								return (
 									<Link
 										key={link.href}
@@ -44,10 +45,19 @@ export default function AccountLayoutWrapper({
 									</Link>
 								)
 							})}
+
+							{isAdmin && (
+								<Link
+									href='/admin'
+									className='flex items-center gap-2 px-3 py-2 rounded-xl border transition-colors duration-200 bg-[#1e1e1e] text-white hover:bg-black'
+								>
+									<FaTools />
+									<span>Админ панель</span>
+								</Link>
+							)}
 						</nav>
 					</div>
 
-					{/* Кнопка выхода из аккаунта */}
 					<button
 						onClick={() => signOut({ callbackUrl: '/' })}
 						className='mt-10 flex cursor-pointer items-center gap-2 w-full px-3 py-2 rounded-xl bg-red-500 text-white hover:bg-red-600 transition-colors'
@@ -57,7 +67,6 @@ export default function AccountLayoutWrapper({
 					</button>
 				</aside>
 
-				{/* Основной контент, переданный через пропс */}
 				<main className='flex-1'>{children}</main>
 			</div>
 		</div>
