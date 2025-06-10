@@ -6,6 +6,7 @@ import { useNotification } from '@/app/components/NotificationProvider'
 import axios from 'axios'
 import DOMPurify from 'dompurify'
 import { useSession } from 'next-auth/react'
+import Image from 'next/image'
 import { useEffect, useState } from 'react'
 
 export default function ContactsPage() {
@@ -80,16 +81,97 @@ export default function ContactsPage() {
 
 	return (
 		<div className='px-4 py-16 space-y-24'>
-			{/* Секция "О компании" */}
+			{/* Блок "О компании" */}
 			<section className='container mx-auto px-4 text-center'>
-				<h1 className='text-2xl font-bold tracking-tight'>О компании</h1>
+				<h1 className='text-2xl font-semibold tracking-tight'>О компании</h1>
 			</section>
+			<section className='container mx-auto px-4 grid md:grid-cols-2 gap-12 items-center'>
+				<div className='space-y-4 text-gray-700 text-lg'>
+					<p>
+						<strong>Toolgrad</strong> — это надёжный поставщик строительного
+						инструмента с многолетним опытом. Наша команда увлечена качественным
+						сервисом и подбором лучших решений для наших клиентов.
+					</p>
+					<p>
+						Мы верим, что качественный инструмент — залог безопасной и
+						продуктивной работы. Именно поэтому в нашем ассортименте только
+						проверенные бренды и актуальные модели.
+					</p>
+					<p>
+						Мы обслуживаем как крупных подрядчиков, так и домашних мастеров,
+						предлагая гибкие условия, профессиональную консультацию и
+						оперативную доставку.
+					</p>
+				</div>
+				<div className='relative w-full h-[350px] rounded-xl overflow-hidden shadow-lg'>
+					<Image
+						src='/images/team.jpg'
+						alt='Наша команда'
+						fill
+						className='object-cover'
+					/>
+				</div>
+			</section>
+			{/* Контакты и карта */}
+			<section className='container mx-auto px-4 space-y-12'>
+				<div className='text-center space-y-2'>
+					<h2 className='text-2xl font-semibold text-gray-900'>Контакты</h2>
+				</div>
 
-			{/* Контент пропущен ради краткости — не изменяется */}
+				<div className='grid lg:grid-cols-2 gap-10'>
+					<div className='flex items-center'>
+						<div className='bg-white rounded-xl shadow-md p-6 space-y-4 text-gray-700 text-base w-full'>
+							<div>
+								<span className='block font-semibold text-gray-800 mb-1'>
+									Адрес:
+								</span>
+								<p>Московская обл., г. Красногорск, ул. Губайлово, 56</p>
+							</div>
+							<div>
+								<span className='block font-semibold text-gray-800 mb-1'>
+									Телефон:
+								</span>
+								<span className='text-[#F89514] font-medium hover:underline'>
+									+7 (903) 750-98-16
+								</span>
+							</div>
+							<div>
+								<span className='block font-semibold text-gray-800 mb-1'>
+									Email:
+								</span>
+								<span className='text-[#F89514] font-medium hover:underline'>
+									toolgradhelper@gmail.com
+								</span>
+							</div>
+							<div>
+								<span className='block font-semibold text-gray-800 mb-1'>
+									Время работы:
+								</span>
+								<p>Пн–Пт: с 9:00 до 19:00</p>
+							</div>
+							<hr className='border-gray-300' />
+							<div className='text-sm text-gray-500'>
+								<p>ИНН: 5024180714</p>
+								<p>ОГРН: 1175024031160</p>
+							</div>
+						</div>
+					</div>
 
+					<div className='rounded-xl overflow-hidden shadow-md h-[400px] w-full'>
+						<iframe
+							src='https://yandex.ru/map-widget/v1/?ll=37.307815%2C55.830644&z=17&pt=37.307815,55.830644,pm2rdm'
+							width='100%'
+							height='100%'
+							frameBorder='0'
+							title='Офис Toolgrad на карте'
+							className='w-full h-full border-0'
+						></iframe>
+					</div>
+				</div>
+			</section>
 			{/* Форма обратной связи */}
 			<section className='bg-gray-50 py-12 px-4 rounded-xl max-w-2xl mx-auto shadow'>
-				<h2 className='text-2xl font-bold mb-6 text-center'>
+				<h2 className='text-2xl font-semibold mb-6 text-center'>
 					Форма обратной связи
 				</h2>
 				{submitted ? (
