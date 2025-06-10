@@ -74,7 +74,7 @@ export default function CatalogPage() {
 						qs.stringify(params, { arrayFormat: 'repeat' }),
 				}),
 				axios.get('/api/brands'),
-				axios.get('/api/categories'),
+				axios.get('/api/catalog/categories'),
 			])
 
 			const data = productsRes.data

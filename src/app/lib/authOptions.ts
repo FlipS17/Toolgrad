@@ -31,7 +31,7 @@ export const authOptions: NextAuthOptions = {
 				if (!isValid) return null
 
 				return {
-					id: user.id.toString(),
+					id: user.id,
 					email: user.email,
 					name: `${user.firstName} ${user.lastName}`,
 					role: user.role,
@@ -39,23 +39,25 @@ export const authOptions: NextAuthOptions = {
 			},
 		}),
 	],
-	session: { strategy: 'jwt' },
+	session: {
+		strategy: 'jwt',
+	},
 	callbacks: {
 		async jwt({ token, user }) {
 			if (user) {
-				token.id = (user as any).id?.toString() ?? ''
-				token.email = (user as any).email ?? ''
-				token.name = (user as any).name ?? ''
-				token.role = (user as any).role ?? 'CUSTOMER'
+				token.id = (user as any).id
+				token.email = user.email
+				token.name = user.name
+				token.role = (user as any).role
 			}
 			return token
 		},
 		async session({ session, token }) {
 			if (session.user && token) {
-				;(session.user as any).id = token.id ?? ''
-				session.user.email = token.email ?? ''
-				session.user.name = token.name ?? ''
-				;(session.user as any).role = token.role ?? 'CUSTOMER'
+				;(session.user as any).id = token.id
+				session.user.email = token.email!
+				session.user.name = token.name!
+				;(session.user as any).role = token.role
 			}
 			return session
 		},
@@ -63,5 +65,5 @@ export const authOptions: NextAuthOptions = {
 	pages: {
 		signIn: '/account',
 	},
-	secret: process.env.NEXTAUTH_SECRET,
+	secret: process.env.NEXTAUTH_SECRET!,
 }
