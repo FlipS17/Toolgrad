@@ -47,13 +47,15 @@ export default function AccountLayoutWrapper({
 							})}
 
 							{isAdmin && (
-								<Link
-									href='/admin'
+								<a
+									href='http://localhost:5555/'
+									target='_blank'
+									rel='noopener noreferrer'
 									className='flex items-center gap-2 px-3 py-2 rounded-xl border transition-colors duration-200 bg-[#1e1e1e] text-white hover:bg-black'
 								>
 									<FaTools />
 									<span>Админ панель</span>
-								</Link>
+								</a>
 							)}
 						</nav>
 					</div>
