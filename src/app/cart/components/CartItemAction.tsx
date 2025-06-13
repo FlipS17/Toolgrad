@@ -15,11 +15,13 @@ export default function CartItemActions({
 }: CartItemActionsProps) {
 	const { notify } = useNotification()
 
+	// Удаление товара + уведомление
 	const handleRemove = () => {
 		onRemove()
 		notify('Товар удалён из корзины', 'info')
 	}
 
+	// Добавление/удаление из избранного + уведомление
 	const handleToggleFavorite = () => {
 		onToggleFavorite()
 		notify(
@@ -30,6 +32,7 @@ export default function CartItemActions({
 
 	return (
 		<div className='flex gap-4 mt-2 sm:mt-auto'>
+			{/* Кнопка удалить */}
 			<button
 				onClick={handleRemove}
 				className='text-gray-400 hover:text-red-500 transition text-xs flex items-center gap-1 cursor-pointer'
@@ -38,6 +41,7 @@ export default function CartItemActions({
 				<span className='hidden xs:inline'>Удалить</span>
 			</button>
 
+			{/* Кнопка "избранное" с текстом или иконкой в зависимости от экрана */}
 			<div>
 				<div className='hidden xs:block'>
 					<FavoriteToggleButton

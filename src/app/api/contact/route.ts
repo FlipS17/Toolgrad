@@ -12,7 +12,7 @@ export async function POST(req: Request) {
 			!email ||
 			!message ||
 			message.length < 10 ||
-			message.length > 300
+			message.length > 500
 		) {
 			return NextResponse.json(
 				{ error: 'Поля заполнены некорректно' },

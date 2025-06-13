@@ -31,10 +31,12 @@ export default function ProductCard({
 	onToggleFavorite,
 	onAddToCart,
 }: ProductCardProps) {
+	// Вычисляем новый товар
 	const isNew =
 		Date.now() - new Date(product.createdAt).getTime() <
 		1000 * 60 * 60 * 24 * 30
 
+	// Вычисляем скидку в процентах
 	const discount =
 		product.oldPrice && product.oldPrice > product.price
 			? Math.round(100 - (product.price / product.oldPrice) * 100)
@@ -43,6 +45,7 @@ export default function ProductCard({
 	const { notify } = useNotification()
 	const { addToCart, isInCart, refreshCart } = useCart()
 
+	// Добавление в корзину если еще не там
 	const handleCartClick = async () => {
 		if (!isInCart(product.id)) {
 			await addToCart(product.id)
@@ -50,6 +53,7 @@ export default function ProductCard({
 		}
 	}
 
+	// Добавление и удаление товара из избранного
 	const handleFavoriteClick = async () => {
 		const result = await onToggleFavorite(product.id)
 		if (result === true) {

@@ -1,5 +1,5 @@
 import AddToCartClient from '@/app/product/components/AddToCartClient'
-import ProductImages from '@/app/product/components/ProductImages' // импорт отдельного компонента
+import ProductImages from '@/app/product/components/ProductImages'
 import { prisma } from '@/utils/db'
 import { notFound } from 'next/navigation'
 
@@ -20,7 +20,7 @@ export default async function ProductPage({
 	// Если продукт не найден — 404
 	if (!product) return notFound()
 
-	// Вычисление скидки, если старая цена больше текущей
+	// Вычисление скидки
 	const discount =
 		product.oldPrice && product.oldPrice > product.price
 			? Math.round(100 - (product.price / product.oldPrice) * 100)

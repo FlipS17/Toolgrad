@@ -14,7 +14,7 @@ type Product = {
 
 type Props = {
 	products: Product[]
-	columns?: number // default 4
+	columns?: number // дефолт 4
 }
 
 export default function ProductGrid({ products, columns = 4 }: Props) {

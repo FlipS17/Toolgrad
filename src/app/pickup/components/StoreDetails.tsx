@@ -30,16 +30,19 @@ export default function StoreDetails({ store }: { store: Store }) {
 
 		if (!selectedIds.length) return
 
+		// Формируем query параметры
 		const params = new URLSearchParams()
 		params.append('storeId', String(store.id))
 		selectedIds.forEach(id => params.append('selected', String(id)))
 
+		// Получаем остатки
 		axios
 			.get(`/api/pickup/stock?${params.toString()}`)
 			.then(res => setProducts(res.data))
 			.catch(err => console.error('Ошибка загрузки остатков', err))
 	}, [store.id])
 
+	// Отправка запроса на оформление самовывоза
 	const handleReserve = async () => {
 		setLoading(true)
 		try {
@@ -49,8 +52,9 @@ export default function StoreDetails({ store }: { store: Store }) {
 				selectedItems: selectedIds,
 			})
 
+			// Оформление заказа
 			notify(res.data.message || 'Заказ оформлен', 'success')
-			localStorage.removeItem('selectedItems')
+			localStorage.removeItem('selectedItems') // очищаем
 			await refreshCart()
 			router.push('/account/delivery')
 		} catch (err: any) {

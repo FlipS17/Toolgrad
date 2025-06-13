@@ -9,10 +9,12 @@ export default function CatalogSearch() {
 	const router = useRouter()
 	const [query, setQuery] = useState(searchParams.get('q') || '')
 
+	// Изменяем url
 	useEffect(() => {
 		setQuery(searchParams.get('q') || '')
 	}, [searchParams])
 
+	// Обработка ввода с очисткой XSS
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const cleaned = DOMPurify.sanitize(e.target.value, {
 			ALLOWED_TAGS: [],
@@ -20,7 +22,7 @@ export default function CatalogSearch() {
 		})
 		setQuery(cleaned)
 	}
-
+	// При сабмите формы обновляем URL
 	const handleSubmit = (e: React.FormEvent) => {
 		e.preventDefault()
 

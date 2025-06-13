@@ -25,12 +25,14 @@ export function FavoriteProvider({ children }: { children: React.ReactNode }) {
 	const isAuth = !!session?.user
 	const { notify } = useNotification()
 
+	// Загружаем избранное при входе пользователя
 	useEffect(() => {
 		if (!isAuth) {
-			setFavoriteIds([])
+			setFavoriteIds([]) // если не авторизован — сбрасываем
 			return
 		}
 
+		// Получаем массив ID товаров
 		const fetchFavorites = async () => {
 			try {
 				const res = await axios.get('/api/favorites')
@@ -43,12 +45,14 @@ export function FavoriteProvider({ children }: { children: React.ReactNode }) {
 		fetchFavorites()
 	}, [isAuth])
 
+	// Добавление в избранное
 	const toggleFavorite = async (productId: number): Promise<boolean> => {
 		if (!session?.user) {
 			notify('Войдите в аккаунт, чтобы добавить в избранное', 'error')
 			return false
 		}
 
+		// Обновляем локальный список избранного
 		const isFav = favoriteIds.includes(productId)
 
 		try {

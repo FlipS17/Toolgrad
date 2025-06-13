@@ -8,7 +8,7 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 	label: string
 	error?: string
 	type?: string
-	sanitize?: boolean // включить очистку через DOMPurify при onChange
+	sanitize?: boolean //  Очистка через DOMPurify
 }
 
 export default function Input({

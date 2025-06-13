@@ -27,6 +27,7 @@ export default function PickupPage({ stores }: { stores: Store[] }) {
 
 	const [shouldScroll, setShouldScroll] = useState(false)
 
+	// Проверяем ширину экрана и количество магазинов — включаем скролл, если нужно
 	useEffect(() => {
 		const updateScroll = () => {
 			const width = window.innerWidth
@@ -37,6 +38,7 @@ export default function PickupPage({ stores }: { stores: Store[] }) {
 		return () => window.removeEventListener('resize', updateScroll)
 	}, [stores])
 
+	// Если выбран магазин — центрируем карту
 	useEffect(() => {
 		if (selectedStore) {
 			setMapState({

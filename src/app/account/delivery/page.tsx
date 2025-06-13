@@ -6,11 +6,12 @@ import axios from 'axios'
 import { useEffect, useState } from 'react'
 
 export default function DeliveryPage() {
+	// Состояния: список заказов, индикатор загрузки, ID открытого заказа
 	const [orders, setOrders] = useState<Order[]>([])
 	const [loading, setLoading] = useState(true)
 	const [openOrderId, setOpenOrderId] = useState<number | null>(null)
 
-	// Приоритеты сортировки статусов
+	// Приоритеты для сортировки статусов
 	const statusPriority: Record<string, number> = {
 		READY: 1,
 		SHIPPED: 2,
@@ -19,15 +20,16 @@ export default function DeliveryPage() {
 	}
 
 	useEffect(() => {
+		// Загружаем заказы при монтировании
 		axios
 			.get('/api/account/orders')
 			.then(res => {
-				// Оставляем только активные статусы доставки
+				// Фильтруем только активные заказы по статусу
 				const activeDelivery = res.data.filter((order: Order) =>
 					['READY', 'SHIPPED', 'PROCESSING', 'PENDING'].includes(order.status)
 				)
 
-				// Сортируем по приоритету
+				// Сортируем по приоритету статусов
 				const sorted = [...activeDelivery].sort((a, b) => {
 					const aPriority = statusPriority[a.status] ?? 99
 					const bPriority = statusPriority[b.status] ?? 99
@@ -50,6 +52,7 @@ export default function DeliveryPage() {
 					У вас пока нет активных заказов.
 				</p>
 			) : (
+				// Вывод карточек заказов
 				orders.map(order => (
 					<OrderCard
 						key={order.id}

@@ -38,7 +38,7 @@ export default function CartSummaryDrawer({
 				/>
 			</div>
 
-			{/* Mobile trigger — кнопка открыть */}
+			{/* Mobile trigger — кнопка оформить */}
 			<div className='block md:hidden fixed bottom-0 left-0 right-0 bg-white border-t z-50 p-4'>
 				<button
 					onClick={() => setIsOpen(true)}
@@ -69,6 +69,7 @@ export default function CartSummaryDrawer({
 							handleApplyPromo={handleApplyPromo}
 						/>
 
+						{/* Кнопка оформления заказа */}
 						<button
 							onClick={() => {
 								setIsOpen(false)

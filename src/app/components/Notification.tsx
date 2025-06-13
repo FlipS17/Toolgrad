@@ -11,12 +11,14 @@ interface NotificationProps {
 	onClose: (id: string) => void
 }
 
+// Иконки
 const icons = {
 	success: <CheckCircle className='w-5 h-5 text-white' />,
 	error: <AlertTriangle className='w-5 h-5 text-white' />,
 	info: <Info className='w-5 h-5 text-white' />,
 }
 
+// Бг
 const bgColors = {
 	success: 'bg-green-500',
 	error: 'bg-red-500',
@@ -35,6 +37,7 @@ export default function Notification({
 	}, [id, onClose])
 
 	return (
+		// Анимация и дизайн
 		<motion.div
 			initial={{ opacity: 0, y: -20 }}
 			animate={{ opacity: 1, y: 0 }}

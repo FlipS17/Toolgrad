@@ -11,10 +11,11 @@ export default function OrdersPage() {
 	const [openOrderId, setOpenOrderId] = useState<number | null>(null)
 
 	useEffect(() => {
+		// Загружаем все заказы
 		axios
 			.get('/api/account/orders')
 			.then(res => {
-				// Фильтруем завершённые или отменённые заказы
+				// Фильтруем завершённые и отменённые
 				const completedOrders = res.data.filter((order: Order) =>
 					['DELIVERED', 'CANCELLED'].includes(order.status)
 				)
@@ -39,7 +40,11 @@ export default function OrdersPage() {
 					<OrderCard
 						key={order.id}
 						number={order.orderNumber}
-						date={new Date(order.createdAt).toLocaleDateString('ru-RU')}
+						date={
+							order.statusChangedAt
+								? new Date(order.statusChangedAt).toLocaleDateString('ru-RU')
+								: new Date(order.createdAt).toLocaleDateString('ru-RU')
+						}
 						status={order.status}
 						total={order.total}
 						deliveryType={order.deliveryType}

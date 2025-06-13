@@ -11,12 +11,13 @@ export default function FavouritePage() {
 	const [products, setProducts] = useState<Product[]>([])
 	const { favoriteIds, toggleFavorite } = useFavorites()
 
+	// Загружаем товары по ID из избранного
 	useEffect(() => {
 		if (favoriteIds.length === 0) {
 			setProducts([])
 			return
 		}
-
+		// Передаём список ID через query
 		const fetchProducts = async () => {
 			const res = await axios.get('/api/products', {
 				params: { ids: favoriteIds.join(',') },

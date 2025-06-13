@@ -143,7 +143,10 @@ export default function EmailVerification({
 				) : (
 					<button
 						onClick={resendCode}
-						className='text-[#F89514] hover:underline transition'
+						disabled={timer > 0}
+						className={`text-[#F89514] hover:underline transition cursor-pointer ${
+							timer > 0 ? 'opacity-50 cursor-not-allowed' : ''
+						}`}
 					>
 						Отправить код повторно
 					</button>
@@ -153,7 +156,7 @@ export default function EmailVerification({
 			{/* Кнопка отмены */}
 			<button
 				onClick={onCancel}
-				className='text-gray-500 hover:underline text-sm'
+				className='text-gray-500 hover:underline text-sm cursor-pointer'
 			>
 				Отменить
 			</button>

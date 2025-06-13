@@ -22,6 +22,7 @@ export default function HomeSearch() {
 
 	const ref = useRef<HTMLDivElement>(null)
 
+	// Поведение при клике не в инпут
 	useEffect(() => {
 		const handleClickOutside = (e: MouseEvent) => {
 			if (ref.current && !ref.current.contains(e.target as Node)) {
@@ -32,6 +33,7 @@ export default function HomeSearch() {
 		return () => document.removeEventListener('mousedown', handleClickOutside)
 	}, [])
 
+	// Xss защита и поиск
 	useEffect(() => {
 		const delay = setTimeout(() => {
 			const cleanQuery = DOMPurify.sanitize(query.trim())
@@ -53,6 +55,7 @@ export default function HomeSearch() {
 		return () => clearTimeout(delay)
 	}, [query])
 
+	// Запрос в каталог если Enter
 	const handleSubmit = (e: React.FormEvent) => {
 		e.preventDefault()
 		const cleanQuery = DOMPurify.sanitize(query.trim())

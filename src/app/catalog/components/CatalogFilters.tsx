@@ -26,6 +26,7 @@ export default function CatalogFilters({
 	const router = useRouter()
 	const searchParams = useSearchParams()
 
+	//Выводим бренды и категории
 	const selectedBrands = useMemo(
 		() => searchParams.getAll('brand'),
 		[searchParams]
@@ -35,6 +36,7 @@ export default function CatalogFilters({
 		[searchParams]
 	)
 
+	//Выставление цены, шаг
 	const minPriceParam = parseInt(searchParams.get('minPrice') || '0', 10)
 	const maxPriceParam = parseInt(
 		searchParams.get('maxPrice') || String(maxAvailablePrice),

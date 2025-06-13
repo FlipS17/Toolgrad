@@ -4373,6 +4373,7 @@ export namespace Prisma {
     updatedAt: Date | null
     role: $Enums.Role | null
     phoneVerified: boolean | null
+    lastPasswordResetRequest: Date | null
   }
 
   export type UserMaxAggregateOutputType = {
@@ -4389,6 +4390,7 @@ export namespace Prisma {
     updatedAt: Date | null
     role: $Enums.Role | null
     phoneVerified: boolean | null
+    lastPasswordResetRequest: Date | null
   }
 
   export type UserCountAggregateOutputType = {
@@ -4405,6 +4407,7 @@ export namespace Prisma {
     updatedAt: number
     role: number
     phoneVerified: number
+    lastPasswordResetRequest: number
     _all: number
   }
 
@@ -4433,6 +4436,7 @@ export namespace Prisma {
     updatedAt?: true
     role?: true
     phoneVerified?: true
+    lastPasswordResetRequest?: true
   }
 
   export type UserMaxAggregateInputType = {
@@ -4449,6 +4453,7 @@ export namespace Prisma {
     updatedAt?: true
     role?: true
     phoneVerified?: true
+    lastPasswordResetRequest?: true
   }
 
   export type UserCountAggregateInputType = {
@@ -4465,6 +4470,7 @@ export namespace Prisma {
     updatedAt?: true
     role?: true
     phoneVerified?: true
+    lastPasswordResetRequest?: true
     _all?: true
   }
 
@@ -4568,6 +4574,7 @@ export namespace Prisma {
     updatedAt: Date
     role: $Enums.Role
     phoneVerified: boolean
+    lastPasswordResetRequest: Date | null
     _count: UserCountAggregateOutputType | null
     _avg: UserAvgAggregateOutputType | null
     _sum: UserSumAggregateOutputType | null
@@ -4603,6 +4610,7 @@ export namespace Prisma {
     updatedAt?: boolean
     role?: boolean
     phoneVerified?: boolean
+    lastPasswordResetRequest?: boolean
     addresses?: boolean | User$addressesArgs<ExtArgs>
     cart?: boolean | User$cartArgs<ExtArgs>
     favorites?: boolean | User$favoritesArgs<ExtArgs>
@@ -4625,6 +4633,7 @@ export namespace Prisma {
     updatedAt?: boolean
     role?: boolean
     phoneVerified?: boolean
+    lastPasswordResetRequest?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -4641,6 +4650,7 @@ export namespace Prisma {
     updatedAt?: boolean
     role?: boolean
     phoneVerified?: boolean
+    lastPasswordResetRequest?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectScalar = {
@@ -4657,9 +4667,10 @@ export namespace Prisma {
     updatedAt?: boolean
     role?: boolean
     phoneVerified?: boolean
+    lastPasswordResetRequest?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "password" | "firstName" | "lastName" | "patronymic" | "phone" | "avatar" | "birthDate" | "createdAt" | "updatedAt" | "role" | "phoneVerified", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "password" | "firstName" | "lastName" | "patronymic" | "phone" | "avatar" | "birthDate" | "createdAt" | "updatedAt" | "role" | "phoneVerified" | "lastPasswordResetRequest", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     addresses?: boolean | User$addressesArgs<ExtArgs>
     cart?: boolean | User$cartArgs<ExtArgs>
@@ -4694,6 +4705,7 @@ export namespace Prisma {
       updatedAt: Date
       role: $Enums.Role
       phoneVerified: boolean
+      lastPasswordResetRequest: Date | null
     }, ExtArgs["result"]["user"]>
     composites: {}
   }
@@ -5135,6 +5147,7 @@ export namespace Prisma {
     readonly updatedAt: FieldRef<"User", 'DateTime'>
     readonly role: FieldRef<"User", 'Role'>
     readonly phoneVerified: FieldRef<"User", 'Boolean'>
+    readonly lastPasswordResetRequest: FieldRef<"User", 'DateTime'>
   }
     
 
@@ -5682,6 +5695,8 @@ export namespace Prisma {
     token: string | null
     expires: Date | null
     createdAt: Date | null
+    ip: string | null
+    userAgent: string | null
   }
 
   export type PasswordResetTokenMaxAggregateOutputType = {
@@ -5690,6 +5705,8 @@ export namespace Prisma {
     token: string | null
     expires: Date | null
     createdAt: Date | null
+    ip: string | null
+    userAgent: string | null
   }
 
   export type PasswordResetTokenCountAggregateOutputType = {
@@ -5698,6 +5715,8 @@ export namespace Prisma {
     token: number
     expires: number
     createdAt: number
+    ip: number
+    userAgent: number
     _all: number
   }
 
@@ -5716,6 +5735,8 @@ export namespace Prisma {
     token?: true
     expires?: true
     createdAt?: true
+    ip?: true
+    userAgent?: true
   }
 
   export type PasswordResetTokenMaxAggregateInputType = {
@@ -5724,6 +5745,8 @@ export namespace Prisma {
     token?: true
     expires?: true
     createdAt?: true
+    ip?: true
+    userAgent?: true
   }
 
   export type PasswordResetTokenCountAggregateInputType = {
@@ -5732,6 +5755,8 @@ export namespace Prisma {
     token?: true
     expires?: true
     createdAt?: true
+    ip?: true
+    userAgent?: true
     _all?: true
   }
 
@@ -5827,6 +5852,8 @@ export namespace Prisma {
     token: string
     expires: Date
     createdAt: Date
+    ip: string | null
+    userAgent: string | null
     _count: PasswordResetTokenCountAggregateOutputType | null
     _avg: PasswordResetTokenAvgAggregateOutputType | null
     _sum: PasswordResetTokenSumAggregateOutputType | null
@@ -5854,6 +5881,8 @@ export namespace Prisma {
     token?: boolean
     expires?: boolean
     createdAt?: boolean
+    ip?: boolean
+    userAgent?: boolean
   }, ExtArgs["result"]["passwordResetToken"]>
 
   export type PasswordResetTokenSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -5862,6 +5891,8 @@ export namespace Prisma {
     token?: boolean
     expires?: boolean
     createdAt?: boolean
+    ip?: boolean
+    userAgent?: boolean
   }, ExtArgs["result"]["passwordResetToken"]>
 
   export type PasswordResetTokenSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -5870,6 +5901,8 @@ export namespace Prisma {
     token?: boolean
     expires?: boolean
     createdAt?: boolean
+    ip?: boolean
+    userAgent?: boolean
   }, ExtArgs["result"]["passwordResetToken"]>
 
   export type PasswordResetTokenSelectScalar = {
@@ -5878,9 +5911,11 @@ export namespace Prisma {
     token?: boolean
     expires?: boolean
     createdAt?: boolean
+    ip?: boolean
+    userAgent?: boolean
   }
 
-  export type PasswordResetTokenOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "token" | "expires" | "createdAt", ExtArgs["result"]["passwordResetToken"]>
+  export type PasswordResetTokenOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "token" | "expires" | "createdAt" | "ip" | "userAgent", ExtArgs["result"]["passwordResetToken"]>
 
   export type $PasswordResetTokenPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "PasswordResetToken"
@@ -5891,6 +5926,8 @@ export namespace Prisma {
       token: string
       expires: Date
       createdAt: Date
+      ip: string | null
+      userAgent: string | null
     }, ExtArgs["result"]["passwordResetToken"]>
     composites: {}
   }
@@ -6319,6 +6356,8 @@ export namespace Prisma {
     readonly token: FieldRef<"PasswordResetToken", 'String'>
     readonly expires: FieldRef<"PasswordResetToken", 'DateTime'>
     readonly createdAt: FieldRef<"PasswordResetToken", 'DateTime'>
+    readonly ip: FieldRef<"PasswordResetToken", 'String'>
+    readonly userAgent: FieldRef<"PasswordResetToken", 'String'>
   }
     
 
@@ -6711,6 +6750,7 @@ export namespace Prisma {
     code: string | null
     expires: Date | null
     createdAt: Date | null
+    lastSentAt: Date | null
   }
 
   export type VerificationCodeMaxAggregateOutputType = {
@@ -6719,6 +6759,7 @@ export namespace Prisma {
     code: string | null
     expires: Date | null
     createdAt: Date | null
+    lastSentAt: Date | null
   }
 
   export type VerificationCodeCountAggregateOutputType = {
@@ -6728,6 +6769,7 @@ export namespace Prisma {
     expires: number
     data: number
     createdAt: number
+    lastSentAt: number
     _all: number
   }
 
@@ -6746,6 +6788,7 @@ export namespace Prisma {
     code?: true
     expires?: true
     createdAt?: true
+    lastSentAt?: true
   }
 
   export type VerificationCodeMaxAggregateInputType = {
@@ -6754,6 +6797,7 @@ export namespace Prisma {
     code?: true
     expires?: true
     createdAt?: true
+    lastSentAt?: true
   }
 
   export type VerificationCodeCountAggregateInputType = {
@@ -6763,6 +6807,7 @@ export namespace Prisma {
     expires?: true
     data?: true
     createdAt?: true
+    lastSentAt?: true
     _all?: true
   }
 
@@ -6859,6 +6904,7 @@ export namespace Prisma {
     expires: Date
     data: JsonValue
     createdAt: Date
+    lastSentAt: Date
     _count: VerificationCodeCountAggregateOutputType | null
     _avg: VerificationCodeAvgAggregateOutputType | null
     _sum: VerificationCodeSumAggregateOutputType | null
@@ -6887,6 +6933,7 @@ export namespace Prisma {
     expires?: boolean
     data?: boolean
     createdAt?: boolean
+    lastSentAt?: boolean
   }, ExtArgs["result"]["verificationCode"]>
 
   export type VerificationCodeSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -6896,6 +6943,7 @@ export namespace Prisma {
     expires?: boolean
     data?: boolean
     createdAt?: boolean
+    lastSentAt?: boolean
   }, ExtArgs["result"]["verificationCode"]>
 
   export type VerificationCodeSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -6905,6 +6953,7 @@ export namespace Prisma {
     expires?: boolean
     data?: boolean
     createdAt?: boolean
+    lastSentAt?: boolean
   }, ExtArgs["result"]["verificationCode"]>
 
   export type VerificationCodeSelectScalar = {
@@ -6914,9 +6963,10 @@ export namespace Prisma {
     expires?: boolean
     data?: boolean
     createdAt?: boolean
+    lastSentAt?: boolean
   }
 
-  export type VerificationCodeOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "code" | "expires" | "data" | "createdAt", ExtArgs["result"]["verificationCode"]>
+  export type VerificationCodeOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "code" | "expires" | "data" | "createdAt" | "lastSentAt", ExtArgs["result"]["verificationCode"]>
 
   export type $VerificationCodePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "VerificationCode"
@@ -6928,6 +6978,7 @@ export namespace Prisma {
       expires: Date
       data: Prisma.JsonValue
       createdAt: Date
+      lastSentAt: Date
     }, ExtArgs["result"]["verificationCode"]>
     composites: {}
   }
@@ -7357,6 +7408,7 @@ export namespace Prisma {
     readonly expires: FieldRef<"VerificationCode", 'DateTime'>
     readonly data: FieldRef<"VerificationCode", 'Json'>
     readonly createdAt: FieldRef<"VerificationCode", 'DateTime'>
+    readonly lastSentAt: FieldRef<"VerificationCode", 'DateTime'>
   }
     
 
@@ -14059,6 +14111,7 @@ export namespace Prisma {
     userId: number | null
     orderNumber: string | null
     status: $Enums.OrderStatus | null
+    statusChangedAt: Date | null
     total: number | null
     addressId: number | null
     storeId: number | null
@@ -14072,6 +14125,7 @@ export namespace Prisma {
     userId: number | null
     orderNumber: string | null
     status: $Enums.OrderStatus | null
+    statusChangedAt: Date | null
     total: number | null
     addressId: number | null
     storeId: number | null
@@ -14085,6 +14139,7 @@ export namespace Prisma {
     userId: number
     orderNumber: number
     status: number
+    statusChangedAt: number
     total: number
     addressId: number
     storeId: number
@@ -14116,6 +14171,7 @@ export namespace Prisma {
     userId?: true
     orderNumber?: true
     status?: true
+    statusChangedAt?: true
     total?: true
     addressId?: true
     storeId?: true
@@ -14129,6 +14185,7 @@ export namespace Prisma {
     userId?: true
     orderNumber?: true
     status?: true
+    statusChangedAt?: true
     total?: true
     addressId?: true
     storeId?: true
@@ -14142,6 +14199,7 @@ export namespace Prisma {
     userId?: true
     orderNumber?: true
     status?: true
+    statusChangedAt?: true
     total?: true
     addressId?: true
     storeId?: true
@@ -14242,6 +14300,7 @@ export namespace Prisma {
     userId: number
     orderNumber: string
     status: $Enums.OrderStatus
+    statusChangedAt: Date | null
     total: number
     addressId: number | null
     storeId: number | null
@@ -14274,6 +14333,7 @@ export namespace Prisma {
     userId?: boolean
     orderNumber?: boolean
     status?: boolean
+    statusChangedAt?: boolean
     total?: boolean
     addressId?: boolean
     storeId?: boolean
@@ -14293,6 +14353,7 @@ export namespace Prisma {
     userId?: boolean
     orderNumber?: boolean
     status?: boolean
+    statusChangedAt?: boolean
     total?: boolean
     addressId?: boolean
     storeId?: boolean
@@ -14309,6 +14370,7 @@ export namespace Prisma {
     userId?: boolean
     orderNumber?: boolean
     status?: boolean
+    statusChangedAt?: boolean
     total?: boolean
     addressId?: boolean
     storeId?: boolean
@@ -14325,6 +14387,7 @@ export namespace Prisma {
     userId?: boolean
     orderNumber?: boolean
     status?: boolean
+    statusChangedAt?: boolean
     total?: boolean
     addressId?: boolean
     storeId?: boolean
@@ -14333,7 +14396,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type OrderOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "orderNumber" | "status" | "total" | "addressId" | "storeId" | "deliveryType" | "createdAt" | "updatedAt", ExtArgs["result"]["order"]>
+  export type OrderOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "orderNumber" | "status" | "statusChangedAt" | "total" | "addressId" | "storeId" | "deliveryType" | "createdAt" | "updatedAt", ExtArgs["result"]["order"]>
   export type OrderInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     address?: boolean | Order$addressArgs<ExtArgs>
     store?: boolean | Order$storeArgs<ExtArgs>
@@ -14367,6 +14430,7 @@ export namespace Prisma {
       userId: number
       orderNumber: string
       status: $Enums.OrderStatus
+      statusChangedAt: Date | null
       total: number
       addressId: number | null
       storeId: number | null
@@ -14805,6 +14869,7 @@ export namespace Prisma {
     readonly userId: FieldRef<"Order", 'Int'>
     readonly orderNumber: FieldRef<"Order", 'String'>
     readonly status: FieldRef<"Order", 'OrderStatus'>
+    readonly statusChangedAt: FieldRef<"Order", 'DateTime'>
     readonly total: FieldRef<"Order", 'Float'>
     readonly addressId: FieldRef<"Order", 'Int'>
     readonly storeId: FieldRef<"Order", 'Int'>
@@ -27616,7 +27681,8 @@ export namespace Prisma {
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     role: 'role',
-    phoneVerified: 'phoneVerified'
+    phoneVerified: 'phoneVerified',
+    lastPasswordResetRequest: 'lastPasswordResetRequest'
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -27627,7 +27693,9 @@ export namespace Prisma {
     email: 'email',
     token: 'token',
     expires: 'expires',
-    createdAt: 'createdAt'
+    createdAt: 'createdAt',
+    ip: 'ip',
+    userAgent: 'userAgent'
   };
 
   export type PasswordResetTokenScalarFieldEnum = (typeof PasswordResetTokenScalarFieldEnum)[keyof typeof PasswordResetTokenScalarFieldEnum]
@@ -27639,7 +27707,8 @@ export namespace Prisma {
     code: 'code',
     expires: 'expires',
     data: 'data',
-    createdAt: 'createdAt'
+    createdAt: 'createdAt',
+    lastSentAt: 'lastSentAt'
   };
 
   export type VerificationCodeScalarFieldEnum = (typeof VerificationCodeScalarFieldEnum)[keyof typeof VerificationCodeScalarFieldEnum]
@@ -27737,6 +27806,7 @@ export namespace Prisma {
     userId: 'userId',
     orderNumber: 'orderNumber',
     status: 'status',
+    statusChangedAt: 'statusChangedAt',
     total: 'total',
     addressId: 'addressId',
     storeId: 'storeId',
@@ -28161,6 +28231,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"User"> | Date | string
     role?: EnumRoleFilter<"User"> | $Enums.Role
     phoneVerified?: BoolFilter<"User"> | boolean
+    lastPasswordResetRequest?: DateTimeNullableFilter<"User"> | Date | string | null
     addresses?: AddressListRelationFilter
     cart?: XOR<CartNullableScalarRelationFilter, CartWhereInput> | null
     favorites?: FavoriteListRelationFilter
@@ -28182,6 +28253,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     role?: SortOrder
     phoneVerified?: SortOrder
+    lastPasswordResetRequest?: SortOrderInput | SortOrder
     addresses?: AddressOrderByRelationAggregateInput
     cart?: CartOrderByWithRelationInput
     favorites?: FavoriteOrderByRelationAggregateInput
@@ -28206,6 +28278,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"User"> | Date | string
     role?: EnumRoleFilter<"User"> | $Enums.Role
     phoneVerified?: BoolFilter<"User"> | boolean
+    lastPasswordResetRequest?: DateTimeNullableFilter<"User"> | Date | string | null
     addresses?: AddressListRelationFilter
     cart?: XOR<CartNullableScalarRelationFilter, CartWhereInput> | null
     favorites?: FavoriteListRelationFilter
@@ -28227,6 +28300,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     role?: SortOrder
     phoneVerified?: SortOrder
+    lastPasswordResetRequest?: SortOrderInput | SortOrder
     _count?: UserCountOrderByAggregateInput
     _avg?: UserAvgOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
@@ -28251,6 +28325,7 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     role?: EnumRoleWithAggregatesFilter<"User"> | $Enums.Role
     phoneVerified?: BoolWithAggregatesFilter<"User"> | boolean
+    lastPasswordResetRequest?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
   }
 
   export type PasswordResetTokenWhereInput = {
@@ -28262,6 +28337,8 @@ export namespace Prisma {
     token?: StringFilter<"PasswordResetToken"> | string
     expires?: DateTimeFilter<"PasswordResetToken"> | Date | string
     createdAt?: DateTimeFilter<"PasswordResetToken"> | Date | string
+    ip?: StringNullableFilter<"PasswordResetToken"> | string | null
+    userAgent?: StringNullableFilter<"PasswordResetToken"> | string | null
   }
 
   export type PasswordResetTokenOrderByWithRelationInput = {
@@ -28270,6 +28347,8 @@ export namespace Prisma {
     token?: SortOrder
     expires?: SortOrder
     createdAt?: SortOrder
+    ip?: SortOrderInput | SortOrder
+    userAgent?: SortOrderInput | SortOrder
   }
 
   export type PasswordResetTokenWhereUniqueInput = Prisma.AtLeast<{
@@ -28281,6 +28360,8 @@ export namespace Prisma {
     email?: StringFilter<"PasswordResetToken"> | string
     expires?: DateTimeFilter<"PasswordResetToken"> | Date | string
     createdAt?: DateTimeFilter<"PasswordResetToken"> | Date | string
+    ip?: StringNullableFilter<"PasswordResetToken"> | string | null
+    userAgent?: StringNullableFilter<"PasswordResetToken"> | string | null
   }, "id" | "token">
 
   export type PasswordResetTokenOrderByWithAggregationInput = {
@@ -28289,6 +28370,8 @@ export namespace Prisma {
     token?: SortOrder
     expires?: SortOrder
     createdAt?: SortOrder
+    ip?: SortOrderInput | SortOrder
+    userAgent?: SortOrderInput | SortOrder
     _count?: PasswordResetTokenCountOrderByAggregateInput
     _avg?: PasswordResetTokenAvgOrderByAggregateInput
     _max?: PasswordResetTokenMaxOrderByAggregateInput
@@ -28305,6 +28388,8 @@ export namespace Prisma {
     token?: StringWithAggregatesFilter<"PasswordResetToken"> | string
     expires?: DateTimeWithAggregatesFilter<"PasswordResetToken"> | Date | string
     createdAt?: DateTimeWithAggregatesFilter<"PasswordResetToken"> | Date | string
+    ip?: StringNullableWithAggregatesFilter<"PasswordResetToken"> | string | null
+    userAgent?: StringNullableWithAggregatesFilter<"PasswordResetToken"> | string | null
   }
 
   export type VerificationCodeWhereInput = {
@@ -28317,6 +28402,7 @@ export namespace Prisma {
     expires?: DateTimeFilter<"VerificationCode"> | Date | string
     data?: JsonFilter<"VerificationCode">
     createdAt?: DateTimeFilter<"VerificationCode"> | Date | string
+    lastSentAt?: DateTimeFilter<"VerificationCode"> | Date | string
   }
 
   export type VerificationCodeOrderByWithRelationInput = {
@@ -28326,6 +28412,7 @@ export namespace Prisma {
     expires?: SortOrder
     data?: SortOrder
     createdAt?: SortOrder
+    lastSentAt?: SortOrder
   }
 
   export type VerificationCodeWhereUniqueInput = Prisma.AtLeast<{
@@ -28338,6 +28425,7 @@ export namespace Prisma {
     expires?: DateTimeFilter<"VerificationCode"> | Date | string
     data?: JsonFilter<"VerificationCode">
     createdAt?: DateTimeFilter<"VerificationCode"> | Date | string
+    lastSentAt?: DateTimeFilter<"VerificationCode"> | Date | string
   }, "id" | "email">
 
   export type VerificationCodeOrderByWithAggregationInput = {
@@ -28347,6 +28435,7 @@ export namespace Prisma {
     expires?: SortOrder
     data?: SortOrder
     createdAt?: SortOrder
+    lastSentAt?: SortOrder
     _count?: VerificationCodeCountOrderByAggregateInput
     _avg?: VerificationCodeAvgOrderByAggregateInput
     _max?: VerificationCodeMaxOrderByAggregateInput
@@ -28364,6 +28453,7 @@ export namespace Prisma {
     expires?: DateTimeWithAggregatesFilter<"VerificationCode"> | Date | string
     data?: JsonWithAggregatesFilter<"VerificationCode">
     createdAt?: DateTimeWithAggregatesFilter<"VerificationCode"> | Date | string
+    lastSentAt?: DateTimeWithAggregatesFilter<"VerificationCode"> | Date | string
   }
 
   export type AddressWhereInput = {
@@ -28861,6 +28951,7 @@ export namespace Prisma {
     userId?: IntFilter<"Order"> | number
     orderNumber?: StringFilter<"Order"> | string
     status?: EnumOrderStatusFilter<"Order"> | $Enums.OrderStatus
+    statusChangedAt?: DateTimeNullableFilter<"Order"> | Date | string | null
     total?: FloatFilter<"Order"> | number
     addressId?: IntNullableFilter<"Order"> | number | null
     storeId?: IntNullableFilter<"Order"> | number | null
@@ -28879,6 +28970,7 @@ export namespace Prisma {
     userId?: SortOrder
     orderNumber?: SortOrder
     status?: SortOrder
+    statusChangedAt?: SortOrderInput | SortOrder
     total?: SortOrder
     addressId?: SortOrderInput | SortOrder
     storeId?: SortOrderInput | SortOrder
@@ -28900,6 +28992,7 @@ export namespace Prisma {
     NOT?: OrderWhereInput | OrderWhereInput[]
     userId?: IntFilter<"Order"> | number
     status?: EnumOrderStatusFilter<"Order"> | $Enums.OrderStatus
+    statusChangedAt?: DateTimeNullableFilter<"Order"> | Date | string | null
     total?: FloatFilter<"Order"> | number
     addressId?: IntNullableFilter<"Order"> | number | null
     storeId?: IntNullableFilter<"Order"> | number | null
@@ -28918,6 +29011,7 @@ export namespace Prisma {
     userId?: SortOrder
     orderNumber?: SortOrder
     status?: SortOrder
+    statusChangedAt?: SortOrderInput | SortOrder
     total?: SortOrder
     addressId?: SortOrderInput | SortOrder
     storeId?: SortOrderInput | SortOrder
@@ -28939,6 +29033,7 @@ export namespace Prisma {
     userId?: IntWithAggregatesFilter<"Order"> | number
     orderNumber?: StringWithAggregatesFilter<"Order"> | string
     status?: EnumOrderStatusWithAggregatesFilter<"Order"> | $Enums.OrderStatus
+    statusChangedAt?: DateTimeNullableWithAggregatesFilter<"Order"> | Date | string | null
     total?: FloatWithAggregatesFilter<"Order"> | number
     addressId?: IntNullableWithAggregatesFilter<"Order"> | number | null
     storeId?: IntNullableWithAggregatesFilter<"Order"> | number | null
@@ -29728,6 +29823,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     role?: $Enums.Role
     phoneVerified?: boolean
+    lastPasswordResetRequest?: Date | string | null
     addresses?: AddressCreateNestedManyWithoutUserInput
     cart?: CartCreateNestedOneWithoutUserInput
     favorites?: FavoriteCreateNestedManyWithoutUserInput
@@ -29749,6 +29845,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     role?: $Enums.Role
     phoneVerified?: boolean
+    lastPasswordResetRequest?: Date | string | null
     addresses?: AddressUncheckedCreateNestedManyWithoutUserInput
     cart?: CartUncheckedCreateNestedOneWithoutUserInput
     favorites?: FavoriteUncheckedCreateNestedManyWithoutUserInput
@@ -29769,6 +29866,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     phoneVerified?: BoolFieldUpdateOperationsInput | boolean
+    lastPasswordResetRequest?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     addresses?: AddressUpdateManyWithoutUserNestedInput
     cart?: CartUpdateOneWithoutUserNestedInput
     favorites?: FavoriteUpdateManyWithoutUserNestedInput
@@ -29790,6 +29888,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     phoneVerified?: BoolFieldUpdateOperationsInput | boolean
+    lastPasswordResetRequest?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     addresses?: AddressUncheckedUpdateManyWithoutUserNestedInput
     cart?: CartUncheckedUpdateOneWithoutUserNestedInput
     favorites?: FavoriteUncheckedUpdateManyWithoutUserNestedInput
@@ -29811,6 +29910,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     role?: $Enums.Role
     phoneVerified?: boolean
+    lastPasswordResetRequest?: Date | string | null
   }
 
   export type UserUpdateManyMutationInput = {
@@ -29826,6 +29926,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     phoneVerified?: BoolFieldUpdateOperationsInput | boolean
+    lastPasswordResetRequest?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type UserUncheckedUpdateManyInput = {
@@ -29842,6 +29943,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     phoneVerified?: BoolFieldUpdateOperationsInput | boolean
+    lastPasswordResetRequest?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type PasswordResetTokenCreateInput = {
@@ -29849,6 +29951,8 @@ export namespace Prisma {
     token: string
     expires: Date | string
     createdAt?: Date | string
+    ip?: string | null
+    userAgent?: string | null
   }
 
   export type PasswordResetTokenUncheckedCreateInput = {
@@ -29857,6 +29961,8 @@ export namespace Prisma {
     token: string
     expires: Date | string
     createdAt?: Date | string
+    ip?: string | null
+    userAgent?: string | null
   }
 
   export type PasswordResetTokenUpdateInput = {
@@ -29864,6 +29970,8 @@ export namespace Prisma {
     token?: StringFieldUpdateOperationsInput | string
     expires?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ip?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type PasswordResetTokenUncheckedUpdateInput = {
@@ -29872,6 +29980,8 @@ export namespace Prisma {
     token?: StringFieldUpdateOperationsInput | string
     expires?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ip?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type PasswordResetTokenCreateManyInput = {
@@ -29880,6 +29990,8 @@ export namespace Prisma {
     token: string
     expires: Date | string
     createdAt?: Date | string
+    ip?: string | null
+    userAgent?: string | null
   }
 
   export type PasswordResetTokenUpdateManyMutationInput = {
@@ -29887,6 +29999,8 @@ export namespace Prisma {
     token?: StringFieldUpdateOperationsInput | string
     expires?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ip?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type PasswordResetTokenUncheckedUpdateManyInput = {
@@ -29895,6 +30009,8 @@ export namespace Prisma {
     token?: StringFieldUpdateOperationsInput | string
     expires?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ip?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type VerificationCodeCreateInput = {
@@ -29903,6 +30019,7 @@ export namespace Prisma {
     expires: Date | string
     data: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
+    lastSentAt?: Date | string
   }
 
   export type VerificationCodeUncheckedCreateInput = {
@@ -29912,6 +30029,7 @@ export namespace Prisma {
     expires: Date | string
     data: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
+    lastSentAt?: Date | string
   }
 
   export type VerificationCodeUpdateInput = {
@@ -29920,6 +30038,7 @@ export namespace Prisma {
     expires?: DateTimeFieldUpdateOperationsInput | Date | string
     data?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastSentAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type VerificationCodeUncheckedUpdateInput = {
@@ -29929,6 +30048,7 @@ export namespace Prisma {
     expires?: DateTimeFieldUpdateOperationsInput | Date | string
     data?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastSentAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type VerificationCodeCreateManyInput = {
@@ -29938,6 +30058,7 @@ export namespace Prisma {
     expires: Date | string
     data: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
+    lastSentAt?: Date | string
   }
 
   export type VerificationCodeUpdateManyMutationInput = {
@@ -29946,6 +30067,7 @@ export namespace Prisma {
     expires?: DateTimeFieldUpdateOperationsInput | Date | string
     data?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastSentAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type VerificationCodeUncheckedUpdateManyInput = {
@@ -29955,6 +30077,7 @@ export namespace Prisma {
     expires?: DateTimeFieldUpdateOperationsInput | Date | string
     data?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastSentAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type AddressCreateInput = {
@@ -30490,6 +30613,7 @@ export namespace Prisma {
   export type OrderCreateInput = {
     orderNumber: string
     status?: $Enums.OrderStatus
+    statusChangedAt?: Date | string | null
     total: number
     deliveryType: $Enums.DeliveryType
     createdAt?: Date | string
@@ -30506,6 +30630,7 @@ export namespace Prisma {
     userId: number
     orderNumber: string
     status?: $Enums.OrderStatus
+    statusChangedAt?: Date | string | null
     total: number
     addressId?: number | null
     storeId?: number | null
@@ -30519,6 +30644,7 @@ export namespace Prisma {
   export type OrderUpdateInput = {
     orderNumber?: StringFieldUpdateOperationsInput | string
     status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
+    statusChangedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     total?: FloatFieldUpdateOperationsInput | number
     deliveryType?: EnumDeliveryTypeFieldUpdateOperationsInput | $Enums.DeliveryType
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -30535,6 +30661,7 @@ export namespace Prisma {
     userId?: IntFieldUpdateOperationsInput | number
     orderNumber?: StringFieldUpdateOperationsInput | string
     status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
+    statusChangedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     total?: FloatFieldUpdateOperationsInput | number
     addressId?: NullableIntFieldUpdateOperationsInput | number | null
     storeId?: NullableIntFieldUpdateOperationsInput | number | null
@@ -30550,6 +30677,7 @@ export namespace Prisma {
     userId: number
     orderNumber: string
     status?: $Enums.OrderStatus
+    statusChangedAt?: Date | string | null
     total: number
     addressId?: number | null
     storeId?: number | null
@@ -30561,6 +30689,7 @@ export namespace Prisma {
   export type OrderUpdateManyMutationInput = {
     orderNumber?: StringFieldUpdateOperationsInput | string
     status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
+    statusChangedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     total?: FloatFieldUpdateOperationsInput | number
     deliveryType?: EnumDeliveryTypeFieldUpdateOperationsInput | $Enums.DeliveryType
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -30572,6 +30701,7 @@ export namespace Prisma {
     userId?: IntFieldUpdateOperationsInput | number
     orderNumber?: StringFieldUpdateOperationsInput | string
     status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
+    statusChangedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     total?: FloatFieldUpdateOperationsInput | number
     addressId?: NullableIntFieldUpdateOperationsInput | number | null
     storeId?: NullableIntFieldUpdateOperationsInput | number | null
@@ -31492,6 +31622,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     role?: SortOrder
     phoneVerified?: SortOrder
+    lastPasswordResetRequest?: SortOrder
   }
 
   export type UserAvgOrderByAggregateInput = {
@@ -31513,6 +31644,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     role?: SortOrder
     phoneVerified?: SortOrder
+    lastPasswordResetRequest?: SortOrder
   }
 
   export type UserMinOrderByAggregateInput = {
@@ -31529,6 +31661,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     role?: SortOrder
     phoneVerified?: SortOrder
+    lastPasswordResetRequest?: SortOrder
   }
 
   export type UserSumOrderByAggregateInput = {
@@ -31574,6 +31707,8 @@ export namespace Prisma {
     token?: SortOrder
     expires?: SortOrder
     createdAt?: SortOrder
+    ip?: SortOrder
+    userAgent?: SortOrder
   }
 
   export type PasswordResetTokenAvgOrderByAggregateInput = {
@@ -31586,6 +31721,8 @@ export namespace Prisma {
     token?: SortOrder
     expires?: SortOrder
     createdAt?: SortOrder
+    ip?: SortOrder
+    userAgent?: SortOrder
   }
 
   export type PasswordResetTokenMinOrderByAggregateInput = {
@@ -31594,6 +31731,8 @@ export namespace Prisma {
     token?: SortOrder
     expires?: SortOrder
     createdAt?: SortOrder
+    ip?: SortOrder
+    userAgent?: SortOrder
   }
 
   export type PasswordResetTokenSumOrderByAggregateInput = {
@@ -31630,6 +31769,7 @@ export namespace Prisma {
     expires?: SortOrder
     data?: SortOrder
     createdAt?: SortOrder
+    lastSentAt?: SortOrder
   }
 
   export type VerificationCodeAvgOrderByAggregateInput = {
@@ -31642,6 +31782,7 @@ export namespace Prisma {
     code?: SortOrder
     expires?: SortOrder
     createdAt?: SortOrder
+    lastSentAt?: SortOrder
   }
 
   export type VerificationCodeMinOrderByAggregateInput = {
@@ -31650,6 +31791,7 @@ export namespace Prisma {
     code?: SortOrder
     expires?: SortOrder
     createdAt?: SortOrder
+    lastSentAt?: SortOrder
   }
 
   export type VerificationCodeSumOrderByAggregateInput = {
@@ -32175,6 +32317,7 @@ export namespace Prisma {
     userId?: SortOrder
     orderNumber?: SortOrder
     status?: SortOrder
+    statusChangedAt?: SortOrder
     total?: SortOrder
     addressId?: SortOrder
     storeId?: SortOrder
@@ -32196,6 +32339,7 @@ export namespace Prisma {
     userId?: SortOrder
     orderNumber?: SortOrder
     status?: SortOrder
+    statusChangedAt?: SortOrder
     total?: SortOrder
     addressId?: SortOrder
     storeId?: SortOrder
@@ -32209,6 +32353,7 @@ export namespace Prisma {
     userId?: SortOrder
     orderNumber?: SortOrder
     status?: SortOrder
+    statusChangedAt?: SortOrder
     total?: SortOrder
     addressId?: SortOrder
     storeId?: SortOrder
@@ -34741,6 +34886,7 @@ export namespace Prisma {
   export type OrderCreateWithoutUserInput = {
     orderNumber: string
     status?: $Enums.OrderStatus
+    statusChangedAt?: Date | string | null
     total: number
     deliveryType: $Enums.DeliveryType
     createdAt?: Date | string
@@ -34755,6 +34901,7 @@ export namespace Prisma {
     id?: number
     orderNumber: string
     status?: $Enums.OrderStatus
+    statusChangedAt?: Date | string | null
     total: number
     addressId?: number | null
     storeId?: number | null
@@ -34914,6 +35061,7 @@ export namespace Prisma {
     userId?: IntFilter<"Order"> | number
     orderNumber?: StringFilter<"Order"> | string
     status?: EnumOrderStatusFilter<"Order"> | $Enums.OrderStatus
+    statusChangedAt?: DateTimeNullableFilter<"Order"> | Date | string | null
     total?: FloatFilter<"Order"> | number
     addressId?: IntNullableFilter<"Order"> | number | null
     storeId?: IntNullableFilter<"Order"> | number | null
@@ -34966,6 +35114,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     role?: $Enums.Role
     phoneVerified?: boolean
+    lastPasswordResetRequest?: Date | string | null
     cart?: CartCreateNestedOneWithoutUserInput
     favorites?: FavoriteCreateNestedManyWithoutUserInput
     orders?: OrderCreateNestedManyWithoutUserInput
@@ -34986,6 +35135,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     role?: $Enums.Role
     phoneVerified?: boolean
+    lastPasswordResetRequest?: Date | string | null
     cart?: CartUncheckedCreateNestedOneWithoutUserInput
     favorites?: FavoriteUncheckedCreateNestedManyWithoutUserInput
     orders?: OrderUncheckedCreateNestedManyWithoutUserInput
@@ -35000,6 +35150,7 @@ export namespace Prisma {
   export type OrderCreateWithoutAddressInput = {
     orderNumber: string
     status?: $Enums.OrderStatus
+    statusChangedAt?: Date | string | null
     total: number
     deliveryType: $Enums.DeliveryType
     createdAt?: Date | string
@@ -35015,6 +35166,7 @@ export namespace Prisma {
     userId: number
     orderNumber: string
     status?: $Enums.OrderStatus
+    statusChangedAt?: Date | string | null
     total: number
     storeId?: number | null
     deliveryType: $Enums.DeliveryType
@@ -35058,6 +35210,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     phoneVerified?: BoolFieldUpdateOperationsInput | boolean
+    lastPasswordResetRequest?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cart?: CartUpdateOneWithoutUserNestedInput
     favorites?: FavoriteUpdateManyWithoutUserNestedInput
     orders?: OrderUpdateManyWithoutUserNestedInput
@@ -35078,6 +35231,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     phoneVerified?: BoolFieldUpdateOperationsInput | boolean
+    lastPasswordResetRequest?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cart?: CartUncheckedUpdateOneWithoutUserNestedInput
     favorites?: FavoriteUncheckedUpdateManyWithoutUserNestedInput
     orders?: OrderUncheckedUpdateManyWithoutUserNestedInput
@@ -36038,6 +36192,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     role?: $Enums.Role
     phoneVerified?: boolean
+    lastPasswordResetRequest?: Date | string | null
     addresses?: AddressCreateNestedManyWithoutUserInput
     cart?: CartCreateNestedOneWithoutUserInput
     favorites?: FavoriteCreateNestedManyWithoutUserInput
@@ -36058,6 +36213,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     role?: $Enums.Role
     phoneVerified?: boolean
+    lastPasswordResetRequest?: Date | string | null
     addresses?: AddressUncheckedCreateNestedManyWithoutUserInput
     cart?: CartUncheckedCreateNestedOneWithoutUserInput
     favorites?: FavoriteUncheckedCreateNestedManyWithoutUserInput
@@ -36159,6 +36315,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     phoneVerified?: BoolFieldUpdateOperationsInput | boolean
+    lastPasswordResetRequest?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     addresses?: AddressUpdateManyWithoutUserNestedInput
     cart?: CartUpdateOneWithoutUserNestedInput
     favorites?: FavoriteUpdateManyWithoutUserNestedInput
@@ -36179,6 +36336,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     phoneVerified?: BoolFieldUpdateOperationsInput | boolean
+    lastPasswordResetRequest?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     addresses?: AddressUncheckedUpdateManyWithoutUserNestedInput
     cart?: CartUncheckedUpdateOneWithoutUserNestedInput
     favorites?: FavoriteUncheckedUpdateManyWithoutUserNestedInput
@@ -36264,6 +36422,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     role?: $Enums.Role
     phoneVerified?: boolean
+    lastPasswordResetRequest?: Date | string | null
     addresses?: AddressCreateNestedManyWithoutUserInput
     cart?: CartCreateNestedOneWithoutUserInput
     favorites?: FavoriteCreateNestedManyWithoutUserInput
@@ -36284,6 +36443,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     role?: $Enums.Role
     phoneVerified?: boolean
+    lastPasswordResetRequest?: Date | string | null
     addresses?: AddressUncheckedCreateNestedManyWithoutUserInput
     cart?: CartUncheckedCreateNestedOneWithoutUserInput
     favorites?: FavoriteUncheckedCreateNestedManyWithoutUserInput
@@ -36447,6 +36607,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     phoneVerified?: BoolFieldUpdateOperationsInput | boolean
+    lastPasswordResetRequest?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     addresses?: AddressUpdateManyWithoutUserNestedInput
     cart?: CartUpdateOneWithoutUserNestedInput
     favorites?: FavoriteUpdateManyWithoutUserNestedInput
@@ -36467,6 +36628,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     phoneVerified?: BoolFieldUpdateOperationsInput | boolean
+    lastPasswordResetRequest?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     addresses?: AddressUncheckedUpdateManyWithoutUserNestedInput
     cart?: CartUncheckedUpdateOneWithoutUserNestedInput
     favorites?: FavoriteUncheckedUpdateManyWithoutUserNestedInput
@@ -36521,6 +36683,7 @@ export namespace Prisma {
   export type OrderCreateWithoutItemsInput = {
     orderNumber: string
     status?: $Enums.OrderStatus
+    statusChangedAt?: Date | string | null
     total: number
     deliveryType: $Enums.DeliveryType
     createdAt?: Date | string
@@ -36536,6 +36699,7 @@ export namespace Prisma {
     userId: number
     orderNumber: string
     status?: $Enums.OrderStatus
+    statusChangedAt?: Date | string | null
     total: number
     addressId?: number | null
     storeId?: number | null
@@ -36624,6 +36788,7 @@ export namespace Prisma {
   export type OrderUpdateWithoutItemsInput = {
     orderNumber?: StringFieldUpdateOperationsInput | string
     status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
+    statusChangedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     total?: FloatFieldUpdateOperationsInput | number
     deliveryType?: EnumDeliveryTypeFieldUpdateOperationsInput | $Enums.DeliveryType
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -36639,6 +36804,7 @@ export namespace Prisma {
     userId?: IntFieldUpdateOperationsInput | number
     orderNumber?: StringFieldUpdateOperationsInput | string
     status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
+    statusChangedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     total?: FloatFieldUpdateOperationsInput | number
     addressId?: NullableIntFieldUpdateOperationsInput | number | null
     storeId?: NullableIntFieldUpdateOperationsInput | number | null
@@ -36717,6 +36883,7 @@ export namespace Prisma {
   export type OrderCreateWithoutPaymentsInput = {
     orderNumber: string
     status?: $Enums.OrderStatus
+    statusChangedAt?: Date | string | null
     total: number
     deliveryType: $Enums.DeliveryType
     createdAt?: Date | string
@@ -36732,6 +36899,7 @@ export namespace Prisma {
     userId: number
     orderNumber: string
     status?: $Enums.OrderStatus
+    statusChangedAt?: Date | string | null
     total: number
     addressId?: number | null
     storeId?: number | null
@@ -36760,6 +36928,7 @@ export namespace Prisma {
   export type OrderUpdateWithoutPaymentsInput = {
     orderNumber?: StringFieldUpdateOperationsInput | string
     status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
+    statusChangedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     total?: FloatFieldUpdateOperationsInput | number
     deliveryType?: EnumDeliveryTypeFieldUpdateOperationsInput | $Enums.DeliveryType
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -36775,6 +36944,7 @@ export namespace Prisma {
     userId?: IntFieldUpdateOperationsInput | number
     orderNumber?: StringFieldUpdateOperationsInput | string
     status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
+    statusChangedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     total?: FloatFieldUpdateOperationsInput | number
     addressId?: NullableIntFieldUpdateOperationsInput | number | null
     storeId?: NullableIntFieldUpdateOperationsInput | number | null
@@ -36797,6 +36967,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     role?: $Enums.Role
     phoneVerified?: boolean
+    lastPasswordResetRequest?: Date | string | null
     addresses?: AddressCreateNestedManyWithoutUserInput
     favorites?: FavoriteCreateNestedManyWithoutUserInput
     orders?: OrderCreateNestedManyWithoutUserInput
@@ -36817,6 +36988,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     role?: $Enums.Role
     phoneVerified?: boolean
+    lastPasswordResetRequest?: Date | string | null
     addresses?: AddressUncheckedCreateNestedManyWithoutUserInput
     favorites?: FavoriteUncheckedCreateNestedManyWithoutUserInput
     orders?: OrderUncheckedCreateNestedManyWithoutUserInput
@@ -36873,6 +37045,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     phoneVerified?: BoolFieldUpdateOperationsInput | boolean
+    lastPasswordResetRequest?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     addresses?: AddressUpdateManyWithoutUserNestedInput
     favorites?: FavoriteUpdateManyWithoutUserNestedInput
     orders?: OrderUpdateManyWithoutUserNestedInput
@@ -36893,6 +37066,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     phoneVerified?: BoolFieldUpdateOperationsInput | boolean
+    lastPasswordResetRequest?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     addresses?: AddressUncheckedUpdateManyWithoutUserNestedInput
     favorites?: FavoriteUncheckedUpdateManyWithoutUserNestedInput
     orders?: OrderUncheckedUpdateManyWithoutUserNestedInput
@@ -37156,6 +37330,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     role?: $Enums.Role
     phoneVerified?: boolean
+    lastPasswordResetRequest?: Date | string | null
     addresses?: AddressCreateNestedManyWithoutUserInput
     cart?: CartCreateNestedOneWithoutUserInput
     orders?: OrderCreateNestedManyWithoutUserInput
@@ -37176,6 +37351,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     role?: $Enums.Role
     phoneVerified?: boolean
+    lastPasswordResetRequest?: Date | string | null
     addresses?: AddressUncheckedCreateNestedManyWithoutUserInput
     cart?: CartUncheckedCreateNestedOneWithoutUserInput
     orders?: OrderUncheckedCreateNestedManyWithoutUserInput
@@ -37277,6 +37453,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     phoneVerified?: BoolFieldUpdateOperationsInput | boolean
+    lastPasswordResetRequest?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     addresses?: AddressUpdateManyWithoutUserNestedInput
     cart?: CartUpdateOneWithoutUserNestedInput
     orders?: OrderUpdateManyWithoutUserNestedInput
@@ -37297,6 +37474,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     phoneVerified?: BoolFieldUpdateOperationsInput | boolean
+    lastPasswordResetRequest?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     addresses?: AddressUncheckedUpdateManyWithoutUserNestedInput
     cart?: CartUncheckedUpdateOneWithoutUserNestedInput
     orders?: OrderUncheckedUpdateManyWithoutUserNestedInput
@@ -37709,6 +37887,7 @@ export namespace Prisma {
   export type OrderCreateWithoutStoreInput = {
     orderNumber: string
     status?: $Enums.OrderStatus
+    statusChangedAt?: Date | string | null
     total: number
     deliveryType: $Enums.DeliveryType
     createdAt?: Date | string
@@ -37724,6 +37903,7 @@ export namespace Prisma {
     userId: number
     orderNumber: string
     status?: $Enums.OrderStatus
+    statusChangedAt?: Date | string | null
     total: number
     addressId?: number | null
     deliveryType: $Enums.DeliveryType
@@ -38090,6 +38270,7 @@ export namespace Prisma {
     id?: number
     orderNumber: string
     status?: $Enums.OrderStatus
+    statusChangedAt?: Date | string | null
     total: number
     addressId?: number | null
     storeId?: number | null
@@ -38172,6 +38353,7 @@ export namespace Prisma {
   export type OrderUpdateWithoutUserInput = {
     orderNumber?: StringFieldUpdateOperationsInput | string
     status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
+    statusChangedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     total?: FloatFieldUpdateOperationsInput | number
     deliveryType?: EnumDeliveryTypeFieldUpdateOperationsInput | $Enums.DeliveryType
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -38186,6 +38368,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     orderNumber?: StringFieldUpdateOperationsInput | string
     status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
+    statusChangedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     total?: FloatFieldUpdateOperationsInput | number
     addressId?: NullableIntFieldUpdateOperationsInput | number | null
     storeId?: NullableIntFieldUpdateOperationsInput | number | null
@@ -38200,6 +38383,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     orderNumber?: StringFieldUpdateOperationsInput | string
     status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
+    statusChangedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     total?: FloatFieldUpdateOperationsInput | number
     addressId?: NullableIntFieldUpdateOperationsInput | number | null
     storeId?: NullableIntFieldUpdateOperationsInput | number | null
@@ -38245,6 +38429,7 @@ export namespace Prisma {
     userId: number
     orderNumber: string
     status?: $Enums.OrderStatus
+    statusChangedAt?: Date | string | null
     total: number
     storeId?: number | null
     deliveryType: $Enums.DeliveryType
@@ -38255,6 +38440,7 @@ export namespace Prisma {
   export type OrderUpdateWithoutAddressInput = {
     orderNumber?: StringFieldUpdateOperationsInput | string
     status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
+    statusChangedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     total?: FloatFieldUpdateOperationsInput | number
     deliveryType?: EnumDeliveryTypeFieldUpdateOperationsInput | $Enums.DeliveryType
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -38270,6 +38456,7 @@ export namespace Prisma {
     userId?: IntFieldUpdateOperationsInput | number
     orderNumber?: StringFieldUpdateOperationsInput | string
     status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
+    statusChangedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     total?: FloatFieldUpdateOperationsInput | number
     storeId?: NullableIntFieldUpdateOperationsInput | number | null
     deliveryType?: EnumDeliveryTypeFieldUpdateOperationsInput | $Enums.DeliveryType
@@ -38284,6 +38471,7 @@ export namespace Prisma {
     userId?: IntFieldUpdateOperationsInput | number
     orderNumber?: StringFieldUpdateOperationsInput | string
     status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
+    statusChangedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     total?: FloatFieldUpdateOperationsInput | number
     storeId?: NullableIntFieldUpdateOperationsInput | number | null
     deliveryType?: EnumDeliveryTypeFieldUpdateOperationsInput | $Enums.DeliveryType
@@ -39051,6 +39239,7 @@ export namespace Prisma {
     userId: number
     orderNumber: string
     status?: $Enums.OrderStatus
+    statusChangedAt?: Date | string | null
     total: number
     addressId?: number | null
     deliveryType: $Enums.DeliveryType
@@ -39081,6 +39270,7 @@ export namespace Prisma {
   export type OrderUpdateWithoutStoreInput = {
     orderNumber?: StringFieldUpdateOperationsInput | string
     status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
+    statusChangedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     total?: FloatFieldUpdateOperationsInput | number
     deliveryType?: EnumDeliveryTypeFieldUpdateOperationsInput | $Enums.DeliveryType
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -39096,6 +39286,7 @@ export namespace Prisma {
     userId?: IntFieldUpdateOperationsInput | number
     orderNumber?: StringFieldUpdateOperationsInput | string
     status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
+    statusChangedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     total?: FloatFieldUpdateOperationsInput | number
     addressId?: NullableIntFieldUpdateOperationsInput | number | null
     deliveryType?: EnumDeliveryTypeFieldUpdateOperationsInput | $Enums.DeliveryType
@@ -39110,6 +39301,7 @@ export namespace Prisma {
     userId?: IntFieldUpdateOperationsInput | number
     orderNumber?: StringFieldUpdateOperationsInput | string
     status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
+    statusChangedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     total?: FloatFieldUpdateOperationsInput | number
     addressId?: NullableIntFieldUpdateOperationsInput | number | null
     deliveryType?: EnumDeliveryTypeFieldUpdateOperationsInput | $Enums.DeliveryType

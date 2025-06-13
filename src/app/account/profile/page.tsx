@@ -18,6 +18,7 @@ export default function ProfilePage() {
 	const [loading, setLoading] = useState(true)
 
 	useEffect(() => {
+		// Загружаем профиль пользователя
 		axios
 			.get('/api/account/profile')
 			.then(res => setUser(res.data))

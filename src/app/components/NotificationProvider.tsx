@@ -5,6 +5,7 @@ import { createContext, ReactNode, useContext, useState } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 import Notification from './Notification'
 
+// Типы сообщений
 interface NotificationItem {
 	id: string
 	message: string
@@ -29,6 +30,7 @@ export const useNotification = () => {
 export function NotificationProvider({ children }: { children: ReactNode }) {
 	const [notifications, setNotifications] = useState<NotificationItem[]>([])
 
+	// Ограничение в количестве
 	const MAX_NOTIFICATIONS = 3
 
 	const notify = (

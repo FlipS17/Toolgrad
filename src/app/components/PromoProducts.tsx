@@ -3,6 +3,7 @@ import { ChevronRight } from 'lucide-react'
 import Link from 'next/link'
 
 export default async function PromoProducts() {
+	// Выгружаем акции которые действуют и активные
 	const promotions = await prisma.promotion.findMany({
 		where: {
 			isActive: true,

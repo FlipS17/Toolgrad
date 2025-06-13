@@ -4,11 +4,13 @@ import Link from 'next/link'
 import ProductGrid from './ProductGrid'
 
 export default async function PopularProducts() {
+	// Выгружаем товары которые isActive
 	const products = await prisma.product.findMany({
 		where: { isActive: true },
 		include: { orderItems: true, brand: true },
 	})
 
+	// Сортируем по дате
 	const sorted = products
 		.map(p => ({
 			...p,

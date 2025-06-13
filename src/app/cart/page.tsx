@@ -27,6 +27,7 @@ export type CartItemType = {
 }
 
 export default function CartPage() {
+	// Основные состояния
 	const [items, setItems] = useState<CartItemType[]>([])
 	const [selectedItems, setSelectedItems] = useState<number[]>([])
 	const [promoCode, setPromoCode] = useState('')
@@ -38,6 +39,7 @@ export default function CartPage() {
 	const [promoDiscountPercent, setPromoDiscountPercent] = useState<number>(0)
 	const router = useRouter()
 
+	// Загрузка корзины из API при первом рендере
 	useEffect(() => {
 		axios
 			.get('/api/cart')
@@ -50,10 +52,12 @@ export default function CartPage() {
 			.catch(err => console.error('Ошибка загрузки корзины', err))
 	}, [])
 
+	// Обновление выбора товаров в localStorage
 	useEffect(() => {
 		localStorage.setItem('selectedItems', JSON.stringify(selectedItems))
 	}, [selectedItems])
 
+	// Применение промокода
 	const handleApplyPromo = async () => {
 		try {
 			const res = await axios.post('/api/promo/apply', { code: promoCode })
@@ -65,12 +69,14 @@ export default function CartPage() {
 		}
 	}
 
+	// Выбор/снятие выбора одного товара
 	const handleSelect = (id: number, checked: boolean) => {
 		setSelectedItems(prev =>
 			checked ? [...prev, id] : prev.filter(i => i !== id)
 		)
 	}
 
+	// Удаление товара
 	const handleRemove = async (id: number) => {
 		try {
 			await axios.delete('/api/cart', { data: { itemId: id } })
@@ -82,6 +88,7 @@ export default function CartPage() {
 		}
 	}
 
+	// Изменение количества товара
 	const handleQuantityChange = async (id: number, newQuantity: number) => {
 		if (newQuantity < 1) return handleRemove(id)
 		try {
@@ -99,6 +106,7 @@ export default function CartPage() {
 
 	const { favoriteIds, toggleFavorite } = useFavorites()
 
+	// Добавить/удалить товар из избранного
 	const handleToggleFavorite = async (productId: number) => {
 		try {
 			await toggleFavorite(productId)
@@ -107,9 +115,11 @@ export default function CartPage() {
 		}
 	}
 
+	// Выбранные товары
 	const selected = items.filter(item => selectedItems.includes(item.id))
 	const isEmpty = selected.length === 0
 
+	// Переход к оформлению заказа
 	const handleCheckout = () => {
 		const deliveryPrice = deliveryType === 'delivery' ? 300 : 0
 		const {
@@ -128,6 +138,7 @@ export default function CartPage() {
 		const totalDiscount = productDiscount + promoDiscount
 		const finalTotal = totalWithDelivery - promoDiscount
 
+		// Сохраняем итог в localStorage перед редиректом
 		localStorage.setItem(
 			'finalPrice',
 			JSON.stringify({
@@ -143,6 +154,7 @@ export default function CartPage() {
 		router.push(deliveryType === 'pickup' ? '/pickup' : '/delivery')
 	}
 
+	// Заглушка если товаров нет
 	if (items.length === 0) {
 		return (
 			<div className='container mx-auto py-12 px-4 text-center'>

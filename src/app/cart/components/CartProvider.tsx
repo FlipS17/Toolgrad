@@ -29,6 +29,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 	const isAuth = !!session?.user
 	const { notify } = useNotification()
 
+	// Обновление корзины: получаем ID всех товаров в корзине
 	const refreshCart = async () => {
 		if (!isAuth) {
 			setCartIds([])
@@ -43,10 +44,12 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 		}
 	}
 
+	// Загружаем корзину при авторизации
 	useEffect(() => {
 		refreshCart()
 	}, [isAuth])
 
+	// Добавление товара в корзину
 	const addToCart = async (productId: number) => {
 		if (!session?.user) {
 			notify('Войдите в аккаунт, чтобы добавить в корзину', 'error')
@@ -63,6 +66,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 		}
 	}
 
+	// Проверка, есть ли товар в корзине
 	const isInCart = (productId: number): boolean => {
 		return cartIds.includes(productId)
 	}

@@ -33,7 +33,7 @@ export async function GET() {
 				},
 			},
 			address: true,
-			store: true, // ✅ добавили
+			store: true,
 		},
 	})
 
@@ -43,6 +43,7 @@ export async function GET() {
 		status: order.status,
 		total: order.total,
 		createdAt: order.createdAt,
+		statusChangedAt: order.statusChangedAt,
 		deliveryType: order.deliveryType,
 		address: order.address
 			? {

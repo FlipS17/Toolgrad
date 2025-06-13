@@ -11,8 +11,10 @@ import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import Input from '../account/components/Input'
 
+// Токен дадаты
 const DADATA_TOKEN = process.env.NEXT_PUBLIC_DADATA_TOKEN as string
 
+// Высчитывание дистанции от склада до пользователя
 function getDistanceKm(
 	lat1: number,
 	lon1: number,
@@ -66,6 +68,7 @@ export default function DeliveryPage() {
 	const MAX_WORDS = 50
 	const MAX_CHARS = 300
 
+	// Получение выбранных товаров из корзины и итоговая сумма
 	useEffect(() => {
 		const selected = JSON.parse(localStorage.getItem('selectedItems') || '[]')
 		const promoData = JSON.parse(localStorage.getItem('finalPrice') || '{}')
@@ -83,6 +86,7 @@ export default function DeliveryPage() {
 		})
 	}, [])
 
+	// Почта пользователя
 	useEffect(() => {
 		const fetchUser = async () => {
 			try {
@@ -135,6 +139,7 @@ export default function DeliveryPage() {
 		setErrors(prev => ({ ...prev, address: undefined }))
 	}
 
+	// xss защита и ограничение по символам и словам
 	const handleCommentChange = (value: string) => {
 		const clean = DOMPurify.sanitize(value, {
 			ALLOWED_TAGS: [],
@@ -152,6 +157,7 @@ export default function DeliveryPage() {
 		setComment(clean)
 	}
 
+	// Валидация адреса
 	const handleSubmit = async () => {
 		const newErrors: typeof errors = {}
 		if (!selectedAddress) {

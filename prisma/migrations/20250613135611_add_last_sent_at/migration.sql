@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "VerificationCode" ADD COLUMN     "lastSentAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP;

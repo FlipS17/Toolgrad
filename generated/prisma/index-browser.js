@@ -144,7 +144,8 @@ exports.Prisma.UserScalarFieldEnum = {
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   role: 'role',
-  phoneVerified: 'phoneVerified'
+  phoneVerified: 'phoneVerified',
+  lastPasswordResetRequest: 'lastPasswordResetRequest'
 };
 
 exports.Prisma.PasswordResetTokenScalarFieldEnum = {
@@ -152,7 +153,9 @@ exports.Prisma.PasswordResetTokenScalarFieldEnum = {
   email: 'email',
   token: 'token',
   expires: 'expires',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  ip: 'ip',
+  userAgent: 'userAgent'
 };
 
 exports.Prisma.VerificationCodeScalarFieldEnum = {
@@ -161,7 +164,8 @@ exports.Prisma.VerificationCodeScalarFieldEnum = {
   code: 'code',
   expires: 'expires',
   data: 'data',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  lastSentAt: 'lastSentAt'
 };
 
 exports.Prisma.AddressScalarFieldEnum = {
@@ -241,6 +245,7 @@ exports.Prisma.OrderScalarFieldEnum = {
   userId: 'userId',
   orderNumber: 'orderNumber',
   status: 'status',
+  statusChangedAt: 'statusChangedAt',
   total: 'total',
   addressId: 'addressId',
   storeId: 'storeId',

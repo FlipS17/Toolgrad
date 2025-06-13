@@ -48,6 +48,7 @@ interface OrderCardProps {
 	store?: Store
 	deliveryType: 'PICKUP' | 'DELIVERY'
 	isOpen?: boolean
+	statusChangedAt?: Date | null
 	onToggle?: () => void
 }
 

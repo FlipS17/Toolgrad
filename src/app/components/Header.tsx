@@ -14,8 +14,10 @@ export default function Header() {
 	const { favoriteIds } = useFavorites()
 	const { cartIds } = useCart()
 
+	// Узнаем имя пользователя
 	const userName = session?.user?.name
 
+	// Подгружаем избранное
 	useEffect(() => {
 		const fetchFavorites = async () => {
 			if (!session?.user) return
@@ -31,6 +33,7 @@ export default function Header() {
 		fetchFavorites()
 	}, [session])
 
+	// Настройка скрола
 	useEffect(() => {
 		const handleScroll = () => {
 			setIsScrolled(window.scrollY > 10)
@@ -39,6 +42,7 @@ export default function Header() {
 		return () => window.removeEventListener('scroll', handleScroll)
 	}, [])
 
+	// Открытые меню
 	const toggleMenu = () => {
 		setIsMenuOpen(prev => {
 			const newState = !prev
@@ -288,7 +292,6 @@ function MobileNavButton({
 	)
 }
 
-// Иконки
 function BurgerIcon({ isOpen }: { isOpen: boolean }) {
 	return (
 		<div className='relative w-7 h-7 flex items-center justify-center'>

@@ -30,6 +30,7 @@ export interface Order {
 	id: number
 	orderNumber: string
 	status: string
+	statusChangedAt?: string | Date | null
 	total: number
 	createdAt: string
 	deliveryType: 'PICKUP' | 'DELIVERY'

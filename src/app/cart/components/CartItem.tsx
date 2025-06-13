@@ -37,6 +37,7 @@ export default function CartItem({
 	isFavorite = false,
 	onToggleFavorite,
 }: CartItemProps) {
+	// Уменьшение количества: если 1 — удаляем, иначе уменьшаем
 	const handleDecrement = () => {
 		if (quantity === 1) {
 			onRemove(id)
@@ -44,11 +45,11 @@ export default function CartItem({
 			onDecrement(id)
 		}
 	}
-
+	// Увеличение количества
 	const handleIncrement = () => {
 		onIncrement(id)
 	}
-
+	// Обработка чекбокса выбора товара
 	const handleCheck = (e: React.ChangeEvent<HTMLInputElement>) => {
 		onCheck?.(id, e.target.checked)
 	}
@@ -97,7 +98,7 @@ export default function CartItem({
 					onDecrement={handleDecrement}
 					onIncrement={handleIncrement}
 				/>
-
+				{/* Итоговая цена и старая цена (если есть) */}
 				<div className='text-right min-w-[90px]'>
 					<p className='text-sm font-bold text-gray-900'>
 						{(price * quantity).toLocaleString('ru-RU')} ₽

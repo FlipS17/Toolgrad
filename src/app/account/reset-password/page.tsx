@@ -14,28 +14,71 @@ export default function ResetPasswordPage() {
 	const router = useRouter()
 	const { notify } = useNotification()
 
-	const [step, setStep] = useState<'email' | 'password' | 'done'>(
-		token ? 'password' : 'email'
-	)
+	const [step, setStep] = useState<'email' | 'password' | 'done'>('email')
 	const [loading, setLoading] = useState(false)
 	const [email, setEmail] = useState('')
 	const [timer, setTimer] = useState(0)
+	const [isMounted, setIsMounted] = useState(false)
 
 	const {
 		register,
 		handleSubmit,
 		formState: { errors },
 		setError,
+		reset,
 	} = useForm()
 
 	useEffect(() => {
+		setIsMounted(true)
+
+		if (token) {
+			setStep('password')
+			return
+		}
+
+		const savedStep = localStorage.getItem('resetPasswordStep')
+		const savedEmail = localStorage.getItem('resetPasswordEmail')
+		const savedTime = localStorage.getItem('resetPasswordTimer')
+
+		if (savedStep && ['email', 'password', 'done'].includes(savedStep)) {
+			setStep(savedStep as 'email' | 'password' | 'done')
+		}
+
+		if (savedEmail) {
+			setEmail(savedEmail)
+		}
+
+		if (savedTime) {
+			const remaining = Math.max(
+				0,
+				30 - Math.floor((Date.now() - Number(savedTime)) / 1000)
+			)
+			setTimer(remaining > 0 ? remaining : 0)
+		}
+	}, [token])
+
+	useEffect(() => {
+		if (isMounted && step !== 'password') {
+			localStorage.setItem('resetPasswordStep', step)
+			if (email) localStorage.setItem('resetPasswordEmail', email)
+		}
+	}, [step, email, isMounted])
+
+	useEffect(() => {
 		if (timer > 0) {
-			const interval = setInterval(() => setTimer(t => t - 1), 1000)
+			const interval = setInterval(() => {
+				setTimer(prev => {
+					if (prev <= 1) {
+						clearInterval(interval)
+						return 0
+					}
+					return prev - 1
+				})
+			}, 1000)
 			return () => clearInterval(interval)
 		}
 	}, [timer])
 
-	// Отправка первого письма
 	const sendEmail = async (data: any) => {
 		setLoading(true)
 		try {
@@ -43,6 +86,7 @@ export default function ResetPasswordPage() {
 			setEmail(data.email)
 			setStep('done')
 			setTimer(30)
+			localStorage.setItem('resetPasswordTimer', Date.now().toString())
 			notify('Письмо отправлено, проверьте почту', 'success')
 		} catch (err: any) {
 			const msg = err.response?.data?.message
@@ -52,29 +96,31 @@ export default function ResetPasswordPage() {
 					message: msg,
 				})
 			} else {
-				notify('Ошибка при отправке письма', 'error')
+				notify(msg || 'Ошибка при отправке письма', 'error')
 			}
 		} finally {
 			setLoading(false)
 		}
 	}
 
-	// Повторная отправка письма
 	const resendEmail = async () => {
 		if (!email || timer > 0) return
 		setLoading(true)
 		try {
 			await axios.post('/api/request-password-reset', { email })
 			setTimer(30)
+			localStorage.setItem('resetPasswordTimer', Date.now().toString())
 			notify('Письмо отправлено повторно', 'success')
-		} catch {
-			notify('Ошибка при повторной отправке', 'error')
+		} catch (err: any) {
+			notify(
+				err.response?.data?.message || 'Ошибка при повторной отправке',
+				'error'
+			)
 		} finally {
 			setLoading(false)
 		}
 	}
 
-	// Сброс пароля по токену
 	const resetPassword = async (data: any) => {
 		if (data.password !== data.confirmPassword) {
 			setError('confirmPassword', {
@@ -89,6 +135,11 @@ export default function ResetPasswordPage() {
 				token,
 				password: data.password,
 			})
+			if (isMounted) {
+				localStorage.removeItem('resetPasswordStep')
+				localStorage.removeItem('resetPasswordEmail')
+				localStorage.removeItem('resetPasswordTimer')
+			}
 			notify('Пароль обновлён. Теперь вы можете войти.', 'success')
 			router.push('/account')
 		} catch (err: any) {
@@ -96,6 +147,11 @@ export default function ResetPasswordPage() {
 		} finally {
 			setLoading(false)
 		}
+	}
+
+	const resetEmailForm = () => {
+		setStep('email')
+		reset()
 	}
 
 	return (
@@ -128,22 +184,35 @@ export default function ResetPasswordPage() {
 				)}
 
 				{step === 'done' && (
-					<div className='text-center space-y-2'>
-						<p className='text-sm text-gray-600'>
+					<div className='text-center'>
+						<p className='text-sm text-gray-600 mb-4'>
 							Письмо отправлено на <strong>{email}</strong>
 						</p>
-						{timer > 0 ? (
-							<p className='text-sm text-gray-500'>
-								Повторная отправка через {timer} сек.
-							</p>
-						) : (
+
+						<div className='flex flex-col items-center gap-2'>
+							{timer > 0 ? (
+								<p className='text-sm text-gray-500'>
+									Повторная отправка через {timer} сек.
+								</p>
+							) : (
+								<button
+									onClick={resendEmail}
+									disabled={loading}
+									className={`text-sm text-[#F89514] hover:underline transition ${
+										loading ? 'opacity-50' : ''
+									}`}
+								>
+									Отправить письмо ещё раз
+								</button>
+							)}
+
 							<button
-								onClick={resendEmail}
-								className='text-sm text-[#F89514] hover:underline transition'
+								onClick={resetEmailForm}
+								className='text-sm text-gray-500 hover:underline'
 							>
-								Отправить письмо ещё раз
+								Ввести другой email
 							</button>
-						)}
+						</div>
 					</div>
 				)}
 

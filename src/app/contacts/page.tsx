@@ -13,6 +13,7 @@ export default function ContactsPage() {
 	const { data: session, status } = useSession()
 	const { notify } = useNotification()
 
+	// Поля в форме
 	const [form, setForm] = useState({
 		name: '',
 		email: '',
@@ -23,12 +24,14 @@ export default function ContactsPage() {
 	const [loading, setLoading] = useState(false)
 	const [submitted, setSubmitted] = useState(false)
 
+	// Статус пользователя
 	useEffect(() => {
 		if (status === 'authenticated' && session?.user?.email) {
 			setForm(prev => ({ ...prev, email: session.user.email }))
 		}
 	}, [session, status])
 
+	// xss защита
 	const handleChange = (
 		e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
 	) => {
@@ -37,10 +40,15 @@ export default function ContactsPage() {
 			ALLOWED_TAGS: [],
 			ALLOWED_ATTR: [],
 		})
+		if (name === 'message' && cleanValue.length > 500) {
+			notify('Сообщение не должно превышать 300 символов', 'error')
+			return
+		}
 		setForm(prev => ({ ...prev, [name]: cleanValue }))
 		setErrors(prev => ({ ...prev, [name]: '' }))
 	}
 
+	// Валидация
 	const validate = () => {
 		const newErrors: typeof errors = {}
 

@@ -32,6 +32,7 @@ export default function PickupCartPreview({
 	const [items, setItems] = useState<CartItem[]>([])
 	const [finalPrice, setFinalPrice] = useState<number | null>(null)
 
+	// Получает товары из localStorage и фильтрует по выбранным ID
 	useEffect(() => {
 		const selected = JSON.parse(localStorage.getItem('selectedItems') || '[]')
 		const saved = localStorage.getItem('finalPrice')
@@ -45,6 +46,7 @@ export default function PickupCartPreview({
 			} catch {}
 		}
 
+		// Получаем все товары из корзины и фильтруем по выбранным
 		axios.get('/api/cart').then(res => {
 			const selectedItems = res.data.filter((item: CartItem) =>
 				selected.includes(item.id)

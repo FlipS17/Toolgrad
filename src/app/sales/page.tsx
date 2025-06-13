@@ -15,10 +15,12 @@ export default function SalesPage() {
 	const [promos, setPromos] = useState<Promotion[]>([])
 	const { notify } = useNotification()
 
+	// Получаем список акций
 	useEffect(() => {
 		axios.get('/api/promo/list').then(res => setPromos(res.data))
 	}, [])
 
+	// Копирование промокода
 	const handleCopy = (code: string | null) => {
 		if (code) {
 			navigator.clipboard.writeText(code)

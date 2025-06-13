@@ -16,6 +16,7 @@ export default function PopularCategories() {
 	const [categories, setCategories] = useState<Category[]>([])
 	const [loading, setLoading] = useState(true)
 
+	// Получаем из api категории
 	useEffect(() => {
 		const fetchCategories = async () => {
 			try {

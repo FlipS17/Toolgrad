@@ -17,6 +17,7 @@ export default function FavoriteToggleButton({
 	const baseClasses =
 		'flex items-center gap-1 text-xs cursor-pointer transition'
 
+	// Иконка
 	const icon = (
 		<Heart
 			className='w-5 h-5'
@@ -25,7 +26,7 @@ export default function FavoriteToggleButton({
 			color={isFavorite ? '#ef4444' : 'currentColor'}
 		/>
 	)
-
+	// Вариант с иконкой
 	if (variant === 'icon-only') {
 		return (
 			<button
@@ -40,7 +41,7 @@ export default function FavoriteToggleButton({
 		)
 	}
 
-	// with-text
+	// Вариант с текстом
 	return (
 		<button
 			onClick={onToggle}

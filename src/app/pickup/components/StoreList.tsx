@@ -19,6 +19,7 @@ export default function StoreList({
 }: StoreListProps) {
 	const [query, setQuery] = useState('')
 
+	// query — текст из поля поиска
 	const filtered = stores.filter(
 		store =>
 			store.name.toLowerCase().includes(query.toLowerCase()) ||
@@ -51,6 +52,7 @@ export default function StoreList({
 					scrollable ? 'overflow-y-auto max-h-[260px]' : ''
 				}`}
 			>
+				{/* Отображение списка магазинов с выделением выбранного */}
 				{filtered.map(store => (
 					<button
 						key={store.id}
