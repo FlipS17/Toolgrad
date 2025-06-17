@@ -89,7 +89,7 @@ export default function ProductCard({
 			</div>
 
 			{/* Картинка */}
-			<div className='relative w-full pt-[80%] bg-gray-50'>
+			<div className='relative w-full pt-[80%] '>
 				<Link href={`/product/${product.id}`} className='absolute inset-0'>
 					<Image
 						src={product.images[0] || '/placeholder.png'}

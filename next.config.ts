@@ -20,7 +20,7 @@ const nextConfig: NextConfig = {
 			},
 			{
 				protocol: 'https',
-				hostname: 'cdn.example.com',
+				hostname: 'cdn.vseinstrumenti.ru',
 				pathname: '/**',
 			},
 		],

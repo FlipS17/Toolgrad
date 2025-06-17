@@ -13,7 +13,7 @@ export default function ProductImages({ images, alt }: Props) {
 
 	return (
 		<>
-			<div className='relative w-full h-[400px] bg-gray-100 rounded-xl overflow-hidden'>
+			<div className='relative w-full h-[400px] bg-white rounded-xl overflow-hidden'>
 				<Image
 					src={selectedImage || '/placeholder.png'}
 					alt={alt}

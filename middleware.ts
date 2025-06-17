@@ -11,7 +11,7 @@ export async function middleware(req: NextRequest) {
 	const url = req.nextUrl
 	const pathname = url.pathname
 
-	// 🔒 Страницы только для НЕавторизованных пользователей
+	//  Страницы только для НЕавторизованных пользователей
 	const guestOnlyRoutes = ['/account', '/account/reset-password']
 	if (
 		guestOnlyRoutes.some(
@@ -23,7 +23,7 @@ export async function middleware(req: NextRequest) {
 		}
 	}
 
-	// 🔐 Страницы только для авторизованных пользователей
+	//  Страницы только для авторизованных пользователей
 	const authOnlyRoutes = [
 		'/account/profile',
 		'/account/orders',
@@ -39,7 +39,7 @@ export async function middleware(req: NextRequest) {
 		}
 	}
 
-	// 🚫 Полный запрет на прямой переход по /delivery и /pickup
+	//  Полный запрет на прямой переход по /delivery и /pickup
 	if (pathname === '/delivery' || pathname === '/pickup') {
 		return NextResponse.redirect(new URL('/', req.url))
 	}

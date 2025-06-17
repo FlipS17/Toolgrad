@@ -72,7 +72,7 @@ export default function PickupCartPreview({
 						key={item.id}
 						className='bg-white rounded-xl shadow-sm p-3 flex flex-col items-start'
 					>
-						<div className='w-full h-[80px] flex items-center justify-center bg-gray-100 rounded'>
+						<div className='w-full h-[80px] flex items-center justify-center rounded'>
 							<Image
 								src={item.product.images[0] || '/placeholder.png'}
 								alt={item.product.name}

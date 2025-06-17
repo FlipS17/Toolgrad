@@ -92,7 +92,7 @@ export default async function ProductPage({
 								)}
 								{product.dimensions && (
 									<li className='py-1 flex justify-between'>
-										<span>Габариты:</span>
+										<span>Упаковка:</span>
 										<span>{product.dimensions}</span>
 									</li>
 								)}

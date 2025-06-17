@@ -71,7 +71,7 @@ export default function Footer() {
 								</ContactItem>
 							</li>
 							<li>
-								<ContactItem icon={<EmailIcon />}>info@toolgrad.ru</ContactItem>
+								<ContactItem icon={<EmailIcon />}>toolgradhelper@gmail.com</ContactItem>
 							</li>
 						</ul>
 					</div>

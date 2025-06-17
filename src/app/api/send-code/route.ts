@@ -29,7 +29,7 @@ export async function POST(req: Request) {
 		)
 	}
 
-	// Ошибки лимитов
+	// // Ошибки лимитов
 	try {
 		await Promise.all([emailLimiter.consume(email), ipLimiter.consume(ip)])
 	} catch {
